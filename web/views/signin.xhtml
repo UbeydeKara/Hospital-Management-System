@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"/>
+        <link rel="stylesheet" href="../css/style.css"/>
+        <script src="../js/validation.js"></script>
+        <script src="../js/swap.js"></script>
+        <script src="../js/toast.js"></script>
+        <script src="../js/fade.js"></script>
+        <title>HMS - Sistem Girişi</title>
+    </h:head>
+    <h:body>
+        <div class="ui middle aligned center aligned grid container">
+            <div class="column">
+                <div class="ui card raised fluid">
+                    <div class="ui two column grid" jsf:id="login_section">
+                        <div class="ui column swap_image">
+                            <img class="ui image" src="../static/vl_banner.jpg" style="filter: brightness(0.5); z-index: 999"/>
+                        </div>
+                        <div class="ui six wide column centered grid middle aligned swap_form">
+                            <div class='column' jsf:id="form_content">
+                                <h1 class="ui icon-text header mb-2">
+                                    <i class="mdi mdi-36px #{uiBean.isLoginPage() ? 'mdi-account-arrow-right-outline' : 'mdi-account-plus-outline'}"/>
+                                    <div class="content">
+                                        #{uiBean.isLoginPage() ? 'Sistem Girişi' : 'Sistem Kayıt'}
+                                    </div>
+                                </h1>
+                                <h:form class="ui form">
+                                    <h:outputScript rendered="#{uiBean.hasMessage}">
+                                        sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
+                                    </h:outputScript>
+                                    <div class="field required">
+                                        <label>E-Posta Adresiniz</label>
+                                        <h:inputText value="#{userBean.user.email}" p:data-validate="email" p:placeholder="E-Posta Adresiniz"/>
+                                    </div>
+                                    <div class="field required">
+                                        <label>Parolanız</label>
+                                        <h:inputSecret value="#{userBean.user.password}" p:data-validate="password" p:placeholder="Parolanız"/>
+                                    </div>
+                                    <c:choose>
+                                        <c:when test="#{uiBean.isLoginPage()}">
+                                            <h:commandButton class="ui teal button" value="Giriş"
+                                                             action="#{userBean.login()}"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h:commandButton class="ui teal button" value="Kaydol"
+                                                             action="#{userBean.register(true)}"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <h:commandButton class="ui button" action="/home?faces-redirect=true" value="İptal">
+                                        <f:ajax execute="comments" render="comments" />
+                                    </h:commandButton>
+                                </h:form>
+                                <div class="ui horizontal divider my-2">Veya</div>
+                                <h:commandButton class="ui secondary tertiary button" id="switch_button" action="#{uiBean.switchPage()}" value="#{uiBean.isLoginPage() ? 'Hesap Oluştur' : 'Giriş Yap'}">
+                                    <f:ajax execute="@form" render="form_content" />
+                                </h:commandButton>
+                                <h:commandButton class="ui secondary tertiary button" value="Doktor Giriş">
+                                </h:commandButton>
+                                <h:commandButton class="ui secondary tertiary button" value="Hasta Giriş">
+                                </h:commandButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <h:head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"/>
+        <link rel="stylesheet" href="../css/style.css"/>
+        <script src="../js/toast.js"></script>
+        <script src="../js/fade.js"></script>
+        <title>HMS - Kontrol Paneli</title>
+    </h:head>
+    <h:body>
+        <div class="ui grid centered middle aligned">
+            <div class="column two wide">
+
+                <div class="ui secondary raised sidebar visible vertical icon menu hms-sidebar">
+                    <img class="ui mini image hms-brand" src="../static/logo.png" />
+                    <h:form style="display: contents">
+                        <a class="item my-1"><span class="ui black text">
+                                <i class="mdi mdi-view-dashboard-outline mdi-24px"></i>
+                            </span></a>
+                        <h:commandLink class="item my-1" action="/home?faces-redirect=true"><span class="ui grey text">
+                                <i class="mdi mdi-home-outline mdi-24px"></i>
+                            </span></h:commandLink>
+                        <h:commandLink class="item my-1" action="#{userBean.logout()}"><span class="ui grey text">
+                                <i class="mdi mdi-logout-variant mdi-24px"></i>
+                            </span></h:commandLink>
+                    </h:form>
+                </div>
+            </div>
+
+            <div class="column fourteen wide">
+                <div class="ui grid">
+                    <div class="ui column eight wide">
+                        <div class='ui card raised' style="width: 350px">
+                            <div class="ui teal icon message py-2 px-4">
+                                <i class="mdi mdi-account-plus-outline mdi-36px"/>
+                                <div class="header" style="margin-top: -8px;">
+                                    <h2 class='middle aligned content ms-1'>Kullanıcı Ekle</h2>
+                                </div>
+                            </div>
+                            <h:form class="ui form p-2">
+                                <div class="field mb-1">
+                                    <label>E-Posta Adresi</label>
+                                    <div class='ui left icon input'>
+                                        <h:inputText value="#{userBean.user.email}" p:placeholder="E-Posta Adresiniz"/>
+                                        <i class="mdi mdi-email-outline mdi-18px icon"/>
+                                    </div>
+                                </div>
+
+                                <div class="field mb-1">
+                                    <label>Parola</label>
+                                    <div class='ui left icon input'>
+                                        <h:inputSecret value="#{userBean.user.password}" p:autocomplete="new-password" p:placeholder="Parola"/>
+                                        <i class="mdi mdi-lock-outline mdi-18px icon"/>
+                                    </div>
+                                </div>
+                                <h:commandButton class="ui button basic teal mt-1" action="#{userBean.register(false)}" value="Ekle">
+                                <f:ajax execute="@form" render="table_form" />
+                                </h:commandButton>
+                            </h:form>
+                        </div>
+                    </div>
+                    <div class="ui column eight wide">
+                        <h:form class='ui card raised w-100 px-1' style="max-height: 80%" id="table_form">
+                            <h:dataTable value="#{userBean.list}" var="user"
+                                         styleClass="ui very basic table striped">
+                                <h:column>    				
+                                    <f:facet name = "header">#</f:facet>    				
+                                        #{user.id}
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name = "header">E-Posta</f:facet>
+                                        #{user.email}
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name = "header">Parola</f:facet>
+                                        #{user.password}
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name = "header">İşlem</f:facet>
+                                    <h:commandLink class="ui icon red tertiary button"
+                                        onclick="$('.ui.basic.modal').modal('show');" action="#{uiBean.setSelectedUser(user)}">
+                                        <f:ajax execute="comments" render="comments" />
+                                        <i class="mdi mdi-delete-outline mdi-18px"></i>
+                                    </h:commandLink>
+                                    <h:commandLink class="ui icon blue tertiary button" action="#{userBean.editUser(user)}">
+                                        <f:ajax execute="@form" render="@form" />
+                                        <i class="mdi mdi-square-edit-outline mdi-18px"></i>
+                                    </h:commandLink>
+                                </h:column>
+                            </h:dataTable>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui basic modal">
+            <div class="ui icon header">
+                <i class="archive icon"></i>
+                Kayıt silinsin mi?
+            </div>
+            <div class="actions">
+                <div class="ui red basic cancel inverted button">
+                    <i class="remove icon"></i>
+                    İptal
+                </div>
+                <h:commandLink action="#{userBean.deleteUser(uiBean.selectedUser)}">
+                    <div class="ui green ok inverted button">
+                    <i class="checkmark icon"></i>
+                        Sil
+                    </div>
+                    <f:ajax execute="@form" render="table_form" />
+                </h:commandLink>
+            </div>
+        </div>
+    </h:body>
+</html>

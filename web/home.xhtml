@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
+        <link rel="stylesheet" href="css/style.css"/>
+        <script src="js/fade.js"></script>
+        <title>Hospital Management System</title>
+    </h:head>
+    <h:body>
+        <div class="ui grid middle aligned centered">
+            <div class="column four wide">
+                <div class="ui card raised px-2 py-3" style="width: auto">
+                    <h3 class="ui header mx-auto">
+                        <img class="ui large image" src="static/logo.png"/>
+                        Ana Sayfa
+                    </h3>
+                    <h:form class="mx-auto">
+                        <h:commandButton class="ui button teal" action="views/signin?faces-redirect=true" value="Giriş">
+                            <f:ajax execute="comments" render="comments" />
+                        </h:commandButton>
+
+                        <h:commandButton class="ui button basic" action="views/signup?faces-redirect=true" value="Kaydol"/>
+                        <h:commandButton class="ui button basic" action="views/dashboard?faces-redirect=true" value="Panel"/>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
