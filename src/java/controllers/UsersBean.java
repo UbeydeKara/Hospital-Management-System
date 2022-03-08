@@ -1,6 +1,7 @@
 package controllers;
 
-import dao.UserFacade;
+import dao.UserDAO;
+import entities.Privilege;
 import entities.User;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
@@ -23,7 +24,7 @@ import java.util.List;
 public class UsersBean implements Serializable {
 
     @EJB
-    private UserFacade tf;
+    private UserDAO userDao;
     private User user;
 
     public User getUser() {
@@ -38,14 +39,14 @@ public class UsersBean implements Serializable {
     }
 
     public String register(Boolean isRegister) {
-        this.tf.register(user, isRegister);
+        userDao.register(user, isRegister);
         this.user = new User();
 
         return "dashboard?faces-redirect=true";
     }
 
     public String login() {
-        if (this.tf.login(user)) {
+        if (userDao.login(user)) {
             this.user = new User();
             return "dashboard?faces-redirect=true";
         }
@@ -54,17 +55,21 @@ public class UsersBean implements Serializable {
     }
 
     public String logout() {
-        this.tf.logout();
+        this.userDao.logout();
         return "signin?faces-redirect=true";
     }
 
     public void deleteUser(User u) {
         if(u != null)
-            this.tf.delete(u);
+            this.userDao.delete(u);
     }
 
     public List<User> getList() {
-        return this.tf.findAll();
+        return this.userDao.findAll();
+    }
+
+    public List<Privilege> getRoleList() {
+        return this.userDao.findAllRole();
     }
 
     public void editUser(User u) {

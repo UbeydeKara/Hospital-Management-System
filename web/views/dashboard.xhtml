@@ -10,13 +10,15 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"/>
         <link rel="stylesheet" href="../css/style.css"/>
+        <link rel="stylesheet" href="../css/flex.css"/>
         <script src="../js/toast.js"></script>
         <script src="../js/fade.js"></script>
+        <script src="../js/validation.js"></script>
         <title>HMS - Kontrol Paneli</title>
     </h:head>
     <h:body>
         <div class="ui grid centered middle aligned">
-            <div class="column two wide">
+            <div class="column">
 
                 <div class="ui secondary raised sidebar visible vertical icon menu hms-sidebar">
                     <img class="ui mini image hms-brand" src="../static/logo.png" />
@@ -24,82 +26,216 @@
                         <a class="item my-1"><span class="ui black text">
                                 <i class="mdi mdi-view-dashboard-outline mdi-24px"></i>
                             </span></a>
-                        <h:commandLink class="item my-1" action="/home?faces-redirect=true"><span class="ui grey text">
+                        <h:commandLink class="item my-1" action="/home?faces-redirect=true">
+                            <span class="ui grey text">
                                 <i class="mdi mdi-home-outline mdi-24px"></i>
-                            </span></h:commandLink>
-                        <h:commandLink class="item my-1" action="#{userBean.logout()}"><span class="ui grey text">
+                            </span>
+                        </h:commandLink>
+                        <h:commandLink class="item my-1" action="#{userBean.logout()}">
+                            <span class="ui grey text">
                                 <i class="mdi mdi-logout-variant mdi-24px"></i>
-                            </span></h:commandLink>
+                            </span>
+                        </h:commandLink>
                     </h:form>
                 </div>
             </div>
-
             <div class="column fourteen wide">
                 <div class="ui grid">
-                    <div class="ui column eight wide">
-                        <div class='ui card raised' style="width: 350px">
-                            <div class="ui teal icon message py-2 px-4">
-                                <i class="mdi mdi-account-plus-outline mdi-36px"/>
-                                <div class="header" style="margin-top: -8px;">
-                                    <h2 class='middle aligned content ms-1'>Kullanıcı Ekle</h2>
-                                </div>
-                            </div>
-                            <h:form class="ui form p-2">
-                                <div class="field mb-1">
-                                    <label>E-Posta Adresi</label>
-                                    <div class='ui left icon input'>
-                                        <h:inputText value="#{userBean.user.email}" p:placeholder="E-Posta Adresiniz"/>
-                                        <i class="mdi mdi-email-outline mdi-18px icon"/>
-                                    </div>
-                                </div>
-
-                                <div class="field mb-1">
-                                    <label>Parola</label>
-                                    <div class='ui left icon input'>
-                                        <h:inputSecret value="#{userBean.user.password}" p:autocomplete="new-password" p:placeholder="Parola"/>
-                                        <i class="mdi mdi-lock-outline mdi-18px icon"/>
-                                    </div>
-                                </div>
-                                <h:commandButton class="ui button basic teal mt-1" action="#{userBean.register(false)}" value="Ekle">
-                                <f:ajax execute="@form" render="table_form" />
-                                </h:commandButton>
-                            </h:form>
+                    <div class="row mt-2">
+                        <h2>Kontrol Paneli</h2>
+                        <div class="ml-auto">
+                            <span>adklf@dlfm.com</span>
+                            <img class="ui avatar image" src="https://www.w3schools.com/howto/img_avatar.png"/>
                         </div>
                     </div>
-                    <div class="ui column eight wide">
-                        <h:form class='ui card raised w-100 px-1' style="max-height: 80%" id="table_form">
-                            <h:dataTable value="#{userBean.list}" var="user"
-                                         styleClass="ui very basic table striped">
-                                <h:column>    				
-                                    <f:facet name = "header">#</f:facet>    				
-                                        #{user.id}
-                                </h:column>
+                    <div class="ui column seven wide">
+                        <div class="ui cards">
 
-                                <h:column>
-                                    <f:facet name = "header">E-Posta</f:facet>
-                                        #{user.email}
-                                </h:column>
+                            <div class='ui card raised pt-1'
+                                 style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
+                                <h2 class="ui center aligned icon header" style="color: #b58105;">
+                                    <i class="large circular stethoscope icon" style="box-shadow: unset;background-color: #fff8db;"></i>
+                                    <div class="ui mini statistic m-0">
+                                        <div class="label mb-1">
+                                            401
+                                        </div>
+                                        <div class="value" style="text-transform: none;">
+                                            Aktif Doktor
+                                        </div>
+                                    </div>
+                                </h2>
+                            </div>
+                            <div class='ui card raised pt-1'
+                                 style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
+                                <h2 class="ui center aligned icon header" style="color: #1ebc30">
+                                    <i class="large circular user injured icon" style="box-shadow: unset;background-color: #e5f9e7;"></i>
+                                    <div class="ui mini statistic m-0">
+                                        <div class="label mb-1">
+                                            5.3K
+                                        </div>
+                                        <div class="value" style="text-transform: none;">
+                                            Aktif Hasta
+                                        </div>
+                                    </div>
+                                </h2>
+                            </div>
+                            <div class='ui card raised pt-1'
+                                 style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
+                                <h2 class="ui center aligned icon header" style="color: #db2828;">
+                                    <i class="large circular calendar check outline icon" style="box-shadow: unset;background-color: #ffe8e6;"></i>
+                                    <div class="ui mini statistic m-0">
+                                        <div class="label mb-1">
+                                            203
+                                        </div>
+                                        <div class="value" style="text-transform: none;">
+                                            Aktif Randevu
+                                        </div>
+                                    </div>
+                                </h2>
+                            </div>
+                            <div class='ui card raised pt-1'
+                                 style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
+                                <h2 class="ui center aligned icon header" style="color: #2185d0;">
+                                    <i class="large circular prescription bottle alternate icon" style="box-shadow: unset;background-color: #dff0ff;"></i>
+                                    <div class="ui mini statistic m-0">
+                                        <div class="label mb-1">
+                                            3.7K
+                                        </div>
+                                        <div class="value" style="text-transform: none;">
+                                            Reçete
+                                        </div>
+                                    </div>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui column nine wide">
+                        <div class="ui horizontal list px-3 py-2"
+                             style="border-radius: 20px;display: flex;background-color: #ffe9d2;width: 70vh; box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06);">
+                            <div class="item">
+                                <img class="ui mini image" src="../static/teeth.png"/>
+                                <div class="content">
+                                    <div class="header">Diş Doktoru</div>
+                                    Dr. Aylin YILDIRIM
+                                </div>
+                            </div>
+                            <div class="item ml-auto">
+                                <div class="header">08:00 - 08:30</div>
+                        </div>
+                        </div>
+                        <div class="ui horizontal list px-3 py-2 my-1" style="border-radius: 20px;display: flex;background-color: #d8f3f5;width: 70vh; box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06);">
+                            <div class="item">
+                                <img class="ui mini image" src="../static/teeth.png"/>
+                                <div class="content">
+                                    <div class="header">Nörolog</div>
+                                    Dr. Murat KOCAMAZ
+                                </div>
+                            </div>
+                            <div class="item ml-auto">
+                                <div class="header">10:30 - 11:30</div>
+                        </div>
+                        </div>
+                        <div class="ui horizontal list px-3 py-2" style="border-radius: 20px;display: flex;background-color: #fde8f0;width: 70vh; box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06);">
+                            <div class="item">
+                                <img class="ui mini image" src="../static/teeth.png"/>
+                                <div class="content">
+                                    <div class="header">Dijital X-Ray</div>
+                                    Dr. Cengiz KAHRAMAN
+                                </div>
+                            </div>
+                            <div class="item ml-auto">
+                                <div class="header">09:20 - 10:30</div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                                <h:column>
-                                    <f:facet name = "header">Parola</f:facet>
-                                        #{user.password}
-                                </h:column>
+            <div class="row ml-3" style="text-align: left">
+                <div class="ui cards ml-5 mb-3">
+                    <div class='ui card raised mb-auto' style="width: 370px;">
+                        <div class="ui teal icon message py-2 px-4">
+                            <i class="mdi mdi-account-plus-outline mdi-36px"/>
+                            <div class="header" style="margin-top: -8px;">
+                                <h2 class='middle aligned content ml-1'>Kullanıcı Ekle</h2>
+                            </div>
+                        </div>
+                        <h:form class="ui form p-2" id="user_form">
+                            <div class="field mb-1">
+                                <label>E-Posta Adresi</label>
+                                <div class='ui left icon input'>
+                                    <h:inputText value="#{userBean.user.email}" p:data-validate="email" p:placeholder="E-Posta Adresiniz"/>
+                                    <i class="mdi mdi-email-outline mdi-18px icon"/>
+                                </div>
+                            </div>
 
-                                <h:column>
-                                    <f:facet name = "header">İşlem</f:facet>
-                                    <h:commandLink class="ui icon red tertiary button"
-                                        onclick="$('.ui.basic.modal').modal('show');" action="#{uiBean.setSelectedUser(user)}">
-                                        <f:ajax execute="comments" render="comments" />
-                                        <i class="mdi mdi-delete-outline mdi-18px"></i>
-                                    </h:commandLink>
-                                    <h:commandLink class="ui icon blue tertiary button" action="#{userBean.editUser(user)}">
-                                        <f:ajax execute="@form" render="@form" />
-                                        <i class="mdi mdi-square-edit-outline mdi-18px"></i>
-                                    </h:commandLink>
-                                </h:column>
-                            </h:dataTable>
+                            <div class="field mb-1">
+                                <label>Parola</label>
+                                <div class='ui left icon input'>
+                                    <h:inputSecret value="#{userBean.user.password}" redisplay="true" p:data-validate="password" p:autocomplete="new-password" p:placeholder="Parola"/>
+                                    <i class="mdi mdi-lock-outline mdi-18px icon"/>
+                                </div>
+                            </div>
+
+                            <div class="field mb-1">
+                                <label>Yetki</label>
+                                <h:selectOneMenu value="#{userBean.user.privilege}" converter="genericConverter" class="ui fluid dropdown" p:id="select">
+                                    <!--<f:selectItem itemLabel="Yetki" itemValue="#{null}"/>-->
+                                    <f:selectItems value="#{userBean.roleList}" var="p" itemValue="#{p}" itemLabel="#{p.role}"/>
+                                    <!--<f:converter converterId="genericConverter" binding="#{genericConverter}" />-->
+                                </h:selectOneMenu>
+                            </div>
+
+                            <h:commandButton class="ui button basic teal mt-1" action="#{userBean.register(false)}" value="Ekle">
+                                <f:ajax execute="@form" render="table_form" />
+                            </h:commandButton>
                         </h:form>
                     </div>
+                    <h:form class='ui card raised ml-4' id="table_form" style="width: fit-content; height: fit-content;">
+                        <h:outputScript rendered="#{uiBean.hasMessage}">
+                            sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
+                        </h:outputScript>
+                        <h:dataTable value="#{userBean.list}" var="user"
+                                     styleClass="ui very basic table striped m-0">
+                            <h:column>    				
+                                <f:facet name = "header">#</f:facet>    				
+                                    #{user.id}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name = "header">Ad Soyad</f:facet>
+                                Belirtilmemiş
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name = "header">E-Posta</f:facet>
+                                    #{user.email}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name = "header">Parola</f:facet>
+                                    #{user.password}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name = "header">Yetki</f:facet>
+                                    #{user.privilege.role}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name = "header">İşlem</f:facet>
+                                <h:commandLink class="ui icon red tertiary button"
+                                               onclick="$('.ui.basic.modal').modal('show');" action="#{uiBean.setSelectedUser(user)}">
+                                    <f:ajax execute="@form" render="@form" />
+                                    <i class="mdi mdi-delete-outline mdi-18px"></i>
+                                </h:commandLink>
+                                <h:commandLink class="ui icon blue tertiary button" action="#{userBean.editUser(user)}">
+                                    <f:ajax execute="@form" render="user_form" />
+                                    <i class="mdi mdi-square-edit-outline mdi-18px"></i>
+                                </h:commandLink>
+                            </h:column>
+                        </h:dataTable>
+                    </h:form>
                 </div>
             </div>
         </div>
@@ -115,7 +251,7 @@
                 </div>
                 <h:commandLink action="#{userBean.deleteUser(uiBean.selectedUser)}">
                     <div class="ui green ok inverted button">
-                    <i class="checkmark icon"></i>
+                        <i class="checkmark icon"></i>
                         Sil
                     </div>
                     <f:ajax execute="@form" render="table_form" />

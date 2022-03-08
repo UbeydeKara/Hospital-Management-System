@@ -1,16 +1,21 @@
 package dao;
 
+import entities.Privilege;
 import entities.User;
+import jakarta.ejb.Stateless;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import java.util.List;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import jakarta.persistence.Tuple;
+import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import jakarta.servlet.http.HttpSession;
 import util.SessionUtil;
+import java.util.List;
 
 /**
  *
@@ -18,18 +23,14 @@ import util.SessionUtil;
  *
  *
  */
-public abstract class AbstractFacade<T> {
+@Stateless
+public class UserDAO {
+    
+    @PersistenceContext(name="jpa_PU")
+    private EntityManager em;
 
-    private Class<T> entityClass;
-
-    public AbstractFacade(Class<T> entityClass) {
-        this.entityClass = entityClass;
-    }
-
-    protected abstract EntityManager getEntityManager();
-
-    public Boolean login(T entity) {
-        Object user = isUserExists(entity);
+    public Boolean login(User entity) {
+        User user = isUserExists(entity);
 
         if (user != null) {
             HttpSession session = SessionUtil.getSession();
@@ -45,12 +46,12 @@ public abstract class AbstractFacade<T> {
         }
     }
 
-    public void register(T entity, Boolean isRegister) {
+    public void register(User entity, Boolean isRegister) {
 
         if (isRegister) {
             Object user = isUserExists(entity);
             if (user == null) {
-            getEntityManager().persist(entity);
+            em.persist(entity);
             FacesContext.getCurrentInstance().addMessage(
                     "response",
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -64,7 +65,7 @@ public abstract class AbstractFacade<T> {
                                 null));
             }
         } else {
-                getEntityManager().merge(entity);
+                em.merge(entity);
                 FacesContext.getCurrentInstance().addMessage(
                         "response",
                         new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -78,32 +79,41 @@ public abstract class AbstractFacade<T> {
         session.invalidate();
     }
 
-    public void delete(T entity) {
-        getEntityManager().remove(getEntityManager().merge(entity));
+    public void delete(User entity) {
+        em.remove(em.merge(entity));
+        FacesContext.getCurrentInstance().addMessage(
+                    "response",
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Kullanıcı Silindi",
+                            null));
     }
 
     public List<User> findAll() {
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        return getEntityManager().createQuery(cq).getResultList();
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(User.class));
+        return em.createQuery(cq).getResultList();
     }
 
-    private Object isUserExists(T entity) {
-        CriteriaQuery criteria = getEntityManager().getCriteriaBuilder().createQuery();
-        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
-        Root<T> root = criteria.from(entityClass);
+    public List<Privilege> findAllRole() {
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Privilege.class));
+        return em.createQuery(cq).getResultList();
+    }
 
-        criteria.select(root);
-        criteria.where(builder.equal(root.get("email"), ((User) entity).getEmail()),
-                builder.equal(root.get("password"), ((User) entity).getPassword()));
+    private User isUserExists(User entity) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery criteriaQuery = builder.createQuery();
+        Root<User> root = criteriaQuery.from(User.class);
 
-        Query query = getEntityManager().createQuery(criteria);
+        criteriaQuery.select(root);
+        criteriaQuery.where(builder.equal(root.get("email"), entity.getEmail()),
+                builder.equal(root.get("password"), entity.getPassword()));
 
-        try {
-            User user = (User) query.getSingleResult();
-            return user;
-        } catch (Exception msg) {
+        Query query = em.createQuery(criteriaQuery);
+        
+        if(query.getResultList().isEmpty())
             return null;
-        }
+        else
+            return (User) query.getSingleResult();
     }
 }

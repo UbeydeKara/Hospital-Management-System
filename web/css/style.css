@@ -16,71 +16,15 @@ body > .grid {
     max-height: 90vh;
     max-width: 1000px;
 }
-.w-100 {
-    width: 100vh !important;
-}
-.ui form input[type=password] {
+.ui form input {
     border-radius: 100px !important;
 }
-.ui form input[type=text] {
+/*.ui form input[type=text] {
     border-radius: 100px !important;
 }
 .ui form input[type=number] {
     border-radius: 100px !important;
-}
-.mt-1 {
-    margin-top: 1rem !important;
-}
-.mb-1 {
-    margin-bottom: 1rem !important;
-}
-.mb-2 {
-    margin-bottom: 2rem !important;
-}
-.my-2 {
-    margin-top: 2rem !important;
-    margin-bottom: 2rem !important;
-}
-.my-1 {
-    margin-top: 1rem !important;
-    margin-bottom: 1rem !important;
-}
-.mx-auto {
-    margin-left: auto !important;
-    margin-right: auto !important;
-}
-.ms-1 {
-    margin-left: 1rem !important;
-}
-.p-1 {
-    padding: 1rem !important;
-}
-.p-2 {
-    padding: 2rem !important;
-}
-.p-3 {
-    padding: 3rem !important;
-}
-.px-2 {
-    padding-left: 2rem !important;
-    padding-right: 2rem !important;
-}
-.py-2 {
-    padding-top: 2rem !important;
-    padding-bottom: 2rem !important;
-}
-.py-3 {
-    padding-top: 3rem !important;
-    padding-bottom: 3rem !important;
-}
-.px-1 {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-}
-.px-4 {
-    padding-left: 4rem !important;
-    padding-right: 4rem !important;
-}
+}*/
 .swap_container {
     position: relative !important;
     display: inline-block !important;
