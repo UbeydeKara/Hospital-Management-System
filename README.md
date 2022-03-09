@@ -8,7 +8,7 @@
   <a href="https://github.com/UbeydeKara/Hospital-Management-System/commits/main"><img src="https://img.shields.io/github/last-commit/UbeydeKara/Hospital-Management-System?style=for-the-badge" alt="Last Commit"></a>
 </p>
 
-# Hospital Management System
+# Introduction
 
 *Hospital Management System is a web application for the hospital which manages doctors and patients.*
 
