@@ -44,6 +44,7 @@ public class UserDAO {
                             null));
             return false;
         }
+        
     }
 
     public void register(User entity, Boolean isRegister) {

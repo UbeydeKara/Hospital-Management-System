@@ -1,16 +1,11 @@
 package converter;
 
-import controllers.UsersBean;
-import entities.Privilege;
-import jakarta.el.ValueExpression;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.component.UISelectItem;
 import jakarta.faces.component.UISelectItems;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
-import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
 import java.util.List;
 
 /**
