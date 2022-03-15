@@ -1,0 +1,43 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"   
+      xmlns:ui = "http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    <h:body>
+      <ui:composition>
+        <div class="ui secondary raised sidebar visible vertical icon menu hms-sidebar">
+            <img class="ui mini image hms-brand" src="../../static/logo.png" />
+            <h:form style="display: contents">
+                <h:commandLink class="ui item my-1" action="dashboard?faces-redirect=true"
+                               p:data-content="Kontrol Paneli" p:data-position="right center">
+                    <span id="0" class="ui disabled text">
+                        <i class="mdi mdi-view-dashboard-outline mdi-24px"></i>
+                    </span>
+                </h:commandLink>
+                <h:commandLink class="item my-1" action="/home?faces-redirect=true"
+                               p:data-content="Ana Sayfa" p:data-position="right center">
+                    <span class="ui disabled text">
+                        <i class="mdi mdi-home-outline mdi-24px"></i>
+                    </span>
+                </h:commandLink>
+                <h:commandLink class="item my-1" action="list?faces-redirect=true"
+                               p:data-content="Kullanıcı Listesi" p:data-position="right center">
+                    <span id="1" class="ui disabled text">
+                        <i class="mdi mdi-account-details-outline mdi-24px"></i>
+                    </span>
+                </h:commandLink>
+                <h:commandLink class="item my-1" action="#{userBean.logout()}"
+                               p:data-content="Oturumu Kapat" p:data-position="right center">
+                    <span class="ui disabled text">
+                        <i class="mdi mdi-logout-variant mdi-24px"></i>
+                    </span>
+                </h:commandLink>
+            </h:form>
+        </div>
+</ui:composition>	
+   </h:body>
+</html>

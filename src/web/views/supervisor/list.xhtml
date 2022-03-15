@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"/>
+        <link rel="stylesheet" href="../../css/style.css"/>
+        <link rel="stylesheet" href="../../css/flex.css"/>
+        <script src="../../js/toast.js"></script>
+        <script src="../../js/fade.js"></script>
+        <script src="../../js/validation.js"></script>
+        <script src="../../js/hms.js"></script>
+    </h:head>
+    <h:body onload="item_load('#1')">
+        <ui:insert name = "sidebar" >
+            <ui:include src = "/components/sidebar.xhtml" />
+        </ui:insert>
+        <h:form style="margin-left: 100px; margin-right: 15px" id="list_form">
+            <div class="pt-2 is-flex mx-5 mb-4">
+                <div class="column">
+                    <h2>Kullanıcı Listesi</h2>
+                    <div class="ui breadcrumb">
+                        <a class="section">Kontrol Paneli</a>
+                        <i class="right angle icon divider"></i>
+                        <div class="section">Kullanıcılar</div>
+                    </div>
+                </div>
+                <div class="ml-auto mt-auto is-flex">
+                    
+                <div class="ui search">
+                    <div class="ui icon input">
+                        <h:inputText class="prompt" p:placeholder="İsim ara" value="#{userBean.searchText}"
+                                     onkeydown="#{userBean.findByEmail()}">
+                        
+                        <f:ajax execute="@form" render="@form" />
+                        </h:inputText>
+                        <i class="search icon"></i>
+                    </div>
+                </div>
+                    <h:commandLink class="ui teal button ml-1" onclick="$('#dialog').modal('show');" action="#">
+                        <i class="plus icon"></i>
+                        Kayıt Ekle
+                        <f:ajax execute="@form" render="@form" />
+                    </h:commandLink>
+                </div>
+            </div>
+            <div class="ui grid mx-5" style="height: 80vh;">
+                <div class='ui card row soft-shadow' style="height: fit-content;">
+                    <h:outputScript rendered="#{uiBean.hasMessage}">
+                        sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
+                    </h:outputScript>
+                    <h:dataTable value="#{userBean.list}" var="user"
+                                 styleClass="ui very basic table striped m-0">
+                        <h:column>    				
+                            <f:facet name = "header">#</f:facet>    				
+                                #{user.id}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">Ad Soyad</f:facet>
+                            #{user.fullname}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">E-Posta</f:facet>
+                                #{user.email}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">Parola</f:facet>
+                                #{user.password}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">Yetki</f:facet>
+                                #{user.privilege.role}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">Durum</f:facet>
+                            #{user.is_confirmed}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">İşlem</f:facet>
+                            <h:commandLink class="ui icon red tertiary button"
+                                           onclick="$('.ui.basic.modal').modal('show');" action="#{uiBean.setSelectedUser(user)}">
+                                <f:ajax execute="@form" render="@form" />
+                                <i class="mdi mdi-delete-outline mdi-18px"></i>
+                            </h:commandLink>
+                            <h:commandLink class="ui icon blue tertiary button" action="#{userBean.editUser(user)}">
+                                <f:ajax execute="@form" render="user_form" />
+                                <i class="mdi mdi-square-edit-outline mdi-18px"></i>
+                            </h:commandLink>
+                        </h:column>
+                    </h:dataTable>
+                </div>
+                <div class="row" style="align-items: center; align-self: flex-end">
+                    <div class="description">
+                        <p>Toplam #{userBean.userCount} kayıttan #{userBean.list.size()} adet gösteriliyor</p>
+                    </div>
+                    <div class="ml-auto">
+                        <a href="#">
+                            <i class="left grey chevron icon"></i>
+                        </a>
+                        <div class="ui pagination teal borderless menu mx-1 rounded">
+                            <c:forEach var="index" begin="0" end="#{userBean.totalPage-1}">
+                                <h:commandLink action="#{userBean.setPageNumber(index)}"
+                                               class="#{userBean.pageNumber == index ? 'item rounded active' : 'item rounded'}">
+                                    #{index + 1}
+                                    <f:ajax execute="@form" render="list_form" />
+                                </h:commandLink>
+                            </c:forEach>
+                        </div>
+                        <a href="#">
+                            <i class="right grey chevron icon"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        <ui:insert name="dialogModal" >
+            <ui:include src="/components/DialogModal.xhtml"/>
+        </ui:insert>
+        <div class="ui basic modal">
+            <div class="ui icon header">
+                <i class="archive icon"></i>
+                Kayıt silinsin mi?
+            </div>
+            <div class="actions">
+                <div class="ui red basic cancel inverted button">
+                    <i class="remove icon"></i>
+                    İptal
+                </div>
+                <h:commandLink action="#{userBean.deleteUser(uiBean.selectedUser)}">
+                    <div class="ui green ok inverted button">
+                        <i class="checkmark icon"></i>
+                        Sil
+                    </div>
+                    <f:ajax execute="@form" render="list_form" />
+                </h:commandLink>
+            </div>
+        </div>
+    </h:body>
+</html>

@@ -10,12 +10,12 @@
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"/>
-        <link rel="stylesheet" href="../css/style.css"/>
-        <link rel="stylesheet" href="../css/flex.css"/>
-        <script src="../js/validation.js"></script>
-        <script src="../js/swap.js"></script>
-        <script src="../js/toast.js"></script>
-        <script src="../js/fade.js"></script>
+        <link rel="stylesheet" href="../../css/style.css"/>
+        <link rel="stylesheet" href="../../css/flex.css"/>
+        <script src="../../js/validation.js"></script>
+        <script src="../../js/swap.js"></script>
+        <script src="../../js/toast.js"></script>
+        <script src="../../js/fade.js"></script>
         <title>HMS - Sistem Girişi</title>
     </h:head>
     <h:body>
@@ -24,7 +24,7 @@
                 <div class="ui card raised fluid">
                     <div class="ui two column grid" jsf:id="login_section">
                         <div class="ui column swap_image">
-                            <img class="ui image" src="../static/vl_banner.jpg" style="filter: brightness(0.5); z-index: 999"/>
+                            <img class="ui image" src="../../static/vl_banner.jpg" style="filter: brightness(0.5); z-index: 999"/>
                         </div>
                         <div class="ui six wide column centered grid middle aligned swap_form">
                             <div class='column' jsf:id="form_content">
@@ -40,11 +40,11 @@
                                     </h:outputScript>
                                     <div class="field required">
                                         <label>E-Posta Adresiniz</label>
-                                        <h:inputText value="#{userBean.user.email}" p:data-validate="email" p:placeholder="E-Posta Adresiniz"/>
+                                        <h:inputText value="#{userBean.visor.email}" p:data-validate="email" p:placeholder="E-Posta Adresiniz"/>
                                     </div>
                                     <div class="field required">
                                         <label>Parolanız</label>
-                                        <h:inputSecret value="#{userBean.user.password}" p:data-validate="password" p:placeholder="Parolanız"/>
+                                        <h:inputSecret value="#{userBean.visor.password}" p:data-validate="password" p:placeholder="Parolanız"/>
                                     </div>
                                     <c:choose>
                                         <c:when test="#{uiBean.isLoginPage()}">

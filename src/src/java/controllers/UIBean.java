@@ -11,36 +11,47 @@ import java.util.Iterator;
 /**
  *
  * @author Ubeyde
- * 
-**/
-
+ *
+ *
+ */
 @Named("uiBean")
 @ViewScoped
 public class UIBean implements Serializable {
+
     private Boolean isLoginPage;
     private User selectedUser;
 
     public Boolean isLoginPage() {
-        if(isLoginPage != null)
+        if (isLoginPage != null) {
             return isLoginPage;
-        else if(FacesContext.getCurrentInstance().getViewRoot().getViewId().equals("/views/signin.xhtml"))
+        } else if (FacesContext.getCurrentInstance().getViewRoot().getViewId().equals("/views/supervisor/signin.xhtml")) {
             return true;
+        }
         return false;
     }
 
     public void switchPage() {
         this.isLoginPage = !isLoginPage();
     }
-    
+
     public User getSelectedUser() {
         return selectedUser;
     }
-    
+
     public void setSelectedUser(User user) {
-        if(user != null)
+        if (user != null) {
             selectedUser = user;
+        }
     }
-    
+
+    public Integer getCurrentPage() {
+        String output = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+        if (output.equals("/views/supervisor/dashboard.xhtml")) {
+            return 0;
+        }
+        return 1;
+    }
+
     public boolean getHasMessage() {
         Iterator<FacesMessage> iterator = FacesContext.getCurrentInstance().getMessages();
         return (iterator != null) && (iterator.hasNext());
@@ -53,12 +64,12 @@ public class UIBean implements Serializable {
 
     public String getMessageSeverity() {
         Iterator<FacesMessage> iterator = FacesContext.getCurrentInstance().getMessages();
-        
-        if(iterator.hasNext()) {
+
+        if (iterator.hasNext()) {
             FacesMessage.Severity severity = iterator.next().getSeverity();
             return severity == FacesMessage.SEVERITY_INFO ? "success" : "warning";
         }
-        
+
         return "error";
     }
 }

@@ -3,5 +3,6 @@ dist/
 nbproject/
 nbbuild/
 nbdist/
+*lib/
 build.xml
 *.MF

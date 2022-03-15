@@ -2,15 +2,12 @@ package controllers;
 
 import dao.UserDAO;
 import entities.Privilege;
+import entities.Supervisor;
 import entities.User;
 import jakarta.ejb.EJB;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -25,29 +22,65 @@ public class UsersBean implements Serializable {
 
     @EJB
     private UserDAO userDao;
-    private User user;
+    private Supervisor visor;
+    private List<Supervisor> list;
+    private Integer pageNumber = 0;
+    private String searchText;
 
-    public User getUser() {
-        if (this.user == null) {
-            return this.user = new User();
+    public Supervisor getVisor() {
+        if (this.visor == null) {
+            return this.visor = new Supervisor();
         }
-        return user;
+        return visor;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setVisor(Supervisor visor) {
+        this.visor = visor;
+    }
+
+    public Integer getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(Integer pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+    
+    public Long getUserCount() {
+        return this.userDao.userCount();
+    }
+    
+    public Integer getTotalPage() {
+        Integer count = getUserCount().intValue();
+        
+        if(count % 7 == 0)
+            return count / 7;
+        
+        return (count / 7) + 1;
     }
 
     public String register(Boolean isRegister) {
-        userDao.register(user, isRegister);
-        this.user = new User();
+        userDao.register(visor, isRegister);
+        this.visor = new Supervisor();
 
         return "dashboard?faces-redirect=true";
     }
 
+    public String add() {
+        userDao.register(visor, true);
+        this.visor = new Supervisor();
+
+        return "list";
+    }
+
+    public void findByEmail() {
+        setList(userDao.findByEmail(searchText));
+    }
+
     public String login() {
-        if (userDao.login(user)) {
-            this.user = new User();
+        Supervisor lvisor = userDao.login(visor);
+        if (lvisor != null) {
+            this.visor = lvisor;
             return "dashboard?faces-redirect=true";
         }
 
@@ -64,16 +97,30 @@ public class UsersBean implements Serializable {
             this.userDao.delete(u);
     }
 
-    public List<User> getList() {
-        return this.userDao.findAll();
+    public List<Supervisor> getList() {
+        if(searchText == null || searchText.length() == 0)
+            return this.userDao.findAll(pageNumber);
+        return this.list;
+    }
+
+    public void setList(List<Supervisor> list) {
+        this.list = list;
     }
 
     public List<Privilege> getRoleList() {
         return this.userDao.findAllRole();
     }
 
-    public void editUser(User u) {
-        this.user = u;
+    public void editUser(Supervisor u) {
+        this.visor = u;
+    }
+
+    public String getSearchText() {
+        return searchText;
+    }
+
+    public void setSearchText(String searchText) {
+        this.searchText = searchText;
     }
 
 }
