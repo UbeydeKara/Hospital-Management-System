@@ -45,3 +45,21 @@ body > .grid {
     margin-top: 10px !important;
     position: absolute !important;
 }
+
+.floating-item:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06) !important;
+    cursor: pointer;
+}
+
+.rounded {
+    border-radius: 100px !important;
+}
+
+.is-flex {
+    display: flex;
+}
+
+.soft-shadow {
+    box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.19) !important;
+}
