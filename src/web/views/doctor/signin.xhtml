@@ -33,7 +33,7 @@
                                 <h1 class="ui icon-text header mb-2">
                                     <i class="mdi mdi-36px #{uiBean.isLoginPage() ? 'mdi-account-arrow-right-outline' : 'mdi-account-plus-outline'}"/>
                                     <div class="content">
-                                        #{uiBean.isLoginPage() ? 'Sistem Girişi' : 'Sistem Kayıt'}
+                                        #{uiBean.isLoginPage() ? 'Doktor Girişi' : 'Doktor Kayıt'}
                                     </div>
                                 </h1>
                                 <h:form class="ui form">
@@ -42,28 +42,20 @@
                                     </h:outputScript>
                                     <div class="field required">
                                         <label>E-Posta Adresiniz</label>
-                                        <h:inputText value="#{uiBean.userType == 1 ? doctorBean.doctor.email : userBean.visor.email}" p:data-validate="email" p:placeholder="E-Posta Adresiniz"/>
+                                        <h:inputText value="#{doctorBean.doctor.email}" p:data-validate="email" p:placeholder="E-Posta Adresiniz"/>
                                     </div>
                                     <div class="field required">
                                         <label>Parolanız</label>
-                                        <h:inputSecret value="#{uiBean.userType == 1 ? doctorBean.doctor.password : userBean.visor.password}" p:data-validate="password" p:placeholder="Parolanız"/>
+                                        <h:inputSecret value="#{doctorBean.doctor.password}" p:data-validate="password" p:placeholder="Parolanız"/>
                                     </div>
                                     <c:choose>
                                         <c:when test="#{uiBean.isLoginPage()}">
                                             <h:commandButton class="ui teal button" value="Giriş"
-                                                             action="#{userBean.login()}"/>
+                                                             action="#{doctorBean.login()}"/>
                                         </c:when>
                                         <c:otherwise>
-                                            <c:choose>
-                                                <c:when test="#{uiBean.getUserType() == 1}">
                                                     <h:commandButton class="ui teal button" value="Kaydol"
                                                                      action="#{doctorBean.register(true)}"/>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <h:commandButton class="ui teal button" value="Kaydol"
-                                                                     action="#{userBean.register(true)}"/>
-                                                </c:otherwise>
-                                            </c:choose>
                                         </c:otherwise>
                                     </c:choose>
                                     <h:commandButton class="ui button" action="/home?faces-redirect=true" value="İptal">
