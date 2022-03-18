@@ -20,14 +20,23 @@ public class UIBean implements Serializable {
 
     private Boolean isLoginPage;
     private User selectedUser;
+    private Short userType = 1;
 
     public Boolean isLoginPage() {
         if (isLoginPage != null) {
             return isLoginPage;
-        } else if (FacesContext.getCurrentInstance().getViewRoot().getViewId().equals("/views/supervisor/signin.xhtml")) {
+        } else if (FacesContext.getCurrentInstance().getViewRoot().getViewId().equals("/views/signin.xhtml")) {
             return true;
         }
         return false;
+    }
+
+    public Short getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Short userType) {
+        this.userType = userType;
     }
 
     public void switchPage() {

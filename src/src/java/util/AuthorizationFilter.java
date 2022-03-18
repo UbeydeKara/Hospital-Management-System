@@ -33,12 +33,16 @@ public class AuthorizationFilter implements Filter {
         String loginURL = request.getContextPath() + "/views/signin.xhtml"; 
         String registerURL = request.getContextPath() + "/views/signup.xhtml"; 
         String dashboardURL = request.getContextPath() + "/views/dashboard.xhtml"; 
+        String docURL = request.getContextPath() + "/views/doctor/profile.xhtml"; 
 
         if (user == null && request.getRequestURI().equals(dashboardURL)) {       
             response.sendRedirect(loginURL);
         }
         else if(user != null && (request.getRequestURI().equals(loginURL) || request.getRequestURI().equals(registerURL))) {  
-            response.sendRedirect(dashboardURL);
+            if(user.getPrivilege().getId() == 2)
+                response.sendRedirect(docURL);
+            else
+                response.sendRedirect(dashboardURL);
         }
         else {
             chain.doFilter(request, response);

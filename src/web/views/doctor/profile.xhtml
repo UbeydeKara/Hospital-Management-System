@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"/>
+        <link rel="stylesheet" href="../../css/style.css"/>
+        <link rel="stylesheet" href="../../css/flex.css"/>
+        <script src="../../js/validation.js"></script>
+        <script src="../../js/swap.js"></script>
+        <script src="../../js/toast.js"></script>
+        <script src="../../js/fade.js"></script>
+        <title>Doktor Profil</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div class="ui container grid middle aligned h-100 centered">
+            <h:form class="ui form eight wide column">
+                <h:outputScript rendered="#{uiBean.hasMessage}">
+                                        sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
+                                    </h:outputScript>
+                <h4 class="ui dividing header">Profil Bilgileri...</h4>
+                <div class="field">
+                    <label>Name</label>
+                    <div class="two fields">
+                        <div class="field">
+                            <h:inputText value='#{doctorBean.doctor.fullname}'/>
+                        </div>
+                        <div class="field">
+                            <input type="text" name="shipping[last-name]" placeholder="Last Name"/>
+                        </div>
+                    </div>
+                    
+                    <label>Birth Date</label>
+                    <div class="field">
+                        <input type="date" name="shipping[birth date]" placeholder="Birth Date"/>
+                    </div>
+
+                    <label>Sex</label>
+                    <h:selectOneMenu value="#{doctorBean.doctor.sex}" converter="genericConverter" class="ui fluid dropdown" p:id="select">
+                        <f:selectItem itemLabel="Erkek" itemValue="Erkek"/>
+                        <f:selectItem itemLabel="Kadın" itemValue="Kadın"/>
+                    </h:selectOneMenu>
+
+                    <label>Adress</label>
+                    <div class="two fields">
+                        <div class="field">
+                            <input type="text" name="shipping[city]" placeholder="City"/>
+                        </div>
+                        <div class="field">
+                            <input type="text" name="shipping[district]" placeholder="District"/>
+                        </div>
+                    </div>
+                    
+                    <label>Phone</label>
+                    <div class="field">
+                        <input type="text" name="shipping[phone]" placeholder="0(5xx)-xxx-xx-xx"/>
+                    </div>
+                    
+                    <label>Specialty</label>
+                    <div class="field">
+                        <input type="text" name="shipping[specialty]" placeholder="Specialty"/>
+                    </div>
+                    
+                    <h:commandButton class='ui button teal' action='#{doctorBean.updateDoctor()}' value="Kaydet">
+                        <f:ajax execute="@form" render="@form"/>
+                    </h:commandButton>
+                    <h:commandButton class='ui button basic' action='#{doctorBean.logout()}' value="Çıkış">
+                    </h:commandButton>
+                </div>
+            </h:form>
+        </div>
+    </body>
+</html>
