@@ -56,7 +56,7 @@
                     <h:outputScript rendered="#{uiBean.hasMessage}">
                         sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
                     </h:outputScript>
-                    <h:dataTable value="#{doctorBean.list}" var="user"
+                    <h:dataTable value="#{userBean.list}" var="user"
                                  styleClass="ui very basic table striped m-0">
                         <h:column>    				
                             <f:facet name = "header">#</f:facet>    				
@@ -85,6 +85,7 @@
 
                         <h:column>
                             <f:facet name = "header">Durum</f:facet>
+                            #{user.is_confirmed}
                         </h:column>
 
                         <h:column>

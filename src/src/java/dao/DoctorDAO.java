@@ -78,6 +78,15 @@ public class DoctorDAO {
         HttpSession session = SessionUtil.getSession();
         session.invalidate();
     }
+    
+    public void updateDoctor(Doctor entity) {
+        em.merge(entity);
+            FacesContext.getCurrentInstance().addMessage(
+                    "response",
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Kayıt Güncellendi",
+                            null));
+    }
 
     public List<Doctor> findByEmail(String email) {
         CriteriaBuilder builder = em.getCriteriaBuilder();

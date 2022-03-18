@@ -39,7 +39,7 @@ public class AuthorizationFilter implements Filter {
             response.sendRedirect(loginURL);
         }
         else if(user != null && (request.getRequestURI().equals(loginURL) || request.getRequestURI().equals(registerURL))) {  
-            if(user.getClass().getSimpleName() == "Doctor")
+            if(user.getPrivilege().getId() == 2)
                 response.sendRedirect(docURL);
             else
                 response.sendRedirect(dashboardURL);

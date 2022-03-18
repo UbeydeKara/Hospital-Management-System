@@ -87,7 +87,7 @@ public class DoctorBean implements Serializable {
         Doctor ldoctor = doctorDao.login(doctor);
         if (ldoctor != null) {
             this.doctor = ldoctor;
-            return "/vlews/doctor/profile?faces-redirect=true";
+            return "doctor/profile?faces-redirect=true";
         }
 
         return "signin?faces-redirect=false";
@@ -95,7 +95,7 @@ public class DoctorBean implements Serializable {
 
     public String logout() {
         this.doctorDao.logout();
-        return "signin?faces-redirect=true";
+        return "/views/signin?faces-redirect=true";
     }
 
     public void deleteUser(Doctor d) {
@@ -117,8 +117,8 @@ public class DoctorBean implements Serializable {
         return this.doctorDao.findAllRole();
     }
 
-    public void editUser(Doctor u) {
-        this.doctor = u;
+    public void updateDoctor() {
+        this.doctorDao.updateDoctor(doctor);
     }
 
     public String getSearchText() {

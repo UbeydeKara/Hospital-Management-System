@@ -20,7 +20,7 @@ public class UIBean implements Serializable {
 
     private Boolean isLoginPage;
     private User selectedUser;
-    private Short userType;
+    private Short userType = 1;
 
     public Boolean isLoginPage() {
         if (isLoginPage != null) {
