@@ -23,9 +23,10 @@ public class UsersBean implements Serializable {
     @EJB
     private UserDAO userDao;
     private Supervisor visor;
-    private List<Supervisor> list;
     private Integer pageNumber = 0;
+    private Integer pageSize = 8;
     private String searchText;
+    private Integer currentPage = 0;
 
     public Supervisor getVisor() {
         if (this.visor == null) {
@@ -43,68 +44,71 @@ public class UsersBean implements Serializable {
     }
 
     public void setPageNumber(Integer pageNumber) {
-        this.pageNumber = pageNumber;
+        if(pageNumber >= 0 && pageNumber < getTotalPage())
+            this.pageNumber = pageNumber;
     }
     
     public Long getUserCount() {
-        return this.userDao.userCount();
+        if(searchText == null || searchText.length() == 0)
+            return this.userDao.userCount();
+        return Long.valueOf(userDao.findByName(searchText).size());
     }
     
     public Integer getTotalPage() {
         Integer count = getUserCount().intValue();
         
-        if(count % 7 == 0)
-            return count / 7;
+        if(count == 0)
+            return 1;
         
-        return (count / 7) + 1;
+        if(count % pageSize == 0)
+            return count / pageSize;
+        
+        return (count / pageSize) + 1;
     }
 
     public String register(Boolean isRegister) {
         userDao.register(visor, isRegister);
         this.visor = new Supervisor();
 
-        return "dashboard?faces-redirect=true";
+        return "signin";
     }
 
     public String add() {
         userDao.register(visor, true);
         this.visor = new Supervisor();
 
-        return "list";
-    }
-
-    public void findByEmail() {
-        setList(userDao.findByEmail(searchText));
+        return "dashboard";
     }
 
     public String login() {
         Supervisor lvisor = userDao.login(visor);
         if (lvisor != null) {
             this.visor = lvisor;
-            return "dashboard?faces-redirect=true";
+            return "supervisor/dashboard?faces-redirect=true";
         }
 
-        return "signin?faces-redirect=false";
+        return "/views/signin?faces-redirect=false";
     }
 
     public String logout() {
         this.userDao.logout();
-        return "signin?faces-redirect=true";
+        return "/views/signin?faces-redirect=true";
     }
 
     public void deleteUser(User u) {
         if(u != null)
             this.userDao.delete(u);
     }
+    
+    public void updateStatus(Supervisor entity) {
+        entity.setIs_confirmed(!entity.getIs_confirmed());
+        this.userDao.updateVisor(entity);
+    }
 
     public List<Supervisor> getList() {
         if(searchText == null || searchText.length() == 0)
-            return this.userDao.findAll(pageNumber);
-        return this.list;
-    }
-
-    public void setList(List<Supervisor> list) {
-        this.list = list;
+            return this.userDao.findAll(pageNumber, pageSize);
+        return userDao.findByName(searchText);
     }
 
     public List<Privilege> getRoleList() {
@@ -122,5 +126,15 @@ public class UsersBean implements Serializable {
     public void setSearchText(String searchText) {
         this.searchText = searchText;
     }
+
+    public Integer getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
+    }
+    
+    
 
 }

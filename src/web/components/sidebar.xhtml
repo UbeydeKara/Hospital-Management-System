@@ -7,14 +7,19 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
-    <h:body>
       <ui:composition>
+          <h:outputScript>
+              $(".item").on("mouseover", function () {
+        $(this).popup('show');
+    });
+          </h:outputScript>
         <div class="ui secondary raised sidebar visible vertical icon menu hms-sidebar">
             <img class="ui mini image hms-brand" src="../../static/logo.png" />
             <h:form style="display: contents">
-                <h:commandLink class="ui item my-1" action="dashboard?faces-redirect=true"
+                <h:commandLink class="ui item my-1" action="#{userBean.setCurrentPage(0)}"
                                p:data-content="Kontrol Paneli" p:data-position="right center">
-                    <span id="0" class="ui disabled text">
+                    <f:ajax render="template" />
+                    <span id="0" class="ui text #{userBean.currentPage != 0 ? 'disabled' : ''}">
                         <i class="mdi mdi-view-dashboard-outline mdi-24px"></i>
                     </span>
                 </h:commandLink>
@@ -24,10 +29,18 @@
                         <i class="mdi mdi-home-outline mdi-24px"></i>
                     </span>
                 </h:commandLink>
-                <h:commandLink class="item my-1" action="list?faces-redirect=true"
+                <h:commandLink class="item my-1" action="#{userBean.setCurrentPage(1)}"
                                p:data-content="Kullanıcı Listesi" p:data-position="right center">
-                    <span id="1" class="ui disabled text">
+                    <f:ajax render="template"/>
+                    <span id="1" class="ui text  #{userBean.currentPage != 1 ? 'disabled' : ''}">
                         <i class="mdi mdi-account-details-outline mdi-24px"></i>
+                    </span>
+                </h:commandLink>
+                <h:commandLink class="item my-1" action="#{userBean.setCurrentPage(2)}"
+                               p:data-content="Doktor Listesi" p:data-position="right center">
+                    <f:ajax render="template"/>
+                    <span id="1" class="ui text  #{userBean.currentPage != 2 ? 'disabled' : ''}">
+                        <i class="mdi mdi-stethoscope mdi-24px"></i>
                     </span>
                 </h:commandLink>
                 <h:commandLink class="item my-1" action="#{userBean.logout()}"
@@ -38,6 +51,5 @@
                 </h:commandLink>
             </h:form>
         </div>
-</ui:composition>	
-   </h:body>
+      </ui:composition>
 </html>

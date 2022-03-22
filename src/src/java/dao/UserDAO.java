@@ -32,17 +32,24 @@ public class UserDAO {
         Supervisor user = isUserExists(entity);
 
         if (user != null) {
-            HttpSession session = SessionUtil.getSession();
-            session.setAttribute("user", (Supervisor) user);
-            return user;
-        } else {
+            if (user.getIs_confirmed() == false) {
+                FacesContext.getCurrentInstance().addMessage(
+                        "response",
+                        new FacesMessage(FacesMessage.SEVERITY_WARN,
+                                "Hesabınız henüz onaylanmadı",
+                                null));
+            } else {
+                HttpSession session = SessionUtil.getSession();
+                session.setAttribute("user", (Supervisor) user);
+                return user;
+            }
+        } else
             FacesContext.getCurrentInstance().addMessage(
                     "response",
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
                             "Bilgileriniz Hatalı",
                             null));
-            return null;
-        }
+        return null;
 
     }
 
@@ -51,11 +58,12 @@ public class UserDAO {
         if (isRegister) {
             Supervisor user = isUserExists(entity);
             if (user == null) {
+                entity.setIs_confirmed(false);
                 em.persist(entity);
                 FacesContext.getCurrentInstance().addMessage(
                         "response",
                         new FacesMessage(FacesMessage.SEVERITY_INFO,
-                                "Kayıt Başarılı",
+                                "Kayıt Başarılı. Giriş yapabilmek için hesabınızın onaylanmasını bekleyin.",
                                 null));
             } else {
                 FacesContext.getCurrentInstance().addMessage(
@@ -79,13 +87,13 @@ public class UserDAO {
         session.invalidate();
     }
 
-    public List<Supervisor> findByEmail(String email) {
+    public List<Supervisor> findByName(String fullname) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery criteriaQuery = builder.createQuery();
         Root<Supervisor> root = criteriaQuery.from(Supervisor.class);
 
         criteriaQuery.select(root);
-        criteriaQuery.where(builder.equal(root.get("email"), email));
+        criteriaQuery.where(builder.like(root.get("fullname"), "%" + fullname + "%"));
 
         Query query = em.createQuery(criteriaQuery);
         return query.getResultList();
@@ -100,12 +108,13 @@ public class UserDAO {
                         null));
     }
 
-    public List<Supervisor> findAll(Integer pageNumber) {
-        int pageSize = 7;
-        CriteriaQuery criteria = em.getCriteriaBuilder().createQuery();
-        criteria.select(criteria.from(Supervisor.class));
+    public List<Supervisor> findAll(Integer pageNumber, Integer pageSize) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Supervisor> criteria = builder.createQuery(Supervisor.class);
+        Root<Supervisor> root = criteria.from(Supervisor.class);
+        criteria.orderBy(builder.asc(root.get("id")));
         Query query = em.createQuery(criteria);
-        query.setFirstResult(pageNumber*7);
+        query.setFirstResult(pageNumber * pageSize);
         query.setMaxResults(pageSize);
         return query.getResultList();
     }
@@ -121,6 +130,10 @@ public class UserDAO {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(Privilege.class));
         return em.createQuery(cq).getResultList();
+    }
+
+    public void updateVisor(Supervisor entity) {
+        em.merge(entity);
     }
 
     private Supervisor isUserExists(Supervisor entity) {
