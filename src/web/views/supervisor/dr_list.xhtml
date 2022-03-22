@@ -34,7 +34,7 @@
 
                     <div class="ui search">
                         <div class="ui icon input">
-                            <h:inputText class="prompt" p:placeholder="İsim ara" value="#{userBean.searchText}"
+                            <h:inputText class="prompt" p:placeholder="İsim ara" value="#{doctorBean.searchText}"
                                          onkeypress="if (event.keyCode == 13) { onchange(); return false; }">
                                 <f:ajax event="change" render="@form" />
                             </h:inputText>
@@ -53,7 +53,7 @@
                     <h:outputScript rendered="#{uiBean.hasMessage}">
                         sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
                     </h:outputScript>
-                    <h:dataTable value="#{userBean.getList()}" var="user"
+                    <h:dataTable value="#{doctorBean.getList()}" var="user"
                                  styleClass="ui very basic table striped m-0">
                         <h:column>    				
                             <f:facet name = "header">#</f:facet>    				
@@ -76,22 +76,33 @@
                         </h:column>
 
                         <h:column>
-                            <f:facet name = "header">Yetki</f:facet>
-                                #{user.privilege.role}
+                            <f:facet name = "header">Alan</f:facet>
+                                #{user.specialty}
                         </h:column>
 
                         <h:column>
-                            <f:facet name = "header">Durum</f:facet>
-                                <h:panelGroup rendered="#{user.is_confirmed}">
-                                    <div class="ui green basic label">
-                                        <i class="checkmark icon"></i> Onaylandı
-                                    </div>
-                                </h:panelGroup>
-                                <h:panelGroup rendered="#{!user.is_confirmed}">
-                                    <div class="ui yellow basic label">
-                                        <i class="attention icon"></i> Onay Bekliyor
-                                    </div>
-                                </h:panelGroup>
+                            <f:facet name = "header">Cinsiyet</f:facet>
+                                #{user.sex}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">Doğum Tarihi</f:facet>
+                                #{user.birth_date}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">İl</f:facet>
+                                #{user.city}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">İlçe</f:facet>
+                                #{user.district}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">Telefon</f:facet>
+                                #{user.phone}
                         </h:column>
 
                         <h:column>
@@ -131,23 +142,23 @@
                 </div>
                 <div class="row" style="align-items: center; align-self: flex-end">
                     <div class="description">
-                        <p>Toplam #{userBean.userCount} kayıttan #{userBean.list.size()} adet gösteriliyor</p>
+                        <p>Toplam #{doctorBean.userCount} kayıttan #{doctorBean.list.size()} adet gösteriliyor</p>
                     </div>
                     <div class="ml-auto">
-                        <h:commandLink action="#{userBean.setPageNumber(userBean.pageNumber-1)}">
+                        <h:commandLink action="#{doctorBean.setPageNumber(doctorBean.pageNumber-1)}">
                             <i class="left grey chevron icon"></i>
                                     <f:ajax render="@form" onevent="pulse"/>
                         </h:commandLink>
                         <div class="ui pagination teal borderless menu mx-1 rounded">
-                            <c:forEach var="index" begin="0" end="#{userBean.totalPage-1}">
-                                <h:commandLink action="#{userBean.setPageNumber(index)}"
-                                               class="#{userBean.pageNumber == index ? 'item rounded active' : 'item rounded'}">
+                            <c:forEach var="index" begin="0" end="#{doctorBean.totalPage-1}">
+                                <h:commandLink action="#{doctorBean.setPageNumber(index)}"
+                                               class="#{doctorBean.pageNumber == index ? 'item rounded active' : 'item rounded'}">
                                     #{index + 1}
                                     <f:ajax render="@form" onevent="pulse"/>
                                 </h:commandLink>
                             </c:forEach>
                         </div>
-                        <h:commandLink action="#{userBean.setPageNumber(userBean.pageNumber+1)}">
+                        <h:commandLink action="#{doctorBean.setPageNumber(userBean.pageNumber+1)}">
                             <i class="right grey chevron icon"></i>
                                     <f:ajax render="@form" onevent="pulse"/>
                         </h:commandLink>
@@ -168,7 +179,7 @@
                     <i class="remove icon"></i>
                     İptal
                 </div>
-                <h:commandLink action="#{userBean.deleteUser(uiBean.selectedUser)}">
+                <h:commandLink action="#{doctorBean.deleteUser(uiBean.selectedUser)}">
                     <div class="ui green ok inverted button">
                         <i class="checkmark icon"></i>
                         Sil

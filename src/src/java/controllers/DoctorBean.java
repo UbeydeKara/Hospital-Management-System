@@ -54,6 +54,9 @@ public class DoctorBean implements Serializable {
     public Integer getTotalPage() {
         Integer count = getUserCount().intValue();
         
+        if(count == 0)
+            return 1;
+        
         if(count % 7 == 0)
             return count / 7;
         
