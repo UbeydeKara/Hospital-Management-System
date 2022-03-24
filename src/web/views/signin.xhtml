@@ -29,7 +29,9 @@
                 </ui:insert>
             </c:when>
             <c:otherwise>
-                <p>Patient Login Page</p>
+                <ui:insert name = "patient_login">
+                    <ui:include src = "patient/login.xhtml" />
+                </ui:insert>
             </c:otherwise>
         </c:choose>
             

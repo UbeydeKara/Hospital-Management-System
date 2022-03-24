@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:body>
+        <ui:composition>
+        <div class="ui middle aligned center aligned grid container">
+            <div class="column">
+                <div class="ui card raised fluid">
+                    <div class="ui two column grid" jsf:id="login_section">
+                        <div class="ui column swap_image">
+                            <h:outputScript>
+                                $(document).ready(function () {
+                                    $('#l_image').transition('scale');
+                                });
+                            </h:outputScript>
+                            <img id="l_image" class="ui image" src="../static/vl_banner.jpg" style="filter: brightness(0.5); z-index: 999; display: none;"/>
+                        </div>
+                        <div class="ui six wide column centered grid middle aligned swap_form">
+                            <div class='column' jsf:id="form_content">
+                                <h:form class="ui labeled icon three teal secondary item menu">
+                                    <h:commandLink action="#{uiBean.setUserType(1)}" class="#{uiBean.userType == 1 ? 'item rounded10 active' : 'item rounded10'}">
+                                        <i class="mdi mdi-36px mdi-account-supervisor-outline"></i>
+                                        Süpervizör
+                                        <f:ajax execute="@form" render="login_section" />
+                                    </h:commandLink>
+                                    <h:commandLink action="#{uiBean.setUserType(2)}" class="#{uiBean.userType == 2 ? 'item rounded10 active' : 'item rounded10'}">
+                                        <i class="mdi mdi-36px mdi-stethoscope"></i>
+                                        Doktor
+                                        <f:ajax execute="@form" render="login_section" />
+                                    </h:commandLink>
+                                    <h:commandLink action="#{uiBean.setUserType(3)}" class="#{uiBean.userType == 3 ? 'item rounded10 active' : 'item rounded10'}">
+                                        <f:ajax execute="@form" render="login_section" />
+                                        <i class="mdi mdi-36px mdi-face-mask"></i>
+                                        Hasta
+                                    </h:commandLink>
+                                </h:form>
+                                <h1 class="ui icon-text header mb-2">
+                                    <i class="mdi mdi-36px #{uiBean.isLoginPage() ? 'mdi-account-arrow-right-outline' : 'mdi-account-plus-outline'}"/>
+                                    <div class="content">
+                                        #{uiBean.isLoginPage() ? 'Hasta Girişi' : 'Hasta Kayıt'}
+                                    </div>
+                                </h1>
+                                <h:form class="ui form">
+                                    <h:outputScript rendered="#{uiBean.hasMessage}">
+                                        sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
+                                    </h:outputScript>
+                                    <div class="field required">
+                                        <label>E-Posta Adresiniz</label>
+                                        <h:inputText value="#{patientBean.patient.email}" p:data-validate="email" p:placeholder="E-Posta Adresiniz"/>
+                                    </div>
+                                    <div class="field required">
+                                        <label>Parolanız</label>
+                                        <h:inputSecret value="#{patientBean.patient.password}" p:data-validate="password" p:placeholder="Parolanız"/>
+                                    </div>
+                                    <c:choose>
+                                        <c:when test="#{uiBean.isLoginPage()}">
+                                            <h:commandButton class="ui teal button" value="Giriş"
+                                                             action="#{patientBean.login()}"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h:commandButton class="ui teal button" value="Kaydol"
+                                                             action="#{patientBean.register(true)}"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <h:commandButton class="ui button" action="/home?faces-redirect=true" value="İptal">
+                                        <f:ajax execute="comments" render="comments" />
+                                    </h:commandButton>
+                                </h:form>
+                                <div class="ui horizontal divider my-2">Veya</div>
+                                <h:commandButton class="ui secondary tertiary button" id="switch_button" action="#{uiBean.switchPage()}" value="#{uiBean.isLoginPage() ? 'Hesap Oluştur' : 'Giriş Yap'}">
+                                    <f:ajax execute="@form" render="form_content" />
+                                </h:commandButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </ui:composition>
+    </h:body>
+</html>
