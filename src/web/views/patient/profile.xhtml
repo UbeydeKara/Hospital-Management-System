@@ -18,36 +18,49 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
         <script src="../../js/swap.js"></script>
         <script src="../../js/toast.js"></script>
         <script src="../../js/fade.js"></script>
-        <title>Doktor Profil</title>
+        <title>Hasta Profil</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
         <div class="ui container grid middle aligned h-100 centered">
             <h:form class="ui form eight wide column">
                 <h:outputScript rendered="#{uiBean.hasMessage}">
-                                        sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
-                                    </h:outputScript>
-                <h4 class="ui dividing header">Profil Bilgileri...</h4>
+                    sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
+                </h:outputScript>
+                <h4 class="ui dividing header">Profil Bilgileri</h4>
                 <div class="field">
-                    <label>Email</label>
+                    <label>Name</label>
                     <div class="two fields">
                         <div class="field">
-                            <h:inputText value='#{patientBean.patient.room}'/>
+                            <input type="text" name="shipping[first-name]" placeholder="First Name"/>
                         </div>
                         <div class="field">
                             <input type="text" name="shipping[last-name]" placeholder="Last Name"/>
                         </div>
                     </div>
-                    
+                    <div class="ui form">
+                        <div class="two fields">
+                            <div class="field">
+                                <label>First name</label>
+                                <input type="text" placeholder="First Name"/>
+                            </div>
+                            <div class="field">
+                                <label>Middle name</label>
+                                <input type="text" placeholder="Middle Name"/>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <label>Birth Date</label>
                     <div class="field">
                         <input type="date" name="shipping[birth date]" placeholder="Birth Date"/>
                     </div>
 
                     <label>Sex</label>
-                    <h:selectOneMenu value="#{doctorBean.doctor.sex}" converter="genericConverter" class="ui fluid dropdown" p:id="select">
-                        <f:selectItem itemLabel="Erkek" itemValue="Erkek"/>
+                    <h:selectOneMenu value="#{patientBean.patient.sex}" converter="genericConverter" class="ui fluid dropdown" p:id="select">
                         <f:selectItem itemLabel="Kadın" itemValue="Kadın"/>
+                        <f:selectItem itemLabel="Erkek" itemValue="Erkek"/>
                     </h:selectOneMenu>
 
                     <label>Adress</label>
@@ -59,21 +72,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                             <input type="text" name="shipping[district]" placeholder="District"/>
                         </div>
                     </div>
-                    
+
                     <label>Phone</label>
                     <div class="field">
                         <input type="text" name="shipping[phone]" placeholder="0(5xx)-xxx-xx-xx"/>
                     </div>
-                    
-                    <label>Specialty</label>
-                    <div class="field">
-                        <input type="text" name="shipping[specialty]" placeholder="Specialty"/>
-                    </div>
-                    
-                    <h:commandButton class='ui button teal' action='#{doctorBean.updateDoctor()}' value="Kaydet">
+
+
+
+                    <h:commandButton class='ui button teal' action='#{patientBean.updatePatient()}' value="Kaydet">
                         <f:ajax execute="@form" render="@form"/>
                     </h:commandButton>
-                    <h:commandButton class='ui button basic' action='#{doctorBean.logout()}' value="Çıkış">
+                    <h:commandButton class='ui button basic' action='#{patientBean.logout()}' value="Çıkış">
                     </h:commandButton>
                 </div>
             </h:form>
