@@ -29,51 +29,62 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                 </h:outputScript>
                 <h4 class="ui dividing header">Profil Bilgileri</h4>
                 <div class="field">
-                    <label>Name</label>
+                    <label>Ad-Soyad</label>
                     <div class="two fields">
                         <div class="field">
-                            <input type="text" name="shipping[first-name]" placeholder="First Name"/>
+                            <h:inputText value='#{patientBean.patient.fullname}'/>
+                            <input type="text" name="shipping[first-name]" placeholder="Ad"/>
                         </div>
                         <div class="field">
-                            <input type="text" name="shipping[last-name]" placeholder="Last Name"/>
+                            <input type="text" name="shipping[last-name]" placeholder="Soyad"/>
                         </div>
                     </div>
                     <div class="ui form">
                         <div class="two fields">
                             <div class="field">
-                                <label>First name</label>
-                                <input type="text" placeholder="First Name"/>
+                                <label>Yaş</label>
+                                <input type="number" placeholder="Yaş"/>
                             </div>
                             <div class="field">
-                                <label>Middle name</label>
-                                <input type="text" placeholder="Middle Name"/>
+                                <label>Kimlik No</label>
+                                <input type="text" maxlength="11" placeholder="Kimlik No"/>
                             </div>
                         </div>
                     </div>
 
 
-                    <label>Birth Date</label>
+                    <label>Doğum Tarihi</label>
                     <div class="field">
-                        <input type="date" name="shipping[birth date]" placeholder="Birth Date"/>
+                        <input type="date" name="shipping[birth date]" placeholder="Doğum Tarihi"/>
                     </div>
 
-                    <label>Sex</label>
+                    <label>Cinsiyet</label>
                     <h:selectOneMenu value="#{patientBean.patient.sex}" converter="genericConverter" class="ui fluid dropdown" p:id="select">
                         <f:selectItem itemLabel="Kadın" itemValue="Kadın"/>
                         <f:selectItem itemLabel="Erkek" itemValue="Erkek"/>
                     </h:selectOneMenu>
+                    <label>Kan Grubu</label>
+                    <h:selectOneMenu value="#{patientBean.patient.blood_type}" converter="genericConverter" class="ui fluid dropdown" p:id="select">
+                        
+                        <f:selectItem itemLabel="0 Rh+" itemValue="kangrubu"/>
+                        <f:selectItem itemLabel="0 Rh-" itemValue="kangrubu"/>
+                        <f:selectItem itemLabel="A Rh+" itemValue="kangrubu"/>
+                        <f:selectItem itemLabel="A Rh-" itemValue="kangrubu"/>
+                        <f:selectItem itemLabel="B Rh+" itemValue="kangrubu"/>
+                        <f:selectItem itemLabel="B Rh-" itemValue="kangrubu"/>
+                        <f:selectItem itemLabel="AB Rh+" itemValue="kangrubu"/>
+                        <f:selectItem itemLabel="AB Rh-" itemValue="kangrubu"/>
+
+                    </h:selectOneMenu>
+
 
                     <label>Adress</label>
-                    <div class="two fields">
-                        <div class="field">
-                            <input type="text" name="shipping[city]" placeholder="City"/>
-                        </div>
-                        <div class="field">
-                            <input type="text" name="shipping[district]" placeholder="District"/>
-                        </div>
+                    <div class="field">
+
+                        <textarea rows="2"></textarea>
                     </div>
 
-                    <label>Phone</label>
+                    <label>Telefon</label>
                     <div class="field">
                         <input type="text" name="shipping[phone]" placeholder="0(5xx)-xxx-xx-xx"/>
                     </div>
