@@ -12,14 +12,14 @@
         <div class="ui tiny modal">
             <h:panelGroup layout="block" class="header">
                 <i class="mdi mdi-account-plus-outline mdi-24px"/>
-                <h:outputText value="#{userBean.visor.id != null ? ' Bilgileri Güncelle' : ' Kullanıcı Ekle'}" />
+                <h:outputText value="#{doctorBean.doctor.id != null ? ' Bilgileri Güncelle' : ' Doktor Ekle'}" />
             </h:panelGroup>
             <div class="content">
                 <h:form class="ui form p-2" id="dialog">
                     <div class="field mb-1">
                         <label>Ad Soyad</label>
                         <div class='ui left icon input'>
-                            <h:inputText value="#{userBean.visor.fullname}" p:placeholder="Ad Soyad"/>
+                            <h:inputText value="#{doctorBean.doctor.fullname}" p:placeholder="Ad Soyad"/>
                             <i class="mdi mdi-account-outline mdi-18px icon"/>
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                     <div class="field mb-1">
                         <label>E-Posta Adresi</label>
                         <div class='ui left icon input'>
-                            <h:inputText value="#{userBean.visor.email}" p:data-validate="email" p:placeholder="E-Posta Adresiniz"/>
+                            <h:inputText value="#{doctorBean.doctor.email}" p:data-validate="email" p:placeholder="E-Posta Adresiniz"/>
                             <i class="mdi mdi-email-outline mdi-18px icon"/>
                         </div>
                     </div>
@@ -35,29 +35,29 @@
                     <div class="field mb-1">
                         <label>Parola</label>
                         <div class='ui left icon input'>
-                            <h:inputSecret value="#{userBean.visor.password}" redisplay="true" p:data-validate="password" p:autocomplete="new-password" p:placeholder="Parola"/>
+                            <h:inputSecret value="#{doctorBean.doctor.password}" redisplay="true" p:data-validate="password" p:autocomplete="new-password" p:placeholder="Parola"/>
                             <i class="mdi mdi-lock-outline mdi-18px icon"/>
                         </div>
                     </div>
 
                     <div class="field mb-1">
                         <label>Yetki</label>
-                        <h:selectOneMenu value="#{userBean.visor.privilege}" converter="genericConverter" class="ui fluid dropdown" p:id="select">
-                            <f:selectItems value="#{userBean.roleList}" var="p" itemValue="#{p}" itemLabel="#{p.role}"/>
+                        <h:selectOneMenu value="#{doctorBean.doctor.privilege}" converter="genericConverter" class="ui fluid dropdown" p:id="select">
+                            <f:selectItems value="#{doctorBean.roleList}" var="p" itemValue="#{p}" itemLabel="#{p.role}"/>
                         </h:selectOneMenu>
                     </div>
                     <h:panelGroup layout="block" class="actions">
                         <div class="ui black deny button">İptal</div>
                         <c:choose>
-                            <c:when test="#{userBean.visor.id != null}">
-                                <h:commandLink class="ui blue right labeled icon button" action="#{userBean.updateUser(userBean.visor)}"
+                            <c:when test="#{doctorBean.doctor.id != null}">
+                                <h:commandLink class="ui blue right labeled icon button" action="#{doctorBean.updateDoctor()}"
                                                 onclick="$('.ui.tiny.modal').modal('hide');">
                                     <i class="checkmark icon"></i>Kaydet
                                     <f:ajax execute="@form" render="list_form" />
                                 </h:commandLink>
                             </c:when>
                             <c:otherwise>
-                                <h:commandLink class="ui positive right labeled icon button" action="#{userBean.add()}">
+                                <h:commandLink class="ui positive right labeled icon button" action="#{doctorBean.add()}">
                                     <i class="checkmark icon"></i>Ekle
                                     <f:ajax execute="@form" render="list_form" />
                                 </h:commandLink>
@@ -68,7 +68,7 @@
             </div>
             <!--            <div class="actions">
                             <div class="ui black deny button">İptal</div>
-                            <h:commandLink class="ui positive right labeled icon button" action="#{userBean.add()}">
+                            <h:commandLink class="ui positive right labeled icon button" action="#{doctorBean.add()}">
                                 <i class="checkmark icon"></i>Ekle
                                 <f:ajax execute="@all" render="list_form" />
                             </h:commandLink>

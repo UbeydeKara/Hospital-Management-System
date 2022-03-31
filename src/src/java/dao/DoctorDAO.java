@@ -78,14 +78,28 @@ public class DoctorDAO {
         HttpSession session = SessionUtil.getSession();
         session.invalidate();
     }
+
+    public List<Doctor> findByName(String fullname) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery criteriaQuery = builder.createQuery();
+        Root<Doctor> root = criteriaQuery.from(Doctor.class);
+
+        criteriaQuery.select(root);
+        criteriaQuery.where(builder.like(root.get("fullname"), "%" + fullname + "%"));
+
+        Query query = em.createQuery(criteriaQuery);
+        return query.getResultList();
+    }
     
     public void updateDoctor(Doctor entity) {
+        if(entity.getEmail() != null) {
         em.merge(entity);
             FacesContext.getCurrentInstance().addMessage(
                     "response",
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Kayıt Güncellendi",
                             null));
+        }
     }
 
     public List<Doctor> findByEmail(String email) {
@@ -109,12 +123,13 @@ public class DoctorDAO {
                         null));
     }
 
-    public List<Doctor> findAll(Integer pageNumber) {
-        int pageSize = 7;
-        CriteriaQuery criteria = em.getCriteriaBuilder().createQuery();
-        criteria.select(criteria.from(Doctor.class));
+    public List<Doctor> findAll(Integer pageNumber, Integer pageSize) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Doctor> criteria = builder.createQuery(Doctor.class);
+        Root<Doctor> root = criteria.from(Doctor.class);
+        criteria.orderBy(builder.asc(root.get("id")));
         Query query = em.createQuery(criteria);
-        query.setFirstResult(pageNumber*7);
+        query.setFirstResult(pageNumber * pageSize);
         query.setMaxResults(pageSize);
         return query.getResultList();
     }

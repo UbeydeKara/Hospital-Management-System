@@ -41,10 +41,10 @@
                             <i class="search icon"></i>
                         </div>
                     </div>
-                    <h:commandLink class="ui teal button ml-1" onclick="$('#dialog').modal('show');" action="#">
+                    <h:commandLink class="ui teal button ml-1" onclick="$('.ui.tiny.modal').modal('show');" action="#{userBean.setVisor(null)}">
                         <i class="plus icon"></i>
                         Kayıt Ekle
-                        <f:ajax execute="@form" render="@form" />
+                                        <f:ajax execute="@form" render="dialog" />
                     </h:commandLink>
                 </div>
             </div>
@@ -113,8 +113,8 @@
                                     </h:commandLink>
                                 </h:panelGroup>
                                     <h:commandLink class="item"
-                                                   onclick="$('.ui.basic.modal').modal('show');" action="#{uiBean.setSelectedUser(user)}">
-                                        <f:ajax execute="@form" render="@form" />
+                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{userBean.setVisor(user)}">
+                                        <f:ajax execute="@form" render="dialog" />
                                         <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Düzenle
                                     </h:commandLink>
                                     <h:commandLink class="item"
