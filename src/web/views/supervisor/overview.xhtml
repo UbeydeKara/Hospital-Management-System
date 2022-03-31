@@ -1,125 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <head>
         <title>TODO supply a title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
-        <ui:composition>
-            <h:outputScript>
-                $('.ui.grid').hide().transition('fade', '1000ms');
-            </h:outputScript>
-            <div style="margin-left: 100px; margin-right: 15px">
-                <div class="ui centered stackable grid my-2">
-                    <div class="row mx-5">
-                        <h2>Kontrol Paneli</h2>
-                        <div class="ml-auto">
-                            <span>adklf@dlfm.com</span>
-                            <img class="ui avatar image" src="https://www.w3schools.com/howto/img_avatar.png"/>
-                        </div>
+    <ui:composition>
+        <h:outputScript>
+            $('.ui.grid').hide().transition('fade', '1000ms');
+        </h:outputScript>
+        <div style="margin-left: 100px; margin-right: 15px">
+            <div class="ui centered stackable grid my-2">
+                <div class="row mx-5">
+                    <h2>Kontrol Paneli</h2>
+                    <div class="ml-auto">
+                        <span>#{user.email}</span>
+                        <img class="ui avatar image" src="https://www.w3schools.com/howto/img_avatar.png"/>
                     </div>
-                    <div class="five wide column">
-                        <div class="ui cards centered">
+                </div>
+                <div class="five wide column">
+                    <div class="ui cards centered">
 
-                            <div class='ui card floating-item raised pt-1'
-                                 style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
-                                <h2 class="ui center aligned icon header" style="color: #b58105;">
-                                    <i class="large circular stethoscope icon" style="box-shadow: unset;background-color: #fff8db;"></i>
-                                    <div class="ui mini statistic m-0">
-                                        <div class="label mb-1">
-                                            401
-                                        </div>
-                                        <div class="value" style="text-transform: none;">
-                                            Aktif Doktor
-                                        </div>
+                        <h:commandLink class='ui card floating-item raised pt-1' action="#{userBean.setCurrentPage(2)}"
+                                       style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
+                            <h2 class="ui center aligned icon header" style="color: #b58105;">
+                                <i class="large circular stethoscope icon" style="box-shadow: unset;background-color: #fff8db;"></i>
+                                <div class="ui mini statistic m-0">
+                                    <div class="label mb-1">
+                                        #{doctorBean.userCount}
                                     </div>
-                                </h2>
-                            </div>
-                            <div class='ui card floating-item pt-1'
-                                 style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
-                                <h2 class="ui center aligned icon header" style="color: #1ebc30">
-                                    <i class="large circular user injured icon" style="box-shadow: unset;background-color: #e5f9e7;"></i>
-                                    <div class="ui mini statistic m-0">
-                                        <div class="label mb-1">
-                                            5.3K
-                                        </div>
-                                        <div class="value" style="text-transform: none;">
-                                            Aktif Hasta
-                                        </div>
+                                    <div class="value" style="text-transform: none;">
+                                        Aktif Doktor
                                     </div>
-                                </h2>
-                            </div>
-                            <div class='ui card floating-item pt-1'
-                                 style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
-                                <h2 class="ui center aligned icon header" style="color: #db2828;">
-                                    <i class="large circular calendar check outline icon" style="box-shadow: unset;background-color: #ffe8e6;"></i>
-                                    <div class="ui mini statistic m-0">
-                                        <div class="label mb-1">
-                                            203
-                                        </div>
-                                        <div class="value" style="text-transform: none;">
-                                            Aktif Randevu
-                                        </div>
+                                </div>
+                            </h2>
+
+                            <f:ajax render="template" />
+                        </h:commandLink>
+                        <h:commandLink class='ui card floating-item pt-1' action="#{userBean.setCurrentPage(3)}"
+                             style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
+                            <h2 class="ui center aligned icon header" style="color: #1ebc30">
+                                <i class="large circular user injured icon" style="box-shadow: unset;background-color: #e5f9e7;"></i>
+                                <div class="ui mini statistic m-0">
+                                    <div class="label mb-1">
+                                        #{patientBean.userCount}
                                     </div>
-                                </h2>
-                            </div>
-                            <div class='ui card floating-item pt-1'
-                                 style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
-                                <h2 class="ui center aligned icon header" style="color: #2185d0;">
-                                    <i class="large circular prescription bottle alternate icon" style="box-shadow: unset;background-color: #dff0ff;"></i>
-                                    <div class="ui mini statistic m-0">
-                                        <div class="label mb-1">
-                                            3.7K
-                                        </div>
-                                        <div class="value" style="text-transform: none;">
-                                            Reçete
-                                        </div>
+                                    <div class="value" style="text-transform: none;">
+                                        Aktif Hasta
                                     </div>
-                                </h2>
+                                </div>
+                            </h2>
+                            <f:ajax render="template" />
+                        </h:commandLink>
+                        <div class='ui card floating-item pt-1'
+                             style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
+                            <h2 class="ui center aligned icon header" style="color: #db2828;">
+                                <i class="large circular calendar check outline icon" style="box-shadow: unset;background-color: #ffe8e6;"></i>
+                                <div class="ui mini statistic m-0">
+                                    <div class="label mb-1" style="text-transform: none;">
+                                        NaN
+                                    </div>
+                                    <div class="value" style="text-transform: none;">
+                                        Aktif Randevu
+                                    </div>
+                                </div>
+                            </h2>
+                        </div>
+                        <div class='ui card floating-item pt-1'
+                             style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
+                            <h2 class="ui center aligned icon header" style="color: #2185d0;">
+                                <i class="large circular prescription bottle alternate icon" style="box-shadow: unset;background-color: #dff0ff;"></i>
+                                <div class="ui mini statistic m-0">
+                                    <div class="label mb-1" style="text-transform: none;">
+                                        NaN
+                                    </div>
+                                    <div class="value" style="text-transform: none;">
+                                        Reçete
+                                    </div>
+                                </div>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="column six wide">
+                    <div class='ui card floating-item px-3 py-2'
+                         style="width: 100vh; box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 10px;">
+                        <div class="ui placeholder">
+                            <div class="image header">
+                                <div class="very short line"></div>
+                                <div class="short line"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="column six wide">
-                        <div class="ui horizontal list px-3 py-2"
-                             style="border-radius: 20px;display: flex;background-color: #ffe9d2;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06);">
-                            <div class="item">
-                                <img class="ui mini image" src="../static/teeth.png"/>
-                                <div class="content">
-                                    <div class="header">Diş Doktoru</div>
-                                    Dr. Aylin YILDIRIM
-                                </div>
-                            </div>
-                            <div class="item ml-auto">
-                                <div class="header">08:00 - 08:30</div>
+                    <div class='ui card floating-item px-3 py-2'
+                         style="width: 100vh; box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 10px;">
+                        <div class="ui placeholder">
+                            <div class="image header">
+                                <div class="very short line"></div>
+                                <div class="short line"></div>
                             </div>
                         </div>
-                        <div class="ui horizontal list px-3 py-2 my-1" style="border-radius: 20px;display: flex;background-color: #d8f3f5;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06);">
-                            <div class="item">
-                                <img class="ui mini image" src="../static/teeth.png"/>
-                                <div class="content">
-                                    <div class="header">Nörolog</div>
-                                    Dr. Murat KOCAMAZ
-                                </div>
-                            </div>
-                            <div class="item ml-auto">
-                                <div class="header">10:30 - 11:30</div>
-                            </div>
-                        </div>
-                        <div class="ui horizontal list px-3 py-2" style="border-radius: 20px;display: flex;background-color: #fde8f0;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06);">
-                            <div class="item">
-                                <img class="ui mini image" src="../static/teeth.png"/>
-                                <div class="content">
-                                    <div class="header">Dijital X-Ray</div>
-                                    Dr. Cengiz KAHRAMAN
-                                </div>
-                            </div>
-                            <div class="item ml-auto">
-                                <div class="header">09:20 - 10:30</div>
+                    </div>
+                    <div class='ui card floating-item px-3 py-2'
+                         style="width: 100vh; box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 10px;">
+                        <div class="ui placeholder">
+                            <div class="image header">
+                                <div class="very short line"></div>
+                                <div class="short line"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </ui:composition>
+        </div>
+    </ui:composition>
 </html>

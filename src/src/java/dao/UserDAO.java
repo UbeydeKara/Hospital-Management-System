@@ -133,7 +133,14 @@ public class UserDAO {
     }
 
     public void updateVisor(Supervisor entity) {
+        if(entity.getEmail() != null) {
         em.merge(entity);
+            FacesContext.getCurrentInstance().addMessage(
+                    "response",
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Kayıt Güncellendi",
+                            null));
+        }
     }
 
     private Supervisor isUserExists(Supervisor entity) {

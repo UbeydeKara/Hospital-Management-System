@@ -1,12 +1,10 @@
 package controllers;
 
 import dao.DoctorDAO;
-import dao.UserDAO;
 import entities.Privilege;
 import entities.Doctor;
-import entities.User;
 import jakarta.ejb.EJB;
-import jakarta.faces.view.ViewScoped;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -18,7 +16,7 @@ import java.util.List;
  *
  */
 @Named("doctorBean")
-@ViewScoped
+@SessionScoped
 public class DoctorBean implements Serializable {
 
     @EJB
@@ -26,6 +24,7 @@ public class DoctorBean implements Serializable {
     private Doctor doctor;
     private List<Doctor> list;
     private Integer pageNumber = 0;
+    private Integer pageSize = 8;
     private String searchText;
 
     public Doctor getDoctor() {
@@ -70,7 +69,6 @@ public class DoctorBean implements Serializable {
         privilege.setRole("Doktor");
         doctor.setPrivilege(privilege);
         doctorDao.register(doctor, isRegister);
-        this.doctor = new Doctor();
 
         return "doctor/profile?faces-redirect=true";
     }
@@ -79,7 +77,7 @@ public class DoctorBean implements Serializable {
         doctorDao.register(doctor, true);
         this.doctor = new Doctor();
 
-        return "list";
+        return "dashboard";
     }
 
     public void findByEmail() {
@@ -87,9 +85,9 @@ public class DoctorBean implements Serializable {
     }
 
     public String login() {
-        Doctor ldoctor = doctorDao.login(doctor);
-        if (ldoctor != null) {
-            this.doctor = ldoctor;
+        Doctor logged_doc = doctorDao.login(doctor);
+        if (logged_doc != null) {
+            this.doctor = logged_doc;
             return "doctor/profile?faces-redirect=true";
         }
 
@@ -108,8 +106,8 @@ public class DoctorBean implements Serializable {
 
     public List<Doctor> getList() {
         if(searchText == null || searchText.length() == 0)
-            return this.doctorDao.findAll(pageNumber);
-        return this.list;
+            return this.doctorDao.findAll(pageNumber, pageSize);
+        return doctorDao.findByName(searchText);
     }
 
     public void setList(List<Doctor> list) {

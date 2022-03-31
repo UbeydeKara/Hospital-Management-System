@@ -6,8 +6,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"  xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
-    <head>
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <h:head>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
@@ -18,78 +19,87 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
         <script src="../../js/swap.js"></script>
         <script src="../../js/toast.js"></script>
         <script src="../../js/fade.js"></script>
+        <script src="../../js/calendar.js"></script>
         <title>Hasta Profil</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
+    </h:head>
+    <h:body>
         <div class="ui container grid middle aligned h-100 centered">
             <h:form class="ui form eight wide column">
                 <h:outputScript rendered="#{uiBean.hasMessage}">
                     sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
                 </h:outputScript>
-                <h4 class="ui dividing header">Profil Bilgileri</h4>
+                <h:outputScript>
+                $('.ui.dropdown').dropdown();
+$('#type_calendar')
+        .calendar({
+            text: {
+                days: ['Pts', 'Sal', 'Çar', 'Per', 'Cum', 'Cts', 'Paz'],
+                months: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+                monthsShort: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'],
+                today: 'Bugün',
+                now: 'Şimdi',
+                am: 'AM',
+                pm: 'PM'
+            },
+            formatter: {
+                date: function (date, settings) {
+                    if (!date)
+                        return '';
+                    var day = date.getDate();
+                    var month = date.getMonth() + 1;
+                    var year = date.getFullYear();
+                    return year + '-' + ("0" + month).slice(-2) + '-' + ("0" + day).slice(-2);
+                }
+            }
+        });
+                </h:outputScript>
+                <h4 class="ui dividing header">Profil Bilgilerinizi Tamamlayın</h4>
                 <div class="field">
-                    <label>Ad-Soyad</label>
                     <div class="two fields">
                         <div class="field">
-                            <h:inputText value='#{patientBean.patient.fullname}'/>
-                            <input type="text" name="shipping[first-name]" placeholder="Ad"/>
+                            <label>Ad Soyad</label>
+                            <h:inputText value='#{patientBean.patient.fullname}' p:placeholder="Ad Soyad"/>
                         </div>
                         <div class="field">
-                            <input type="text" name="shipping[last-name]" placeholder="Soyad"/>
+                            <label>E-Posta</label>
+                            <h:inputText value='#{patientBean.patient.email}' disabled="true"/>
                         </div>
                     </div>
-                    <div class="ui form">
-                        <div class="two fields">
-                            <div class="field">
-                                <label>Yaş</label>
-                                <input type="number" placeholder="Yaş"/>
-                            </div>
-                            <div class="field">
-                                <label>Kimlik No</label>
-                                <input type="text" maxlength="11" placeholder="Kimlik No"/>
-                            </div>
-                        </div>
-                    </div>
-
 
                     <label>Doğum Tarihi</label>
                     <div class="field">
-                        <input type="date" name="shipping[birth date]" placeholder="Doğum Tarihi"/>
+                        <div class="ui calendar" id="type_calendar" data-type="date">
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                <h:inputText value='#{patientBean.patient.birth_date}' converter='dateConverter' p:placeholder="Tarih seç">
+                                </h:inputText>
+                            </div>
+                        </div>
                     </div>
 
                     <label>Cinsiyet</label>
-                    <h:selectOneMenu value="#{patientBean.patient.sex}" converter="genericConverter" class="ui fluid dropdown" p:id="select">
-                        <f:selectItem itemLabel="Kadın" itemValue="Kadın"/>
-                        <f:selectItem itemLabel="Erkek" itemValue="Erkek"/>
-                    </h:selectOneMenu>
-                    <label>Kan Grubu</label>
-                    <h:selectOneMenu value="#{patientBean.patient.blood_type}" converter="genericConverter" class="ui fluid dropdown" p:id="select">
-                        
-                        <f:selectItem itemLabel="0 Rh+" itemValue="kangrubu"/>
-                        <f:selectItem itemLabel="0 Rh-" itemValue="kangrubu"/>
-                        <f:selectItem itemLabel="A Rh+" itemValue="kangrubu"/>
-                        <f:selectItem itemLabel="A Rh-" itemValue="kangrubu"/>
-                        <f:selectItem itemLabel="B Rh+" itemValue="kangrubu"/>
-                        <f:selectItem itemLabel="B Rh-" itemValue="kangrubu"/>
-                        <f:selectItem itemLabel="AB Rh+" itemValue="kangrubu"/>
-                        <f:selectItem itemLabel="AB Rh-" itemValue="kangrubu"/>
-
-                    </h:selectOneMenu>
-
-
-                    <label>Adress</label>
                     <div class="field">
+                        <h:selectOneMenu value="#{patientBean.patient.sex}" class="ui fluid dropdown" p:id="select">
+                            <f:selectItem itemLabel="Erkek" itemValue="Erkek"/>
+                            <f:selectItem itemLabel="Kadın" itemValue="Kadın"/>
+                        </h:selectOneMenu>
+                    </div>
 
-                        <textarea rows="2"></textarea>
+                    <label>Adres</label>
+                    <div class="two fields">
+                        <div class="field">
+                            <h:inputText value='#{patientBean.patient.city}' p:placeholder="Şehir"/>
+                        </div>
+                        <div class="field">
+                            <h:inputText value='#{patientBean.patient.district}' p:placeholder="İlçe"/>
+                        </div>
                     </div>
 
                     <label>Telefon</label>
                     <div class="field">
-                        <input type="text" name="shipping[phone]" placeholder="0(5xx)-xxx-xx-xx"/>
+                        <h:inputText value='#{patientBean.patient.phone}' p:placeholder="Telefon"/>
                     </div>
-
-
 
                     <h:commandButton class='ui button teal' action='#{patientBean.updatePatient()}' value="Kaydet">
                         <f:ajax execute="@form" render="@form"/>
@@ -99,5 +109,5 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                 </div>
             </h:form>
         </div>
-    </body>
+    </h:body>
 </html>

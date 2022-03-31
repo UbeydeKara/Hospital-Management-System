@@ -5,6 +5,8 @@ import entities.Privilege;
 import entities.Supervisor;
 import entities.User;
 import jakarta.ejb.EJB;
+import jakarta.ejb.Stateless;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
@@ -17,7 +19,7 @@ import java.util.List;
  *
  */
 @Named("userBean")
-@ViewScoped
+@SessionScoped
 public class UsersBean implements Serializable {
 
     @EJB
@@ -115,8 +117,8 @@ public class UsersBean implements Serializable {
         return this.userDao.findAllRole();
     }
 
-    public void editUser(Supervisor u) {
-        this.visor = u;
+    public void updateUser(Supervisor u) {
+        this.userDao.updateVisor(u);
     }
 
     public String getSearchText() {
