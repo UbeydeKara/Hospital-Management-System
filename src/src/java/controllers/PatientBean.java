@@ -6,6 +6,7 @@ import entities.Privilege;
 import entities.Patient;
 import entities.User;
 import jakarta.ejb.EJB;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
@@ -18,7 +19,7 @@ import java.util.List;
  *
  */
 @Named("patientBean")
-@ViewScoped
+@SessionScoped
 public class PatientBean implements Serializable {
 
     @EJB
