@@ -40,6 +40,11 @@
                         <ui:include src = "dr_list.xhtml" />
                     </ui:insert>
                 </c:when>
+                <c:when test="#{userBean.currentPage == 3}">
+                    <ui:insert name = "p_list">
+                        <ui:include src = "p_list.xhtml" />
+                    </ui:insert>
+                </c:when>
             </c:choose>
         </h:panelGroup>
     </h:body>

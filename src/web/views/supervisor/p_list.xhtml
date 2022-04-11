@@ -34,14 +34,14 @@
 
                     <div class="ui search">
                         <div class="ui icon input">
-                            <h:inputText class="prompt" p:placeholder="İsim ara" value="#{doctorBean.searchText}"
+                            <h:inputText class="prompt" p:placeholder="İsim ara" value="#{patientBean.searchText}"
                                          onkeypress="if (event.keyCode == 13) { onchange(); return false; }">
                                 <f:ajax event="change" render="@form" />
                             </h:inputText>
                             <i class="search icon"></i>
                         </div>
                     </div>
-                    <h:commandLink class="ui teal button ml-1" onclick="$('.ui.tiny.modal').modal('show');" action="#{doctorBean.setDoctor(null)}">
+                    <h:commandLink class="ui teal button ml-1" onclick="$('.ui.tiny.modal').modal('show');" action="#{patientBean.setPatient(null)}">
                         <i class="plus icon"></i>
                         Kayıt Ekle
                                         <f:ajax execute="@form" render="dialog" />
@@ -53,31 +53,31 @@
                     <h:outputScript rendered="#{uiBean.hasMessage}">
                         sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
                     </h:outputScript>
-                    <h:dataTable value="#{doctorBean.getList()}" var="doctor"
+                    <h:dataTable value="#{patientBean.getList()}" var="patient"
                                  styleClass="ui very basic table striped m-0">
                         <h:column>    				
                             <f:facet name = "header">#</f:facet>    				
-                                #{doctor.id}
+                                #{patient.id}
                         </h:column>
 
                         <h:column>
                             <f:facet name = "header">Ad Soyad</f:facet>
-                                #{doctor.fullname}
+                                #{patient.fullname}
                         </h:column>
 
                         <h:column>
                             <f:facet name = "header">E-Posta</f:facet>
-                                #{doctor.email}
+                                #{patient.email}
                         </h:column>
 
                         <h:column>
                             <f:facet name = "header">Parola</f:facet>
-                                #{doctor.password}
+                                #{patient.password}
                         </h:column>
 
                         <h:column>
                             <f:facet name = "header">Yetki</f:facet>
-                                #{doctor.privilege.role}
+                                #{patient.privilege.role}
                         </h:column>
 
                         <h:column>
@@ -86,12 +86,12 @@
                                 <i class="ellipsis horizontal large grey icon"></i>
                                 <div class="menu">
                                     <h:commandLink class="item"
-                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{doctorBean.setDoctor(doctor)}">
+                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{patientBean.setPatient(patient)}">
                                         <f:ajax execute="@form" render="dialog" />
                                         <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Düzenle
                                     </h:commandLink>
                                     <h:commandLink class="item"
-                                                   onclick="$('.ui.basic.modal').modal('show');" action="#{uiBean.setSelectedUser(doctor)}">
+                                                   onclick="$('.ui.basic.modal').modal('show');" action="#{uiBean.setSelectedUser(patient)}">
                                         <f:ajax execute="@form" render="@form" />
                                         <span class="ui error text">
                                             <i class="mdi mdi-delete-outline mdi-18px" style="margin-right: 0.7rem"></i>Sil
@@ -104,23 +104,23 @@
                 </div>
                 <div class="row" style="align-items: center; align-self: flex-end">
                     <div class="description">
-                        <p>Toplam #{doctorBean.userCount} kayıttan #{doctorBean.list.size()} adet gösteriliyor</p>
+                        <p>Toplam #{patientBean.userCount} kayıttan #{patientBean.list.size()} adet gösteriliyor</p>
                     </div>
                     <div class="ml-auto">
-                        <h:commandLink action="#{doctorBean.setPageNumber(doctorBean.pageNumber-1)}">
+                        <h:commandLink action="#{patientBean.setPageNumber(patientBean.pageNumber-1)}">
                             <i class="left grey chevron icon"></i>
                                     <f:ajax render="@form" onevent="pulse"/>
                         </h:commandLink>
                         <div class="ui pagination teal borderless menu mx-1 rounded">
-                            <c:forEach var="index" begin="0" end="#{doctorBean.totalPage-1}">
-                                <h:commandLink action="#{doctorBean.setPageNumber(index)}"
-                                               class="#{doctorBean.pageNumber == index ? 'item rounded active' : 'item rounded'}">
+                            <c:forEach var="index" begin="0" end="#{patientBean.totalPage-1}">
+                                <h:commandLink action="#{patientBean.setPageNumber(index)}"
+                                               class="#{patientBean.pageNumber == index ? 'item rounded active' : 'item rounded'}">
                                     #{index + 1}
                                     <f:ajax render="@form" onevent="pulse"/>
                                 </h:commandLink>
                             </c:forEach>
                         </div>
-                        <h:commandLink action="#{doctorBean.setPageNumber(doctorBean.pageNumber+1)}">
+                        <h:commandLink action="#{patientBean.setPageNumber(patientBean.pageNumber+1)}">
                             <i class="right grey chevron icon"></i>
                                     <f:ajax render="@form" onevent="pulse"/>
                         </h:commandLink>
@@ -128,8 +128,8 @@
                 </div>
             </div>
         </h:form>
-        <ui:insert name="DocDialog" >
-            <ui:include src="/components/DocDialog.xhtml"/>
+        <ui:insert name="PatientDlg" >
+            <ui:include src="/components/PatientDlg.xhtml"/>
         </ui:insert>
         <div class="ui basic modal">
             <div class="ui icon header">
@@ -141,7 +141,7 @@
                     <i class="remove icon"></i>
                     İptal
                 </div>
-                <h:commandLink action="#{doctorBean.deleteUser(uiBean.selectedUser)}">
+                <h:commandLink action="#{patientBean.deleteUser(uiBean.selectedUser)}">
                     <div class="ui green ok inverted button">
                         <i class="checkmark icon"></i>
                         Sil

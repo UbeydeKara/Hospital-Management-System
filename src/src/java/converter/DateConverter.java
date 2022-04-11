@@ -22,16 +22,22 @@ public class DateConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
+        if(string != null && string.length() > 0) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDate = LocalDate.parse(string, formatter);
         return localDate;
+        }
+        return "";
     }
 
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object t) {
+        if(t != null) {
         LocalDate localDate = (LocalDate) t;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return localDate.format(formatter);
+        }
+        return null;
     }
 
 }

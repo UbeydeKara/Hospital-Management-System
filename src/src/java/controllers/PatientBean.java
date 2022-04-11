@@ -1,13 +1,10 @@
 package controllers;
 
 import dao.PatientDAO;
-import dao.UserDAO;
 import entities.Privilege;
 import entities.Patient;
-import entities.User;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -27,6 +24,7 @@ public class PatientBean implements Serializable {
     private Patient patient;
     private List<Patient> list;
     private Integer pageNumber = 0;
+    private Integer pageSize = 8;
     private String searchText;
 
     public Patient getPatient() {
@@ -66,7 +64,6 @@ public class PatientBean implements Serializable {
 
     public String register(Boolean isRegister) {
         patientDao.register(patient, isRegister);
-        this.patient = new Patient();
 
         return "patient/profile?faces-redirect=true";
     }
@@ -75,7 +72,7 @@ public class PatientBean implements Serializable {
         patientDao.register(patient, true);
         this.patient = new Patient();
 
-        return "list";
+        return "dashboard";
     }
 
     public void findByEmail() {
@@ -83,10 +80,9 @@ public class PatientBean implements Serializable {
     }
 
     public String login() {
-        Patient lpatient = patientDao.login(patient);
-        if (lpatient != null) {
-            this.patient = lpatient;
-            String xx = patient.getEmail();
+        Patient logged_patient = patientDao.login(patient);
+        if (logged_patient != null) {
+            this.patient = logged_patient;
             return "patient/profile?faces-redirect=true";
         }
 
@@ -105,8 +101,8 @@ public class PatientBean implements Serializable {
 
     public List<Patient> getList() {
         if(searchText == null || searchText.length() == 0)
-            return this.patientDao.findAll(pageNumber);
-        return this.list;
+            return this.patientDao.findAll(pageNumber, pageSize);
+        return patientDao.findByName(searchText);
     }
 
     public void setList(List<Patient> list) {
