@@ -15,11 +15,11 @@
 ### TODO
 
 - [x] CRUD Operations
-- [ ] Login/Register
-  - [ ] Login as Doctor
-  - [ ] Login as Patient
+- [x] Login/Register
+  - [x] Login as Doctor
+  - [x] Login as Patient
   - [x] Login as Supervisor
-- [ ] Dashboard Page
-  - [ ] Dashboard for Doctor
-  - [ ] Dashboard for Patient
-  - [ ] Dashboard for Supervisor
+- [x] Dashboard Page
+  - [x] Dashboard for Doctor
+  - [x] Dashboard for Patient
+  - [x] Dashboard for Supervisor
