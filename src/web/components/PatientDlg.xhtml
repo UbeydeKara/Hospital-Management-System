@@ -9,43 +9,66 @@
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition>
-        <div class="ui tiny modal">
+        <div class="ui tiny modal" id="p_dlg">
             <h:panelGroup layout="block" class="header">
                 <i class="mdi mdi-account-plus-outline mdi-24px"/>
-                <h:outputText value="#{patientBean.patient.id != null ? ' Bilgileri Güncelle' : ' Doktor Ekle'}" />
+                <h:outputText value="#{patientBean.patient.id != null ? ' Bilgileri Güncelle' : 'Hasta Ekle'}" />
             </h:panelGroup>
             <div class="content">
                 <h:form class="ui form p-2" id="dialog">
-                    <div class="field mb-1">
-                        <label>Ad Soyad</label>
-                        <div class='ui left icon input'>
-                            <h:inputText value="#{patientBean.patient.fullname}" p:placeholder="Ad Soyad"/>
-                            <i class="mdi mdi-account-outline mdi-18px icon"/>
+                    <h:outputScript>initForm();</h:outputScript>
+                    <div class="field">
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Ad Soyad</label>
+                            <h:inputText value='#{patientBean.patient.fullname}' p:placeholder="Ad Soyad"/>
+                        </div>
+                        <div class="field">
+                            <label>E-Posta</label>
+                            <h:inputText value='#{patientBean.patient.email}' disabled="true"/>
                         </div>
                     </div>
 
-                    <div class="field mb-1">
-                        <label>E-Posta Adresi</label>
-                        <div class='ui left icon input'>
-                            <h:inputText value="#{patientBean.patient.email}" p:data-validate="email" p:placeholder="E-Posta Adresiniz"/>
-                            <i class="mdi mdi-email-outline mdi-18px icon"/>
+                    <label>Doğum Tarihi</label>
+                    <div class="field">
+                        <div class="ui calendar" id="type_calendar" data-type="date">
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                <h:inputText value='#{patientBean.patient.birth_date}' converter='dateConverter' p:placeholder="Tarih seç">
+                                </h:inputText>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="field mb-1">
-                        <label>Parola</label>
-                        <div class='ui left icon input'>
-                            <h:inputSecret value="#{patientBean.patient.password}" redisplay="true" p:data-validate="password" p:autocomplete="new-password" p:placeholder="Parola"/>
-                            <i class="mdi mdi-lock-outline mdi-18px icon"/>
-                        </div>
-                    </div>
-
-                    <div class="field mb-1">
-                        <label>Yetki</label>
-                        <h:selectOneMenu value="#{patientBean.patient.privilege}" converter="genericConverter" class="ui fluid dropdown" p:id="select">
-                            <f:selectItems value="#{patientBean.roleList}" var="p" itemValue="#{p}" itemLabel="#{p.role}"/>
+                    <label>Cinsiyet</label>
+                    <div class="field">
+                        <h:selectOneMenu value="#{patientBean.patient.sex}" class="ui fluid dropdown">
+                            <f:selectItem itemLabel="Erkek" itemValue="Erkek"/>
+                            <f:selectItem itemLabel="Kadın" itemValue="Kadın"/>
                         </h:selectOneMenu>
                     </div>
+
+                    <label>Adres</label>
+                    <div class="two fields">
+                        <div class="field">
+                            <h:selectOneMenu value="#{patientBean.patient.city}" converter="genericConverter" class="ui fluid dropdown">
+                                <f:selectItems value="#{cityBean.list}" var="c" itemValue="#{c}" itemLabel="#{c.name}"/>
+                                    <f:ajax execute="@form" render="@form" />
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="field">
+                            <h:selectOneMenu value="#{patientBean.patient.district}" converter="genericConverter" class="ui fluid dropdown">
+                                <f:selectItems value="#{patientBean.patient.city.districts}" var="d" itemValue="#{d}" itemLabel="#{d.name}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+
+                    <label>Telefon</label>
+                    <div class="field">
+                        <h:inputText value='#{patientBean.patient.phone}' p:placeholder="Telefon"/>
+                    </div>
+                    
+                </div>
                     <h:panelGroup layout="block" class="actions">
                         <div class="ui black deny button">İptal</div>
                         <c:choose>
@@ -66,13 +89,6 @@
                     </h:panelGroup>
                 </h:form>
             </div>
-            <!--            <div class="actions">
-                            <div class="ui black deny button">İptal</div>
-                            <h:commandLink class="ui positive right labeled icon button" action="#{patientBean.add()}">
-                                <i class="checkmark icon"></i>Ekle
-                                <f:ajax execute="@all" render="list_form" />
-                            </h:commandLink>
-                        </div>-->
         </div>
     </ui:composition>
 </html>

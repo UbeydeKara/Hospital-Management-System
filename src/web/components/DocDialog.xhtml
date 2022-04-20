@@ -16,42 +16,74 @@
             </h:panelGroup>
             <div class="content">
                 <h:form class="ui form p-2" id="dialog">
-                    <div class="field mb-1">
-                        <label>Ad Soyad</label>
-                        <div class='ui left icon input'>
-                            <h:inputText value="#{doctorBean.doctor.fullname}" p:placeholder="Ad Soyad"/>
-                            <i class="mdi mdi-account-outline mdi-18px icon"/>
+                    <h:outputScript>initForm();</h:outputScript>
+                    <div class="field">
+                        <div class="two fields">
+                        <div class="field">
+                            <label>Ad Soyad</label>
+                            <h:inputText value='#{doctorBean.doctor.fullname}' p:placeholder="Ad Soyad"/>
+                        </div>
+                        <div class="field">
+                            <label>E-Posta</label>
+                            <h:inputText value='#{doctorBean.doctor.email}' disabled="true"/>
                         </div>
                     </div>
 
-                    <div class="field mb-1">
-                        <label>E-Posta Adresi</label>
-                        <div class='ui left icon input'>
-                            <h:inputText value="#{doctorBean.doctor.email}" p:data-validate="email" p:placeholder="E-Posta Adresiniz"/>
-                            <i class="mdi mdi-email-outline mdi-18px icon"/>
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Doğum Tarihi</label>
+                            <div class="ui calendar" id="type_calendar" data-type="date">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <h:inputText value='#{doctorBean.doctor.birth_date}' converter='dateConverter' p:placeholder="Tarih seç">
+                                    </h:inputText>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>Cinsiyet</label>
+                            <h:selectOneMenu value="#{doctorBean.doctor.sex}" class="ui fluid dropdown" p:id="select">
+                                <f:selectItem itemLabel="Erkek" itemValue="Erkek"/>
+                                <f:selectItem itemLabel="Kadın" itemValue="Kadın"/>
+                            </h:selectOneMenu>
                         </div>
                     </div>
 
-                    <div class="field mb-1">
-                        <label>Parola</label>
-                        <div class='ui left icon input'>
-                            <h:inputSecret value="#{doctorBean.doctor.password}" redisplay="true" p:data-validate="password" p:autocomplete="new-password" p:placeholder="Parola"/>
-                            <i class="mdi mdi-lock-outline mdi-18px icon"/>
+                    <label>Adres</label>
+                    <div class="two fields">
+                        <div class="field">
+                            <h:selectOneMenu value="#{doctorBean.doctor.city}" converter="genericConverter" class="ui fluid dropdown">
+                                <f:selectItems value="#{cityBean.list}" var="c" itemValue="#{c}" itemLabel="#{c.name}"/>
+                                <f:ajax execute="@form" render="@form" />
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="field">
+                            <h:selectOneMenu value="#{doctorBean.doctor.district}" converter="genericConverter" class="ui fluid dropdown"
+                                             style="text-transform: lowercase;">
+                                <f:selectItems value="#{patientBean.patient.city.districts}" var="d" itemValue="#{d}" itemLabel="#{d.name}"/>
+                            </h:selectOneMenu>
                         </div>
                     </div>
 
-                    <div class="field mb-1">
-                        <label>Yetki</label>
-                        <h:selectOneMenu value="#{doctorBean.doctor.privilege}" converter="genericConverter" class="ui fluid dropdown" p:id="select">
-                            <f:selectItems value="#{doctorBean.roleList}" var="p" itemValue="#{p}" itemLabel="#{p.role}"/>
-                        </h:selectOneMenu>
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Telefon</label>
+                            <h:inputText value='#{doctorBean.doctor.phone}' p:placeholder="Telefon"/>
+                        </div>
+
+                        <div class="field">
+                            <label>Uzmanlık</label>
+                            <h:inputText value='#{doctorBean.doctor.specialty}' p:placeholder="Uzmanlık"/>
+                        </div>
+                    </div>
                     </div>
                     <h:panelGroup layout="block" class="actions">
                         <div class="ui black deny button">İptal</div>
                         <c:choose>
                             <c:when test="#{doctorBean.doctor.id != null}">
                                 <h:commandLink class="ui blue right labeled icon button" action="#{doctorBean.updateDoctor()}"
-                                                onclick="$('.ui.tiny.modal').modal('hide');">
+                                               onclick="$('.ui.tiny.modal').modal('hide');">
                                     <i class="checkmark icon"></i>Kaydet
                                     <f:ajax execute="@form" render="list_form" />
                                 </h:commandLink>
@@ -66,13 +98,6 @@
                     </h:panelGroup>
                 </h:form>
             </div>
-            <!--            <div class="actions">
-                            <div class="ui black deny button">İptal</div>
-                            <h:commandLink class="ui positive right labeled icon button" action="#{doctorBean.add()}">
-                                <i class="checkmark icon"></i>Ekle
-                                <f:ajax execute="@all" render="list_form" />
-                            </h:commandLink>
-                        </div>-->
         </div>
     </ui:composition>
 </html>

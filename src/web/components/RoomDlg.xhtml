@@ -1,0 +1,51 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"   
+      xmlns:ui = "http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition>
+        <div class="ui tiny modal" id="room_dlg">
+            <h:panelGroup layout="block" class="header">
+                <i class="mdi mdi-account-plus-outline mdi-24px"/>
+                <h:outputText value="Hasta Oda Kayıt" />
+            </h:panelGroup>
+            <div class="content">
+                <h:form class="ui form p-2" id="r_dialog">
+                    <div class="field mb-1">
+                        <label>Kimlik Numarası</label>
+                        <div class='ui left icon input'>
+                            <h:inputText value="#{patientBean.patient.identity_no}" maxlength="11" p:placeholder="Kimlik Numarası"/>
+                            <i class="mdi mdi-account-outline mdi-18px icon"/>
+                        </div>
+                    </div>
+
+                    <div class="field mb-1">
+                        <label>Oda No</label>
+                        <div class='ui left icon input'>
+                            <h:inputText value="#{patientBean.patient.room}" p:placeholder="Oda No"/>
+                            <i class="mdi mdi-email-outline mdi-18px icon"/>
+                        </div>
+                    </div>
+
+                    <div class="field mb-1">
+                        <label>Yatak No</label>
+                        <div class='ui left icon input'>
+                            <h:inputText value="#{patientBean.patient.bed_no}" p:placeholder="Yatak No"/>
+                            <i class="mdi mdi-lock-outline mdi-18px icon"/>
+                        </div>
+                    </div>
+                    <h:commandLink class="ui blue right labeled icon button" action="#{patientBean.updatePatient()}"
+                                   onclick="$('.ui.tiny.modal').modal('hide');">
+                        <i class="checkmark icon"></i>Kaydet
+                        <f:ajax execute="@form" render="list_form" />
+                    </h:commandLink>
+                </h:form>
+            </div>
+        </div>
+    </ui:composition>
+</html>

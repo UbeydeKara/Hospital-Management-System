@@ -43,42 +43,44 @@ public class UserDAO {
                 session.setAttribute("user", (Supervisor) user);
                 return user;
             }
-        } else
+        } else {
             FacesContext.getCurrentInstance().addMessage(
                     "response",
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
                             "Bilgileriniz Hatalı",
                             null));
+        }
         return null;
 
     }
 
     public void register(Supervisor entity, Boolean isRegister) {
-
-        if (isRegister) {
-            Supervisor user = isUserExists(entity);
-            if (user == null) {
-                entity.setIs_confirmed(false);
-                em.persist(entity);
+        if (entity.getEmail() != null) {
+            if (isRegister) {
+                Supervisor user = isUserExists(entity);
+                if (user == null) {
+                    entity.setIs_confirmed(false);
+                    em.persist(entity);
+                    FacesContext.getCurrentInstance().addMessage(
+                            "response",
+                            new FacesMessage(FacesMessage.SEVERITY_INFO,
+                                    "Kayıt Başarılı. Giriş yapabilmek için hesabınızın onaylanmasını bekleyin.",
+                                    null));
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(
+                            "response",
+                            new FacesMessage(FacesMessage.SEVERITY_WARN,
+                                    "Bu kullanıcı zaten kayıtlı",
+                                    null));
+                }
+            } else {
+                em.merge(entity);
                 FacesContext.getCurrentInstance().addMessage(
                         "response",
                         new FacesMessage(FacesMessage.SEVERITY_INFO,
-                                "Kayıt Başarılı. Giriş yapabilmek için hesabınızın onaylanmasını bekleyin.",
-                                null));
-            } else {
-                FacesContext.getCurrentInstance().addMessage(
-                        "response",
-                        new FacesMessage(FacesMessage.SEVERITY_WARN,
-                                "Bu kullanıcı zaten kayıtlı",
+                                "Kayıt Güncellendi",
                                 null));
             }
-        } else {
-            em.merge(entity);
-            FacesContext.getCurrentInstance().addMessage(
-                    "response",
-                    new FacesMessage(FacesMessage.SEVERITY_INFO,
-                            "Kayıt Güncellendi",
-                            null));
         }
     }
 
@@ -133,8 +135,8 @@ public class UserDAO {
     }
 
     public void updateVisor(Supervisor entity) {
-        if(entity.getEmail() != null) {
-        em.merge(entity);
+        if (entity.getEmail() != null) {
+            em.merge(entity);
             FacesContext.getCurrentInstance().addMessage(
                     "response",
                     new FacesMessage(FacesMessage.SEVERITY_INFO,

@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  *
- * @author ubeyde
+ * @author vasim
  *
  *
  */
@@ -46,7 +46,7 @@ public class DoctorDAO {
     }
 
     public void register(Doctor entity, Boolean isRegister) {
-        if (!entity.getEmail().isEmpty()) {
+        if (entity.getEmail() != null) {
             if (isRegister) {
                 Doctor doctor = isDoctorExists(entity);
                 if (doctor == null) {

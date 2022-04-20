@@ -39,13 +39,6 @@
                             <i class="mdi mdi-lock-outline mdi-18px icon"/>
                         </div>
                     </div>
-
-                    <div class="field mb-1">
-                        <label>Yetki</label>
-                        <h:selectOneMenu value="#{userBean.visor.privilege}" converter="genericConverter" class="ui fluid dropdown" p:id="select">
-                            <f:selectItems value="#{userBean.roleList}" var="p" itemValue="#{p}" itemLabel="#{p.role}"/>
-                        </h:selectOneMenu>
-                    </div>
                     <h:panelGroup layout="block" class="actions">
                         <div class="ui black deny button">İptal</div>
                         <c:choose>

@@ -63,11 +63,6 @@ public class DoctorBean implements Serializable {
     }
 
     public String register(Boolean isRegister) {
-        Privilege privilege = new Privilege();
-        Short id = 1;
-        privilege.setId(id);
-        privilege.setRole("Doktor");
-        doctor.setPrivilege(privilege);
         doctorDao.register(doctor, isRegister);
 
         return "doctor/profile?faces-redirect=true";
