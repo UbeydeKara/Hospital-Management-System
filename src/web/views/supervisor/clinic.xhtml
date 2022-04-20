@@ -23,25 +23,25 @@
             </h:outputScript>
             <div class="pt-2 is-flex mx-5 mb-4">
                 <div class="column">
-                    <h2>Hasta Listesi</h2>
+                    <h2>Klinik Listesi</h2>
                     <div class="ui breadcrumb">
                         <a class="section">Kontrol Paneli</a>
                         <i class="right angle icon divider"></i>
-                        <div class="section">Hastalar</div>
+                        <div class="section">Klinikler</div>
                     </div>
                 </div>
                 <div class="ml-auto mt-auto is-flex">
 
                     <div class="ui search">
                         <div class="ui icon input">
-                            <h:inputText class="prompt" p:placeholder="İsim ara" value="#{patientBean.searchText}"
+                            <h:inputText class="prompt" p:placeholder="İsim ara" value="#{userBean.searchText}"
                                          onkeypress="if (event.keyCode == 13) { onchange(); return false; }">
                                 <f:ajax event="change" render="@form" />
                             </h:inputText>
                             <i class="search icon"></i>
                         </div>
                     </div>
-                    <h:commandLink class="ui teal button ml-1" onclick="$('.ui.tiny.modal').modal('show');" action="#{patientBean.setPatient(null)}">
+                    <h:commandLink class="ui teal button ml-1" onclick="$('.ui.tiny.modal').modal('show');" action="#{userBean.setVisor(null)}">
                         <i class="plus icon"></i>
                         Kayıt Ekle
                                         <f:ajax execute="@form" render="dialog" />
@@ -53,46 +53,45 @@
                     <h:outputScript rendered="#{uiBean.hasMessage}">
                         sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
                     </h:outputScript>
-                    <h:dataTable value="#{patientBean.getList()}" var="patient"
+                    <h:dataTable value="#{userBean.getList()}" var="user"
                                  styleClass="ui very basic table striped m-0">
                         <h:column>    				
                             <f:facet name = "header">#</f:facet>    				
-                                #{patient.id}
+                                #{user.id}
                         </h:column>
 
                         <h:column>
                             <f:facet name = "header">Ad Soyad</f:facet>
-                                #{patient.fullname}
+                                #{user.fullname}
                         </h:column>
 
                         <h:column>
-                            <f:facet name = "header">Kimlik Numarası</f:facet>
-                                #{patient.identity_no != null ? patient.identity_no : "Kayıt Yok"}
+                            <f:facet name = "header">E-Posta</f:facet>
+                                #{user.email}
                         </h:column>
 
                         <h:column>
-                            <f:facet name = "header">Cinsiyet</f:facet>
-                                #{patient.sex != null ? patient.sex : "Kayıt Yok"}
+                            <f:facet name = "header">Parola</f:facet>
+                                #{user.password}
                         </h:column>
 
                         <h:column>
-                            <f:facet name = "header">Yaş</f:facet>
-                                #{patient.age != null ? patient.age : "Kayıt Yok"}
+                            <f:facet name = "header">Yetki</f:facet>
+                                #{user.privilege.role}
                         </h:column>
 
                         <h:column>
-                            <f:facet name = "header">Doğum Yılı</f:facet>
-                                #{patient.birth_date != null ? patient.birth_date : "Kayıt Yok"}
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name = "header">Oda No</f:facet>
-                                #{patient.room != null ? patient.room : "Kayıt Yok"}
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name = "header">Yatak No</f:facet>
-                                #{patient.bed_no != null ? patient.bed_no : "Kayıt Yok"}
+                            <f:facet name = "header">Durum</f:facet>
+                                <h:panelGroup rendered="#{user.is_confirmed}">
+                                    <div class="ui green basic label">
+                                        <i class="checkmark icon"></i> Onaylandı
+                                    </div>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{!user.is_confirmed}">
+                                    <div class="ui yellow basic label">
+                                        <i class="attention icon"></i> Onay Bekliyor
+                                    </div>
+                                </h:panelGroup>
                         </h:column>
 
                         <h:column>
@@ -100,18 +99,26 @@
                             <div class="ui dropdown">
                                 <i class="ellipsis horizontal large grey icon"></i>
                                 <div class="menu">
-                                    <h:commandLink class="item"
-                                                   onclick="$('#room_dlg').modal('show');" action="#{patientBean.setPatient(patient)}">
-                                        <f:ajax execute="@form" render="r_dialog" />
-                                        <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Oda Kayıt
+                                    
+                                <h:panelGroup rendered="#{user.is_confirmed}">
+                                    <h:commandLink class="item" action="#{userBean.updateStatus(user)}">
+                                        <f:ajax execute="@form" render="@form" />
+                                        <i class="mdi mdi-window-close mdi-18px" style="margin-right: 0.7rem"></i>Onayı Kaldır
                                     </h:commandLink>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{!user.is_confirmed}">
+                                    <h:commandLink class="item" action="#{userBean.updateStatus(user)}">
+                                        <f:ajax execute="@form" render="@form" />
+                                        <i class="mdi mdi-check mdi-18px" style="margin-right: 0.7rem"></i>Onayla
+                                    </h:commandLink>
+                                </h:panelGroup>
                                     <h:commandLink class="item"
-                                                   onclick="$('#p_dlg').modal('show');" action="#{patientBean.setPatient(patient)}">
+                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{userBean.setVisor(user)}">
                                         <f:ajax execute="@form" render="dialog" />
                                         <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Düzenle
                                     </h:commandLink>
                                     <h:commandLink class="item"
-                                                   onclick="$('.ui.basic.modal').modal('show');" action="#{uiBean.setSelectedUser(patient)}">
+                                                   onclick="$('.ui.basic.modal').modal('show');" action="#{uiBean.setSelectedUser(user)}">
                                         <f:ajax execute="@form" render="@form" />
                                         <span class="ui error text">
                                             <i class="mdi mdi-delete-outline mdi-18px" style="margin-right: 0.7rem"></i>Sil
@@ -124,23 +131,23 @@
                 </div>
                 <div class="row" style="align-items: center; align-self: flex-end">
                     <div class="description">
-                        <p>Toplam #{patientBean.userCount} kayıttan #{patientBean.list.size()} adet gösteriliyor</p>
+                        <p>Toplam #{userBean.userCount} kayıttan #{userBean.list.size()} adet gösteriliyor</p>
                     </div>
                     <div class="ml-auto">
-                        <h:commandLink action="#{patientBean.setPageNumber(patientBean.pageNumber-1)}">
+                        <h:commandLink action="#{userBean.setPageNumber(userBean.pageNumber-1)}">
                             <i class="left grey chevron icon"></i>
                                     <f:ajax render="@form" onevent="pulse"/>
                         </h:commandLink>
                         <div class="ui pagination teal borderless menu mx-1 rounded">
-                            <c:forEach var="index" begin="0" end="#{patientBean.totalPage-1}">
-                                <h:commandLink action="#{patientBean.setPageNumber(index)}"
-                                               class="#{patientBean.pageNumber == index ? 'item rounded active' : 'item rounded'}">
+                            <c:forEach var="index" begin="0" end="#{userBean.totalPage-1}">
+                                <h:commandLink action="#{userBean.setPageNumber(index)}"
+                                               class="#{userBean.pageNumber == index ? 'item rounded active' : 'item rounded'}">
                                     #{index + 1}
                                     <f:ajax render="@form" onevent="pulse"/>
                                 </h:commandLink>
                             </c:forEach>
                         </div>
-                        <h:commandLink action="#{patientBean.setPageNumber(patientBean.pageNumber+1)}">
+                        <h:commandLink action="#{userBean.setPageNumber(userBean.pageNumber+1)}">
                             <i class="right grey chevron icon"></i>
                                     <f:ajax render="@form" onevent="pulse"/>
                         </h:commandLink>
@@ -148,14 +155,9 @@
                 </div>
             </div>
         </h:form>
-        <ui:insert name="p_dlg" >
-            <ui:include src="/components/PatientDlg.xhtml"/>
+        <ui:insert name="dialogModal" >
+            <ui:include src="/components/DialogModal.xhtml"/>
         </ui:insert>
-        
-        <ui:insert name="r_dlg" >
-            <ui:include src="/components/RoomDlg.xhtml"/>
-        </ui:insert>
-        
         <div class="ui basic modal">
             <div class="ui icon header">
                 <i class="archive icon"></i>
@@ -166,7 +168,7 @@
                     <i class="remove icon"></i>
                     İptal
                 </div>
-                <h:commandLink action="#{patientBean.deleteUser(uiBean.selectedUser)}">
+                <h:commandLink action="#{userBean.deleteUser(uiBean.selectedUser)}">
                     <div class="ui green ok inverted button">
                         <i class="checkmark icon"></i>
                         Sil

@@ -50,10 +50,11 @@
                         <i class="mdi mdi-face-mask-outline mdi-24px"></i>
                     </span>
                 </h:commandLink>
-                <h:commandLink class="item my-1" action="#{userBean.logout()}"
-                               p:data-content="Oturumu Kapat" p:data-position="right center">
-                    <span class="ui disabled text">
-                        <i class="mdi mdi-logout-variant mdi-24px"></i>
+                <h:commandLink class="item my-1" action="#{userBean.setCurrentPage(4)}"
+                               p:data-content="Klinikler" p:data-position="right center">
+                    <f:ajax render="template"/>
+                    <span id="1" class="ui text  #{userBean.currentPage != 4 ? 'disabled' : ''}">
+                        <i class="mdi mdi-face-mask-outline mdi-24px"></i>
                     </span>
                 </h:commandLink>
             </h:form>

@@ -17,6 +17,7 @@
         <script src="../../js/fade.js"></script>
         <script src="../../js/validation.js"></script>
         <script src="../../js/hms.js"></script>
+        <script src="../../js/calendar.js"></script>
         <title>HMS - Kontrol Paneli</title>
     </h:head>
     <h:body>
@@ -43,6 +44,11 @@
                 <c:when test="#{userBean.currentPage == 3}">
                     <ui:insert name = "p_list">
                         <ui:include src = "p_list.xhtml" />
+                    </ui:insert>
+                </c:when>
+                <c:when test="#{userBean.currentPage == 4}">
+                    <ui:insert name = "c_list">
+                        <ui:include src = "clinic.xhtml" />
                     </ui:insert>
                 </c:when>
             </c:choose>

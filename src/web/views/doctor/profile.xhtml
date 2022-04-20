@@ -29,31 +29,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                 <h:outputScript rendered="#{uiBean.hasMessage}">
                     sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
                 </h:outputScript>
-                <h:outputScript>
-                $('.ui.dropdown').dropdown();
-$('#type_calendar')
-        .calendar({
-            text: {
-                days: ['Pts', 'Sal', 'Çar', 'Per', 'Cum', 'Cts', 'Paz'],
-                months: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
-                monthsShort: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'],
-                today: 'Bugün',
-                now: 'Şimdi',
-                am: 'AM',
-                pm: 'PM'
-            },
-            formatter: {
-                date: function (date, settings) {
-                    if (!date)
-                        return '';
-                    var day = date.getDate();
-                    var month = date.getMonth() + 1;
-                    var year = date.getFullYear();
-                    return year + '-' + ("0" + month).slice(-2) + '-' + ("0" + day).slice(-2);
-                }
-            }
-        });
-                </h:outputScript>
+                <h:outputScript>initForm();</h:outputScript>
                 <h4 class="ui dividing header">Profil Bilgilerinizi Tamamlayın</h4>
                 <div class="field">
                     <div class="two fields">
@@ -67,23 +43,25 @@ $('#type_calendar')
                         </div>
                     </div>
 
-                    <label>Doğum Tarihi</label>
-                    <div class="field">
-                        <div class="ui calendar" id="type_calendar" data-type="date">
-                            <div class="ui input left icon">
-                                <i class="calendar icon"></i>
-                                <h:inputText value='#{doctorBean.doctor.birth_date}' converter='dateConverter' p:placeholder="Tarih seç">
-                                </h:inputText>
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Doğum Tarihi</label>
+                            <div class="ui calendar" id="type_calendar" data-type="date">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <h:inputText value='#{doctorBean.doctor.birth_date}' converter='dateConverter' p:placeholder="Tarih seç">
+                                    </h:inputText>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <label>Cinsiyet</label>
-                    <div class="field">
-                        <h:selectOneMenu value="#{doctorBean.doctor.sex}" class="ui fluid dropdown" p:id="select">
-                            <f:selectItem itemLabel="Erkek" itemValue="Erkek"/>
-                            <f:selectItem itemLabel="Kadın" itemValue="Kadın"/>
-                        </h:selectOneMenu>
+                        <div class="field">
+                            <label>Cinsiyet</label>
+                            <h:selectOneMenu value="#{doctorBean.doctor.sex}" class="ui fluid dropdown" p:id="select">
+                                <f:selectItem itemLabel="Erkek" itemValue="Erkek"/>
+                                <f:selectItem itemLabel="Kadın" itemValue="Kadın"/>
+                            </h:selectOneMenu>
+                        </div>
                     </div>
 
                     <label>Adres</label>
@@ -91,7 +69,7 @@ $('#type_calendar')
                         <div class="field">
                             <h:selectOneMenu value="#{doctorBean.doctor.city}" converter="genericConverter" class="ui fluid dropdown">
                                 <f:selectItems value="#{cityBean.list}" var="c" itemValue="#{c}" itemLabel="#{c.name}"/>
-                                    <f:ajax execute="@form" render="@form" />
+                                <f:ajax execute="@form" render="@form" />
                             </h:selectOneMenu>
                         </div>
                         <div class="field">
@@ -100,15 +78,18 @@ $('#type_calendar')
                                 <f:selectItems value="#{patientBean.patient.city.districts}" var="d" itemValue="#{d}" itemLabel="#{d.name}"/>
                             </h:selectOneMenu>
                         </div>
-
-                    <label>Telefon</label>
-                    <div class="field">
-                        <h:inputText value='#{doctorBean.doctor.phone}' p:placeholder="Telefon"/>
                     </div>
 
-                    <label>Uzmanlık</label>
-                    <div class="field">
-                        <h:inputText value='#{doctorBean.doctor.specialty}' p:placeholder="Uzmanlık"/>
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Telefon</label>
+                            <h:inputText value='#{doctorBean.doctor.phone}' p:placeholder="Telefon"/>
+                        </div>
+
+                        <div class="field">
+                            <label>Uzmanlık</label>
+                            <h:inputText value='#{doctorBean.doctor.specialty}' p:placeholder="Uzmanlık"/>
+                        </div>
                     </div>
 
                     <h:commandButton class='ui button teal' action='#{doctorBean.updateDoctor()}' value="Kaydet">

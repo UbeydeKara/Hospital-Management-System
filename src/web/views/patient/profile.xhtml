@@ -29,31 +29,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                 <h:outputScript rendered="#{uiBean.hasMessage}">
                     sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
                 </h:outputScript>
-                <h:outputScript>
-                $('.ui.dropdown').dropdown();
-$('#type_calendar')
-        .calendar({
-            text: {
-                days: ['Pts', 'Sal', 'Çar', 'Per', 'Cum', 'Cts', 'Paz'],
-                months: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
-                monthsShort: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'],
-                today: 'Bugün',
-                now: 'Şimdi',
-                am: 'AM',
-                pm: 'PM'
-            },
-            formatter: {
-                date: function (date, settings) {
-                    if (!date)
-                        return '';
-                    var day = date.getDate();
-                    var month = date.getMonth() + 1;
-                    var year = date.getFullYear();
-                    return year + '-' + ("0" + month).slice(-2) + '-' + ("0" + day).slice(-2);
-                }
-            }
-        });
-                </h:outputScript>
+                <h:outputScript>initForm();</h:outputScript>
                 <h4 class="ui dividing header">Profil Bilgilerinizi Tamamlayın</h4>
                 <div class="field">
                     <div class="two fields">
