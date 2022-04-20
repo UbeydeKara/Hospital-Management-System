@@ -30,21 +30,32 @@ public class AuthorizationFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpSession session = request.getSession(false);
         User user = (session != null) ? (User) session.getAttribute("user") : null;
-        String loginURL = request.getContextPath() + "/views/signin.xhtml"; 
-        String registerURL = request.getContextPath() + "/views/signup.xhtml"; 
-        String dashboardURL = request.getContextPath() + "/views/supervisor/dashboard.xhtml"; 
-        String docURL = request.getContextPath() + "doctor/profile.xhtml"; 
+        String loginURL = request.getContextPath() + "/views/signin.xhtml";
+        String registerURL = request.getContextPath() + "/views/signup.xhtml";
+        String dashboardURL = request.getContextPath() + "/views/supervisor/dashboard.xhtml";
+        String docURL = request.getContextPath() + "/views/doctor/profile.xhtml";
+        String patURL = request.getContextPath() + "/views/patient/profile.xhtml";
 
-        if (user == null && request.getRequestURI().equals(dashboardURL) || request.getRequestURI().equals(docURL)) {       
-            response.sendRedirect(loginURL);
+        if (request.getRequestURI().equals(dashboardURL)
+                || request.getRequestURI().equals(docURL) || request.getRequestURI().equals(patURL)) {
+            if (user == null) {
+                response.sendRedirect(loginURL);
+            } else {
+            chain.doFilter(request, response);
         }
-        else if(user != null && (request.getRequestURI().equals(loginURL) || request.getRequestURI().equals(registerURL))) {
-            if(user.getPrivilege().getId() == 2)
-                response.sendRedirect(docURL);
-            else
-                response.sendRedirect(dashboardURL);
+        } else if (request.getRequestURI().equals(loginURL) || request.getRequestURI().equals(registerURL)) {
+            if (user != null) {
+                if (user.getPrivilege().getId() == 1) {
+                    response.sendRedirect(dashboardURL);
+                } else if (user.getPrivilege().getId() == 2) {
+                    response.sendRedirect(docURL);
+                } else {
+                    response.sendRedirect(patURL);
+                }
+            } else {
+            chain.doFilter(request, response);
         }
-        else {
+        } else {
             chain.doFilter(request, response);
         }
     }

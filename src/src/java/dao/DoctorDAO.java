@@ -2,7 +2,6 @@ package dao;
 
 import entities.Privilege;
 import entities.Doctor;
-import entities.Doctor;
 import jakarta.ejb.Stateless;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -47,30 +46,31 @@ public class DoctorDAO {
     }
 
     public void register(Doctor entity, Boolean isRegister) {
-
-        if (isRegister) {
-            Doctor doctor = isDoctorExists(entity);
-            if (doctor == null) {
-                em.persist(entity);
+        if (!entity.getEmail().isEmpty()) {
+            if (isRegister) {
+                Doctor doctor = isDoctorExists(entity);
+                if (doctor == null) {
+                    em.persist(entity);
+                    FacesContext.getCurrentInstance().addMessage(
+                            "response",
+                            new FacesMessage(FacesMessage.SEVERITY_INFO,
+                                    "Kayıt Başarılı",
+                                    null));
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(
+                            "response",
+                            new FacesMessage(FacesMessage.SEVERITY_WARN,
+                                    "Bu kullanıcı zaten kayıtlı",
+                                    null));
+                }
+            } else {
+                em.merge(entity);
                 FacesContext.getCurrentInstance().addMessage(
                         "response",
                         new FacesMessage(FacesMessage.SEVERITY_INFO,
-                                "Kayıt Başarılı",
-                                null));
-            } else {
-                FacesContext.getCurrentInstance().addMessage(
-                        "response",
-                        new FacesMessage(FacesMessage.SEVERITY_WARN,
-                                "Bu kullanıcı zaten kayıtlı",
+                                "Kayıt Güncellendi",
                                 null));
             }
-        } else {
-            em.merge(entity);
-            FacesContext.getCurrentInstance().addMessage(
-                    "response",
-                    new FacesMessage(FacesMessage.SEVERITY_INFO,
-                            "Kayıt Güncellendi",
-                            null));
         }
     }
 
@@ -90,10 +90,10 @@ public class DoctorDAO {
         Query query = em.createQuery(criteriaQuery);
         return query.getResultList();
     }
-    
+
     public void updateDoctor(Doctor entity) {
-        if(entity.getEmail() != null) {
-        em.merge(entity);
+        if (entity.getEmail() != null) {
+            em.merge(entity);
             FacesContext.getCurrentInstance().addMessage(
                     "response",
                     new FacesMessage(FacesMessage.SEVERITY_INFO,

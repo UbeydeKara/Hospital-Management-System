@@ -47,7 +47,7 @@ public class PatientDAO {
     }
 
     public void register(Patient entity, Boolean isRegister) {
-
+        if (entity.getEmail() != null) {
         if (isRegister) {
             Patient patient = isPatientExists(entity);
             if (patient == null) {
@@ -71,6 +71,7 @@ public class PatientDAO {
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Kayıt Güncellendi",
                             null));
+        }
         }
     }
 

@@ -80,7 +80,7 @@ $('#type_calendar')
 
                     <label>Cinsiyet</label>
                     <div class="field">
-                        <h:selectOneMenu value="#{patientBean.patient.sex}" class="ui fluid dropdown" p:id="select">
+                        <h:selectOneMenu value="#{patientBean.patient.sex}" class="ui fluid dropdown">
                             <f:selectItem itemLabel="Erkek" itemValue="Erkek"/>
                             <f:selectItem itemLabel="Kadın" itemValue="Kadın"/>
                         </h:selectOneMenu>
@@ -89,10 +89,16 @@ $('#type_calendar')
                     <label>Adres</label>
                     <div class="two fields">
                         <div class="field">
-                            <h:inputText value='#{patientBean.patient.city}' p:placeholder="Şehir"/>
+                            <h:selectOneMenu value="#{patientBean.patient.city}" converter="genericConverter" class="ui fluid dropdown">
+                                <f:selectItems value="#{cityBean.list}" var="c" itemValue="#{c}" itemLabel="#{c.name}"/>
+                                    <f:ajax execute="@form" render="@form" />
+                            </h:selectOneMenu>
                         </div>
                         <div class="field">
-                            <h:inputText value='#{patientBean.patient.district}' p:placeholder="İlçe"/>
+                            <h:selectOneMenu value="#{patientBean.patient.district}" converter="genericConverter" class="ui fluid dropdown"
+                                             style="text-transform: lowercase;">
+                                <f:selectItems value="#{patientBean.patient.city.districts}" var="d" itemValue="#{d}" itemLabel="#{d.name}"/>
+                            </h:selectOneMenu>
                         </div>
                     </div>
 
