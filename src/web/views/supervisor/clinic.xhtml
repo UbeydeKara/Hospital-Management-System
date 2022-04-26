@@ -34,14 +34,14 @@
 
                     <div class="ui search">
                         <div class="ui icon input">
-                            <h:inputText class="prompt" p:placeholder="İsim ara" value="#{userBean.searchText}"
+                            <h:inputText class="prompt" p:placeholder="Klinik ara" value="#{clinicBean.searchText}"
                                          onkeypress="if (event.keyCode == 13) { onchange(); return false; }">
                                 <f:ajax event="change" render="@form" />
                             </h:inputText>
                             <i class="search icon"></i>
                         </div>
                     </div>
-                    <h:commandLink class="ui teal button ml-1" onclick="$('.ui.tiny.modal').modal('show');" action="#{userBean.setVisor(null)}">
+                    <h:commandLink class="ui teal button ml-1" onclick="$('.ui.tiny.modal').modal('show');" action="#{clinicBean.setSelectedClinic(null)}">
                         <i class="plus icon"></i>
                         Kayıt Ekle
                                         <f:ajax execute="@form" render="dialog" />
@@ -49,8 +49,7 @@
                 </div>
             </div>
             <div class="ui grid mx-5" style="height: 80vh;">
-                <div class="ui cards">
-                    <div class='ui card soft-shadow' style="height: fit-content;" id="card">
+                <div class='ui card row soft-shadow' style="height: fit-content;" id="card">
                     <h:outputScript rendered="#{uiBean.hasMessage}">
                         sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
                     </h:outputScript>
@@ -72,12 +71,19 @@
                                 <i class="ellipsis horizontal large grey icon"></i>
                                 <div class="menu">
                                     <h:commandLink class="item"
-                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{userBean.setVisor(user)}">
+                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{uiBean.setDlg(true)}">
                                         <f:ajax execute="@form" render="dialog" />
+                                        <f:actionListener binding="#{clinicBean.setSelectedClinic(clinic)}" />
+                                        <i class="mdi mdi-eye-outline mdi-18px" style="margin-right: 0.7rem"></i>Göster
+                                    </h:commandLink>
+                                    <h:commandLink class="item"
+                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{uiBean.setDlg(false)}">
+                                        <f:ajax execute="@form" render="dialog" />
+                                        <f:actionListener binding="#{clinicBean.setSelectedClinic(clinic)}" />
                                         <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Düzenle
                                     </h:commandLink>
                                     <h:commandLink class="item"
-                                                   onclick="$('.ui.basic.modal').modal('show');" action="#{uiBean.setSelectedUser(user)}">
+                                                   onclick="$('.ui.basic.modal').modal('show');" action="#{clinicBean.setSelectedClinic(clinic)}">
                                         <f:ajax execute="@form" render="@form" />
                                         <span class="ui error text">
                                             <i class="mdi mdi-delete-outline mdi-18px" style="margin-right: 0.7rem"></i>Sil
@@ -90,86 +96,23 @@
                 </div>
                 <div class="row" style="align-items: center; align-self: flex-end">
                     <div class="description">
-                        <p>Toplam #{userBean.userCount} kayıttan #{userBean.list.size()} adet gösteriliyor</p>
+                        <p>Toplam #{clinicBean.clinicCount()} kayıttan #{clinicBean.list.size()} adet gösteriliyor</p>
                     </div>
                     <div class="ml-auto">
-                        <h:commandLink action="#{userBean.setPageNumber(userBean.pageNumber-1)}">
+                        <h:commandLink action="#{clinicBean.setPageNumber(clinicBean.pageNumber-1)}">
                             <i class="left grey chevron icon"></i>
                                     <f:ajax render="@form" onevent="pulse"/>
                         </h:commandLink>
                         <div class="ui pagination teal borderless menu mx-1 rounded">
-                            <c:forEach var="index" begin="0" end="#{userBean.totalPage-1}">
-                                <h:commandLink action="#{userBean.setPageNumber(index)}"
-                                               class="#{userBean.pageNumber == index ? 'item rounded active' : 'item rounded'}">
+                            <c:forEach var="index" begin="0" end="#{clinicBean.totalPage-1}">
+                                <h:commandLink action="#{clinicBean.setPageNumber(index)}"
+                                               class="#{clinicBean.pageNumber == index ? 'item rounded active' : 'item rounded'}">
                                     #{index + 1}
                                     <f:ajax render="@form" onevent="pulse"/>
                                 </h:commandLink>
                             </c:forEach>
                         </div>
-                        <h:commandLink action="#{userBean.setPageNumber(userBean.pageNumber+1)}">
-                            <i class="right grey chevron icon"></i>
-                                    <f:ajax render="@form" onevent="pulse"/>
-                        </h:commandLink>
-                    </div>
-                </div>
-                </div>
-                <div class='ui card soft-shadow' style="height: fit-content;">
-                    <h:outputScript rendered="#{uiBean.hasMessage}">
-                        sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
-                    </h:outputScript>
-                    <h:dataTable value="#{clinicBean.getList()}" var="clinic"
-                                 styleClass="ui very basic table striped m-0">
-                        <h:column>    				
-                            <f:facet name = "header">#</f:facet>    				
-                                #{clinic.id}
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name = "header">Klinik Adı</f:facet>
-                                #{clinic.name}
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name="header">İşlem</f:facet>
-                            <div class="ui dropdown">
-                                <i class="ellipsis horizontal large grey icon"></i>
-                                <div class="menu">
-                                    <h:commandLink class="item"
-                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{userBean.setVisor(user)}">
-                                        <f:ajax execute="@form" render="dialog" />
-                                        <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Düzenle
-                                    </h:commandLink>
-                                    <h:commandLink class="item"
-                                                   onclick="$('.ui.basic.modal').modal('show');" action="#{uiBean.setSelectedUser(user)}">
-                                        <f:ajax execute="@form" render="@form" />
-                                        <span class="ui error text">
-                                            <i class="mdi mdi-delete-outline mdi-18px" style="margin-right: 0.7rem"></i>Sil
-                                        </span>
-                                    </h:commandLink>
-                                </div>
-                            </div>
-                        </h:column>
-                    </h:dataTable>
-                </div>
-                <div class="row" style="align-items: center; align-self: flex-end">
-                    <div class="description">
-                        <p>Toplam #{userBean.userCount} kayıttan #{userBean.list.size()} adet gösteriliyor</p>
-                    </div>
-                    <div class="ml-auto">
-                        <h:commandLink action="#{userBean.setPageNumber(userBean.pageNumber-1)}">
-                            <i class="left grey chevron icon"></i>
-                                    <f:ajax render="@form" onevent="pulse"/>
-                        </h:commandLink>
-                        <div class="ui pagination teal borderless menu mx-1 rounded">
-                            <c:forEach var="index" begin="0" end="#{userBean.totalPage-1}">
-                                <h:commandLink action="#{userBean.setPageNumber(index)}"
-                                               class="#{userBean.pageNumber == index ? 'item rounded active' : 'item rounded'}">
-                                    #{index + 1}
-                                    <f:ajax render="@form" onevent="pulse"/>
-                                </h:commandLink>
-                            </c:forEach>
-                        </div>
-                        <h:commandLink action="#{userBean.setPageNumber(userBean.pageNumber+1)}">
+                        <h:commandLink action="#{clinicBean.setPageNumber(clinicBean.pageNumber+1)}">
                             <i class="right grey chevron icon"></i>
                                     <f:ajax render="@form" onevent="pulse"/>
                         </h:commandLink>
@@ -177,9 +120,56 @@
                 </div>
             </div>
         </h:form>
-        <ui:insert name="dialogModal" >
-            <ui:include src="/components/DialogModal.xhtml"/>
-        </ui:insert>
+        <div class="ui tiny modal">
+            <h:panelGroup layout="block" class="header">
+                <c:choose>
+                    <c:when test="#{uiBean.getDlg()}">
+                        <i class="mdi mdi-account-plus-outline mdi-24px"/>
+                        <h:outputText value=" Bilgileri Görüntüle" />
+                    </c:when>
+                    <c:when test="#{userBean.visor.id != null}">
+                        <i class="mdi mdi-account-plus-outline mdi-24px"/>
+                        <h:outputText value=" Bilgileri Güncelle" />
+                    </c:when>
+                    <c:otherwise>
+                        <i class="mdi mdi-account-plus-outline mdi-24px"/>
+                        <h:outputText value=" Kullanıcı Ekle" />
+                    </c:otherwise>
+                </c:choose>
+            </h:panelGroup>
+            <div class="content">
+                <h:form class="ui form p-2" id="dialog">
+                    <div class="field mb-1">
+                        <label>Klinik Adı</label>
+                        <div class='ui left icon input'>
+                            <h:inputText value="#{clinicBean.selectedClinic.name}" p:placeholder="Klinik Adı" disabled="#{uiBean.getDlg()}"/>
+                            <i class="mdi mdi-account-outline mdi-18px icon"/>
+                        </div>
+                    </div>
+                    <h:panelGroup layout="block" class="actions" rendered="#{!uiBean.getDlg()}">
+                        <div class="ui black deny button">İptal</div>
+                        <c:choose>
+                            <c:when test="#{clinicBean.selectedClinic.id != null}">
+                                <h:commandLink class="ui blue right labeled icon button" action="#{clinicBean.updateClinic()}"
+                                               onclick="$('.ui.tiny.modal').modal('hide');">
+                                    <i class="checkmark icon"></i>Kaydet
+                                    <f:ajax execute="@form" render="list_form" />
+                                </h:commandLink>
+                            </c:when>
+                            <c:otherwise>
+                                <h:commandLink class="ui positive right labeled icon button" action="#{clinicBean.updateClinic()}">
+                                    <i class="checkmark icon"></i>Ekle
+                                    <f:ajax execute="@form" render="list_form" />
+                                </h:commandLink>
+                            </c:otherwise>
+                        </c:choose>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" class="actions" rendered="#{uiBean.getDlg()}">
+                        <div class="ui black deny button">Kapat</div>
+                    </h:panelGroup>
+                </h:form>
+            </div>
+        </div>
         <div class="ui basic modal">
             <div class="ui icon header">
                 <i class="archive icon"></i>
@@ -190,7 +180,7 @@
                     <i class="remove icon"></i>
                     İptal
                 </div>
-                <h:commandLink action="#{userBean.deleteUser(uiBean.selectedUser)}">
+                <h:commandLink action="#{clinicBean.delClinic()}">
                     <div class="ui green ok inverted button">
                         <i class="checkmark icon"></i>
                         Sil
