@@ -20,6 +20,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
         <script src="../../js/toast.js"></script>
         <script src="../../js/fade.js"></script>
         <script src="../../js/calendar.js"></script>
+        <script src="../../js/hms.js"></script>
         <title>Hasta Profil</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
@@ -54,23 +55,45 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                         </div>
                     </div>
 
-                    <label>Cinsiyet</label>
-                    <div class="field">
-                        <h:selectOneMenu value="#{patientBean.patient.sex}" class="ui fluid dropdown">
-                            <f:selectItem itemLabel="Erkek" itemValue="Erkek"/>
-                            <f:selectItem itemLabel="Kadın" itemValue="Kadın"/>
-                        </h:selectOneMenu>
-                    </div>
-
-                    <label>Adres</label>
                     <div class="two fields">
                         <div class="field">
+                            <label>Cinsiyet</label>
+
+                            <h:selectOneMenu value="#{patientBean.patient.sex}" class="ui fluid dropdown">
+                                <f:selectItem itemLabel="Erkek" itemValue="Erkek"/>
+                                <f:selectItem itemLabel="Kadın" itemValue="Kadın"/>
+                            </h:selectOneMenu>
+                        </div>
+
+                        <div class="field">
+                            <label>Kan Grubu</label>
+
+                            <h:selectOneMenu value="#{patientBean.patient.blood_type}" class="ui fluid dropdown">
+                                <f:selectItem itemLabel="0 Rh(+)" itemValue="0"/>        
+                                <f:selectItem itemLabel="0 Rh(-)" itemValue="0"/>
+                                <f:selectItem itemLabel="AB Rh(+)" itemValue="AB"/>
+                                <f:selectItem itemLabel="AB Rh(-)" itemValue="AB"/>
+                                <f:selectItem itemLabel="A Rh(+)" itemValue="A"/>
+                                <f:selectItem itemLabel="A Rh(-)" itemValue="A"/>
+                                <f:selectItem itemLabel="B Rh(+)" itemValue="B"/>
+                                <f:selectItem itemLabel="B Rh(-)" itemValue="B"/>
+
+
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+
+
+                    <div class="two fields">
+                        <div class="field">
+                            <label>İl</label>
                             <h:selectOneMenu value="#{patientBean.patient.city}" converter="genericConverter" class="ui fluid dropdown">
                                 <f:selectItems value="#{cityBean.list}" var="c" itemValue="#{c}" itemLabel="#{c.name}"/>
-                                    <f:ajax execute="@form" render="@form" />
+                                <f:ajax execute="@form" render="@form" />
                             </h:selectOneMenu>
                         </div>
                         <div class="field">
+                            <label>İlçe</label>
                             <h:selectOneMenu value="#{patientBean.patient.district}" converter="genericConverter" class="ui fluid dropdown"
                                              style="text-transform: lowercase;">
                                 <f:selectItems value="#{patientBean.patient.city.districts}" var="d" itemValue="#{d}" itemLabel="#{d.name}"/>
@@ -80,13 +103,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 
                     <label>Telefon</label>
                     <div class="field">
-                        <h:inputText value='#{patientBean.patient.phone}' p:placeholder="Telefon"/>
+                        <h:inputText value='#{patientBean.patient.phone}' p:placeholder="5xx-xxx-xx-xx" maxlength="10"/>
                     </div>
 
                     <h:commandButton class='ui button teal' action='#{patientBean.updatePatient()}' value="Kaydet">
                         <f:ajax execute="@form" render="@form"/>
                     </h:commandButton>
                     <h:commandButton class='ui button basic' action='#{patientBean.logout()}' value="Çıkış">
+                    </h:commandButton>
+                    <h:commandButton class="ui button" action="appointment?faces-redirect=true" value="Randevu Oluştur">
+                        <f:ajax execute="comments" render="comments" />
                     </h:commandButton>
                 </div>
             </h:form>

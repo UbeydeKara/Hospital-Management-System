@@ -46,6 +46,12 @@ public class ClinicBean implements Serializable {
             return this.clinicDao.findAll(pageNumber, pageSize);
         return clinicDao.findByName(searchText);
     }
+
+    public List<Clinic> getAll() {
+        if(searchText == null || searchText.length() == 0)
+            return this.clinicDao.findAll(0, clinicCount().intValue());
+        return clinicDao.findByName(searchText);
+    }
     
     public Long clinicCount() {
         if(searchText == null || searchText.length() == 0)
