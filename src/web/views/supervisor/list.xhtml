@@ -113,8 +113,15 @@
                                     </h:commandLink>
                                 </h:panelGroup>
                                     <h:commandLink class="item"
-                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{userBean.setVisor(user)}">
+                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{uiBean.setDlg(true)}">
                                         <f:ajax execute="@form" render="dialog" />
+                                        <f:actionListener binding="#{userBean.setVisor(user)}" />
+                                        <i class="mdi mdi-eye-outline mdi-18px" style="margin-right: 0.7rem"></i>Göster
+                                    </h:commandLink>
+                                    <h:commandLink class="item"
+                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{uiBean.setDlg(false)}">
+                                        <f:ajax execute="@form" render="dialog" />
+                                        <f:actionListener binding="#{userBean.setVisor(user)}" />
                                         <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Düzenle
                                     </h:commandLink>
                                     <h:commandLink class="item"

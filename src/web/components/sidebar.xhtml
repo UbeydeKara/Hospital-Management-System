@@ -57,6 +57,13 @@
                         <i class="mdi mdi-face-mask-outline mdi-24px"></i>
                     </span>
                 </h:commandLink>
+                <h:commandLink class="item my-1" action="#{userBean.logout()}"
+                               p:data-content="Klinikler" p:data-position="right center">
+                    <f:ajax render="template"/>
+                    <span id="1" class="ui text  #{userBean.currentPage != 4 ? 'disabled' : ''}">
+                        <i class="mdi mdi-face-mask-outline mdi-24px"></i>
+                    </span>
+                </h:commandLink>
             </h:form>
         </div>
       </ui:composition>

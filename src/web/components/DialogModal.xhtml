@@ -11,15 +11,27 @@
     <ui:composition>
         <div class="ui tiny modal">
             <h:panelGroup layout="block" class="header">
-                <i class="mdi mdi-account-plus-outline mdi-24px"/>
-                <h:outputText value="#{userBean.visor.id != null ? ' Bilgileri Güncelle' : ' Kullanıcı Ekle'}" />
+                <c:choose>
+                    <c:when test="#{uiBean.getDlg()}">
+                        <i class="mdi mdi-account-plus-outline mdi-24px"/>
+                        <h:outputText value=" Bilgileri Görüntüle" />
+                    </c:when>
+                    <c:when test="#{userBean.visor.id != null}">
+                        <i class="mdi mdi-account-plus-outline mdi-24px"/>
+                        <h:outputText value=" Bilgileri Güncelle" />
+                    </c:when>
+                    <c:otherwise>
+                        <i class="mdi mdi-account-plus-outline mdi-24px"/>
+                        <h:outputText value=" Kullanıcı Ekle" />
+                    </c:otherwise>
+                </c:choose>
             </h:panelGroup>
             <div class="content">
                 <h:form class="ui form p-2" id="dialog">
                     <div class="field mb-1">
                         <label>Ad Soyad</label>
                         <div class='ui left icon input'>
-                            <h:inputText value="#{userBean.visor.fullname}" p:placeholder="Ad Soyad"/>
+                            <h:inputText value="#{userBean.visor.fullname}" p:placeholder="Ad Soyad" disabled="#{uiBean.getDlg()}"/>
                             <i class="mdi mdi-account-outline mdi-18px icon"/>
                         </div>
                     </div>
@@ -27,7 +39,7 @@
                     <div class="field mb-1">
                         <label>E-Posta Adresi</label>
                         <div class='ui left icon input'>
-                            <h:inputText value="#{userBean.visor.email}" p:data-validate="email" p:placeholder="E-Posta Adresiniz"/>
+                            <h:inputText value="#{userBean.visor.email}" p:data-validate="email" disabled="#{uiBean.getDlg()}" p:placeholder="E-Posta Adresiniz"/>
                             <i class="mdi mdi-email-outline mdi-18px icon"/>
                         </div>
                     </div>
@@ -35,16 +47,16 @@
                     <div class="field mb-1">
                         <label>Parola</label>
                         <div class='ui left icon input'>
-                            <h:inputSecret value="#{userBean.visor.password}" redisplay="true" p:data-validate="password" p:autocomplete="new-password" p:placeholder="Parola"/>
+                            <h:inputSecret value="#{userBean.visor.password}" disabled="#{uiBean.getDlg()}" redisplay="true" p:data-validate="password" p:autocomplete="new-password" p:placeholder="Parola"/>
                             <i class="mdi mdi-lock-outline mdi-18px icon"/>
                         </div>
                     </div>
-                    <h:panelGroup layout="block" class="actions">
+                    <h:panelGroup layout="block" class="actions" rendered="#{!uiBean.getDlg()}">
                         <div class="ui black deny button">İptal</div>
                         <c:choose>
                             <c:when test="#{userBean.visor.id != null}">
                                 <h:commandLink class="ui blue right labeled icon button" action="#{userBean.updateUser(userBean.visor)}"
-                                                onclick="$('.ui.tiny.modal').modal('hide');">
+                                               onclick="$('.ui.tiny.modal').modal('hide');">
                                     <i class="checkmark icon"></i>Kaydet
                                     <f:ajax execute="@form" render="list_form" />
                                 </h:commandLink>
@@ -56,6 +68,9 @@
                                 </h:commandLink>
                             </c:otherwise>
                         </c:choose>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" class="actions" rendered="#{uiBean.getDlg()}">
+                        <div class="ui black deny button">Kapat</div>
                     </h:panelGroup>
                 </h:form>
             </div>
