@@ -21,6 +21,15 @@ public class UIBean implements Serializable {
     private Boolean isLoginPage;
     private User selectedUser;
     private Short userType = 1;
+    private Boolean isDisabledDlg = false;
+
+    public Boolean getDlg() {
+        return isDisabledDlg;
+    }
+
+    public void setDlg(Boolean isDisabledDlg) {
+        this.isDisabledDlg = isDisabledDlg;
+    }
 
     public Boolean isLoginPage() {
         if (isLoginPage != null) {

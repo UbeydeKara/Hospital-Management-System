@@ -49,49 +49,21 @@
                 </div>
             </div>
             <div class="ui grid mx-5" style="height: 80vh;">
-                <div class='ui card row soft-shadow' style="height: fit-content;" id="card">
+                <div class="ui cards">
+                    <div class='ui card soft-shadow' style="height: fit-content;" id="card">
                     <h:outputScript rendered="#{uiBean.hasMessage}">
                         sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
                     </h:outputScript>
-                    <h:dataTable value="#{userBean.getList()}" var="user"
+                    <h:dataTable value="#{clinicBean.getList()}" var="clinic"
                                  styleClass="ui very basic table striped m-0">
                         <h:column>    				
                             <f:facet name = "header">#</f:facet>    				
-                                #{user.id}
+                                #{clinic.id}
                         </h:column>
 
                         <h:column>
-                            <f:facet name = "header">Ad Soyad</f:facet>
-                                #{user.fullname}
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name = "header">E-Posta</f:facet>
-                                #{user.email}
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name = "header">Parola</f:facet>
-                                #{user.password}
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name = "header">Yetki</f:facet>
-                                #{user.privilege.role}
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name = "header">Durum</f:facet>
-                                <h:panelGroup rendered="#{user.is_confirmed}">
-                                    <div class="ui green basic label">
-                                        <i class="checkmark icon"></i> Onaylandı
-                                    </div>
-                                </h:panelGroup>
-                                <h:panelGroup rendered="#{!user.is_confirmed}">
-                                    <div class="ui yellow basic label">
-                                        <i class="attention icon"></i> Onay Bekliyor
-                                    </div>
-                                </h:panelGroup>
+                            <f:facet name = "header">Klinik Adı</f:facet>
+                                #{clinic.name}
                         </h:column>
 
                         <h:column>
@@ -99,19 +71,69 @@
                             <div class="ui dropdown">
                                 <i class="ellipsis horizontal large grey icon"></i>
                                 <div class="menu">
-                                    
-                                <h:panelGroup rendered="#{user.is_confirmed}">
-                                    <h:commandLink class="item" action="#{userBean.updateStatus(user)}">
-                                        <f:ajax execute="@form" render="@form" />
-                                        <i class="mdi mdi-window-close mdi-18px" style="margin-right: 0.7rem"></i>Onayı Kaldır
+                                    <h:commandLink class="item"
+                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{userBean.setVisor(user)}">
+                                        <f:ajax execute="@form" render="dialog" />
+                                        <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Düzenle
                                     </h:commandLink>
-                                </h:panelGroup>
-                                <h:panelGroup rendered="#{!user.is_confirmed}">
-                                    <h:commandLink class="item" action="#{userBean.updateStatus(user)}">
+                                    <h:commandLink class="item"
+                                                   onclick="$('.ui.basic.modal').modal('show');" action="#{uiBean.setSelectedUser(user)}">
                                         <f:ajax execute="@form" render="@form" />
-                                        <i class="mdi mdi-check mdi-18px" style="margin-right: 0.7rem"></i>Onayla
+                                        <span class="ui error text">
+                                            <i class="mdi mdi-delete-outline mdi-18px" style="margin-right: 0.7rem"></i>Sil
+                                        </span>
                                     </h:commandLink>
-                                </h:panelGroup>
+                                </div>
+                            </div>
+                        </h:column>
+                    </h:dataTable>
+                </div>
+                <div class="row" style="align-items: center; align-self: flex-end">
+                    <div class="description">
+                        <p>Toplam #{userBean.userCount} kayıttan #{userBean.list.size()} adet gösteriliyor</p>
+                    </div>
+                    <div class="ml-auto">
+                        <h:commandLink action="#{userBean.setPageNumber(userBean.pageNumber-1)}">
+                            <i class="left grey chevron icon"></i>
+                                    <f:ajax render="@form" onevent="pulse"/>
+                        </h:commandLink>
+                        <div class="ui pagination teal borderless menu mx-1 rounded">
+                            <c:forEach var="index" begin="0" end="#{userBean.totalPage-1}">
+                                <h:commandLink action="#{userBean.setPageNumber(index)}"
+                                               class="#{userBean.pageNumber == index ? 'item rounded active' : 'item rounded'}">
+                                    #{index + 1}
+                                    <f:ajax render="@form" onevent="pulse"/>
+                                </h:commandLink>
+                            </c:forEach>
+                        </div>
+                        <h:commandLink action="#{userBean.setPageNumber(userBean.pageNumber+1)}">
+                            <i class="right grey chevron icon"></i>
+                                    <f:ajax render="@form" onevent="pulse"/>
+                        </h:commandLink>
+                    </div>
+                </div>
+                </div>
+                <div class='ui card soft-shadow' style="height: fit-content;">
+                    <h:outputScript rendered="#{uiBean.hasMessage}">
+                        sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
+                    </h:outputScript>
+                    <h:dataTable value="#{clinicBean.getList()}" var="clinic"
+                                 styleClass="ui very basic table striped m-0">
+                        <h:column>    				
+                            <f:facet name = "header">#</f:facet>    				
+                                #{clinic.id}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">Klinik Adı</f:facet>
+                                #{clinic.name}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">İşlem</f:facet>
+                            <div class="ui dropdown">
+                                <i class="ellipsis horizontal large grey icon"></i>
+                                <div class="menu">
                                     <h:commandLink class="item"
                                                    onclick="$('.ui.tiny.modal').modal('show');" action="#{userBean.setVisor(user)}">
                                         <f:ajax execute="@form" render="dialog" />
