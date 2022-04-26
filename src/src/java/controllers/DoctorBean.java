@@ -19,7 +19,7 @@ import java.util.List;
 @SessionScoped
 public class DoctorBean implements Serializable {
 
-    @EJB
+    @EJB                     //getter-setter yapmadan kullanmamızı sağlıyor
     private DoctorDAO doctorDao;
     private Doctor doctor;
     private List<Doctor> list;

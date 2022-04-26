@@ -18,6 +18,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ *
+ * @author nur
+ *
+**/
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -29,7 +35,6 @@ public class Appointment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
     private int id;
     private LocalDate date;
 

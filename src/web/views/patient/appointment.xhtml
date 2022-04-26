@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>List</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"/>
+        <link rel="stylesheet" href="../../css/style.css"/>
+        <link rel="stylesheet" href="../../css/flex.css"/>
+        <script src="../../js/validation.js"></script>
+        <script src="../../js/swap.js"></script>
+        <script src="../../js/toast.js"></script>
+        <script src="../../js/fade.js"></script>
+        <script src="../../js/calendar.js"></script>
+        <script src="../../js/hms.js"></script>
+    </h:head>
+    <h:body>
+        <!--            <h:outputScript>
+                        $('#list_form').hide().transition('fade', '1000ms');
+                    </h:outputScript>-->
+        <h:form style="margin-left: 100px; margin-right: 15px" id="list_form">
+            <!--            <h:outputScript>
+                            $('.ui.dropdown').dropdown();
+                            function pulse() {
+                                $('#card').hide().transition('fade', '1000ms');
+                            }
+                        </h:outputScript>-->
+            <div class="pt-2 is-flex mx-5 mb-4">
+                <div class="column">
+                    <h2>Randevularım</h2>
+                    <div class="ui breadcrumb">
+                        <a class="section">Kontrol Paneli</a>
+                        <i class="right angle icon divider"></i>
+                        <div class="section">Randevular</div>
+                    </div>
+                </div>
+                <div class="ml-auto mt-auto is-flex">
+
+                    <div class="ui search">
+                        <div class="ui icon input">
+                            <h:inputText class="prompt" p:placeholder="Randevu Ara" value="#{appointmentBean.searchText}"
+                                         onkeypress="if (event.keyCode == 13) {
+                                                     onchange();
+                                                     return false;
+                                                 }">
+                                <f:ajax event="change" render="@form" />
+                            </h:inputText>
+                            <i class="search icon"></i>
+                        </div>
+                    </div>
+                    <h:commandLink class="ui teal button ml-1" onclick="$('.ui.tiny.modal').modal('show');" action="#{appointmentBean.setAppointment(null)}">
+                        <i class="plus icon"></i>
+                        Randevu Ekle
+                        <f:ajax execute="@form" render="dialog" />
+                    </h:commandLink>
+                </div>
+            </div>
+            <div class="ui grid mx-5" style="height: 80vh;">
+                <div class='ui card row soft-shadow' style="height: fit-content;" id="card">
+                    <h:outputScript rendered="#{uiBean.hasMessage}">
+                        sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
+                    </h:outputScript>
+                    <h:dataTable value="#{appointmentBean.getList()}" var="a"
+                                 styleClass="ui very basic table striped m-0">
+                        <h:column>    				
+                            <f:facet name = "header">#</f:facet>    				
+                                #{a.id}
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">Hastanın Adı</f:facet>
+                             #{a.patient.fullname}
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">Poliklinik Adı</f:facet>
+                            #{a.clinic.name}
+                              
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">Hekim</f:facet>
+                            #{a.doctor.fullname}
+
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">Randevu Tarihi</f:facet>
+                            #{a.date}
+
+                        </h:column>
+
+
+
+                        <h:column>
+                            <f:facet name="header">İşlem</f:facet>
+                            <div class="ui dropdown">
+                                <i class="ellipsis horizontal large grey icon"></i>
+                                <div class="menu">
+                                    <h:panelGroup rendered="#{!appointment.is_confirmed}">
+                                        <h:commandLink class="item" action="#{appointmentBean.updateStatus(appointment)}">
+                                            <f:ajax execute="@form" render="@form" />
+                                            <i class="mdi mdi-check mdi-18px" style="margin-right: 0.7rem"></i>Onayla
+                                        </h:commandLink>
+                                    </h:panelGroup>
+                                    <h:commandLink class="item"
+                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{uiBean.setDlg(true)}">
+                                        <f:ajax execute="@form" render="dialog" />
+                                        <f:actionListener binding="#{appointmentBean.setAppointment(user)}" />
+                                        <i class="mdi mdi-eye-outline mdi-18px" style="margin-right: 0.7rem"></i>Göster
+                                    </h:commandLink>
+                                    <h:commandLink class="item"
+                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{appointmentBean.setAppointment(appointment)}">
+                                        <f:ajax execute="@form" render="dialog" />
+                                        <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Düzenle
+                                    </h:commandLink>
+                                    <h:commandLink class="item"
+                                                   onclick="$('.ui.basic.modal').modal('show');" action="#{uiBean.setSelectedAppointment(appointment)}">
+                                        <f:ajax execute="@form" render="@form" />
+                                        <span class="ui error text">
+                                            <i class="mdi mdi-delete-outline mdi-18px" style="margin-right: 0.7rem"></i>Sil
+                                        </span>
+                                    </h:commandLink>
+                                </div>
+                            </div>
+                        </h:column>
+                    </h:dataTable>
+                </div>
+                <div class="row" style="align-items: center; align-self: flex-end">
+                    <div class="description">
+                        <p>Toplam #{appointmentBean.appointmentCount} kayıttan #{appointmentBean.list.size()} adet gösteriliyor</p>
+                    </div>
+                    <div class="ml-auto">
+                        <h:commandLink action="#{appointmentBean.setPageNumber(appointmentBean.pageNumber-1)}">
+                            <i class="left grey chevron icon"></i>
+                            <f:ajax render="@form" onevent="pulse"/>
+                        </h:commandLink>
+                        <div class="ui pagination teal borderless menu mx-1 rounded">
+                            <c:forEach var="index" begin="0" end="#{appointmentBean.totalPage-1}">
+                                <h:commandLink action="#{appointmentBean.setPageNumber(index)}"
+                                               class="#{appointmentBean.pageNumber == index ? 'item rounded active' : 'item rounded'}">
+                                    #{index + 1}
+                                    <f:ajax render="@form" onevent="pulse"/>
+                                </h:commandLink>
+                            </c:forEach>
+                        </div>
+                        <h:commandLink action="#{appointmentBean.setPageNumber(appointmentBean.pageNumber+1)}">
+                            <i class="right grey chevron icon"></i>
+                            <f:ajax render="@form" onevent="pulse"/>
+                        </h:commandLink>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        <ui:insert name="dialogModal" >
+            <ui:include src="/components/a_dlg.xhtml"/>
+        </ui:insert>
+        <div class="ui basic modal">
+            <div class="ui icon header">
+                <i class="archive icon"></i>
+                Kayıt silinsin mi?
+            </div>
+            <div class="actions">
+                <div class="ui red basic cancel inverted button">
+                    <i class="remove icon"></i>
+                    İptal
+                </div>
+                <h:commandLink action="#{appointmentBean.deleteAppointment(uiBean.selectedAppointment)}">
+                    <div class="ui green ok inverted button">
+                        <i class="checkmark icon"></i>
+                        Sil
+                    </div>
+                    <f:ajax execute="@form" render="list_form" />
+                </h:commandLink>
+            </div>
+        </div>
+    </h:body>>
+</html>
