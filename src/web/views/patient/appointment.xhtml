@@ -23,16 +23,16 @@
         <script src="../../js/hms.js"></script>
     </h:head>
     <h:body>
-        <!--            <h:outputScript>
-                        $('#list_form').hide().transition('fade', '1000ms');
-                    </h:outputScript>-->
+        <h:outputScript>
+            $('#list_form').hide().transition('fade', '1000ms');
+        </h:outputScript>
         <h:form style="margin-left: 100px; margin-right: 15px" id="list_form">
-            <!--            <h:outputScript>
-                            $('.ui.dropdown').dropdown();
-                            function pulse() {
-                                $('#card').hide().transition('fade', '1000ms');
-                            }
-                        </h:outputScript>-->
+            <h:outputScript>
+                $('.ui.dropdown').dropdown();
+                function pulse() {
+                $('#card').hide().transition('fade', '1000ms');
+                }
+            </h:outputScript>
             <div class="pt-2 is-flex mx-5 mb-4">
                 <div class="column">
                     <h2>Randevularım</h2>
@@ -68,47 +68,38 @@
                     <h:outputScript rendered="#{uiBean.hasMessage}">
                         sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
                     </h:outputScript>
-                    <h:dataTable value="#{appointmentBean.getList()}" var="a"
+                    <h:dataTable value="#{appointmentBean.getList()}" var="appointment"
                                  styleClass="ui very basic table striped m-0">
                         <h:column>    				
                             <f:facet name = "header">#</f:facet>    				
-                                #{a.id}
+                                #{appointment.id}
                         </h:column>
+                        
                         <h:column>
                             <f:facet name = "header">Hastanın Adı</f:facet>
-                             #{a.patient.fullname}
+                                #{appointment.patient.fullname}
                         </h:column>
+                        
                         <h:column>
                             <f:facet name = "header">Poliklinik Adı</f:facet>
-                            #{a.clinic.name}
-                              
+                                #{appointment.clinic.name}
                         </h:column>
 
                         <h:column>
                             <f:facet name = "header">Hekim</f:facet>
-                            #{a.doctor.fullname}
-
+                                #{appointment.doctor.fullname}
                         </h:column>
 
                         <h:column>
                             <f:facet name = "header">Randevu Tarihi</f:facet>
-                            #{a.date}
-
+                                #{appointment.date}
                         </h:column>
-
-
-
+                        
                         <h:column>
                             <f:facet name="header">İşlem</f:facet>
                             <div class="ui dropdown">
                                 <i class="ellipsis horizontal large grey icon"></i>
                                 <div class="menu">
-                                    <h:panelGroup rendered="#{!appointment.is_confirmed}">
-                                        <h:commandLink class="item" action="#{appointmentBean.updateStatus(appointment)}">
-                                            <f:ajax execute="@form" render="@form" />
-                                            <i class="mdi mdi-check mdi-18px" style="margin-right: 0.7rem"></i>Onayla
-                                        </h:commandLink>
-                                    </h:panelGroup>
                                     <h:commandLink class="item"
                                                    onclick="$('.ui.tiny.modal').modal('show');" action="#{uiBean.setDlg(true)}">
                                         <f:ajax execute="@form" render="dialog" />
@@ -121,7 +112,7 @@
                                         <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Düzenle
                                     </h:commandLink>
                                     <h:commandLink class="item"
-                                                   onclick="$('.ui.basic.modal').modal('show');" action="#{uiBean.setSelectedAppointment(appointment)}">
+                                                   onclick="$('.ui.basic.modal').modal('show');" action="#{appointmentBean.setAppointment(appointment)}">
                                         <f:ajax execute="@form" render="@form" />
                                         <span class="ui error text">
                                             <i class="mdi mdi-delete-outline mdi-18px" style="margin-right: 0.7rem"></i>Sil
@@ -158,7 +149,7 @@
                 </div>
             </div>
         </h:form>
-        <ui:insert name="dialogModal" >
+        <ui:insert name="adialogModal" >
             <ui:include src="/components/a_dlg.xhtml"/>
         </ui:insert>
         <div class="ui basic modal">
@@ -171,7 +162,7 @@
                     <i class="remove icon"></i>
                     İptal
                 </div>
-                <h:commandLink action="#{appointmentBean.deleteAppointment(uiBean.selectedAppointment)}">
+                <h:commandLink action="#{appointmentBean.deleteAppointment()}">
                     <div class="ui green ok inverted button">
                         <i class="checkmark icon"></i>
                         Sil

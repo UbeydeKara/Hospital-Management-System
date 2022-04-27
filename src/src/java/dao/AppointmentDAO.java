@@ -69,5 +69,16 @@ public class AppointmentDAO {
         return em.createQuery(countQuery).getSingleResult();
     }
 
+    public void update(Appointment entity) {
+        if (entity.getDate() != null) {
+            em.merge(entity);
+            FacesContext.getCurrentInstance().addMessage(
+                    "response",
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Kayıt Güncellendi",
+                            null));
+        }
+    }
+
    
 }

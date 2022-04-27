@@ -35,7 +35,8 @@ public class Appointment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(unique = true, nullable = true)
+    private Integer id;
     private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
