@@ -2,8 +2,6 @@ package controllers;
 
 import dao.AppointmentDAO;
 import entities.Appointment;
-import entities.Clinic;
-import entities.Doctor;
 import entities.Patient;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
@@ -17,6 +15,7 @@ import java.util.List;
  *
  *
  */
+
 @Named("appointmentBean")
 @SessionScoped
 public class AppointmentBean implements Serializable {
@@ -31,11 +30,7 @@ public class AppointmentBean implements Serializable {
 
     public Appointment getAppointment() {
         if (this.appointment == null) {
-            Appointment a = new Appointment();
-            a.setClinic(new Clinic());
-            a.setDoctor(new Doctor());
-            a.setPatient(new Patient());
-            return a;
+            return this.appointment = new Appointment();
         }
         return appointment;
     }
@@ -51,31 +46,35 @@ public class AppointmentBean implements Serializable {
     public void setPageNumber(Integer pageNumber) {
         this.pageNumber = pageNumber;
     }
-    
+
     public Long getAppointmentCount() {
         return this.appointmentDao.appointmentCount();
     }
-    
+
     public Integer getTotalPage() {
         Integer count = getAppointmentCount().intValue();
-        
-        if(count == 0)
+
+        if (count == 0) {
             return 1;
-        
-        if(count % 7 == 0)
+        }
+
+        if (count % 7 == 0) {
             return count / 7;
-        
+        }
+
         return (count / 7) + 1;
     }
 
-    public void deleteAppointment (Appointment d) {
-        if(d != null)
-            this.appointmentDao.delete(d);
+    public void deleteAppointment() {
+        if (appointment != null) {
+            this.appointmentDao.delete(appointment);
+        }
     }
 
     public List<Appointment> getList() {
-        if(searchText == null || searchText.length() == 0)
+        if (searchText == null || searchText.length() == 0) {
             return this.appointmentDao.findAll(pageNumber, pageSize);
+        }
         return appointmentDao.findByName(searchText);
     }
 
@@ -89,6 +88,12 @@ public class AppointmentBean implements Serializable {
 
     public void setSearchText(String searchText) {
         this.searchText = searchText;
+    }
+
+    public String add(Patient patient) {
+        appointment.setPatient(patient);
+        appointmentDao.update(appointment);
+        return "appointment";
     }
 
 }
