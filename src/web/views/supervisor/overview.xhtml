@@ -40,7 +40,7 @@
                             <f:ajax render="template" />
                         </h:commandLink>
                         <h:commandLink class='ui card floating-item pt-1' action="#{userBean.setCurrentPage(3)}"
-                             style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
+                                       style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
                             <h2 class="ui center aligned icon header" style="color: #1ebc30">
                                 <i class="large circular user injured icon" style="box-shadow: unset;background-color: #e5f9e7;"></i>
                                 <div class="ui mini statistic m-0">
@@ -54,20 +54,21 @@
                             </h2>
                             <f:ajax render="template" />
                         </h:commandLink>
-                        <div class='ui card floating-item pt-1'
-                             style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
+                        <h:commandLink class='ui card floating-item pt-1' action="#{userBean.setCurrentPage(5)}"
+                                       style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
                             <h2 class="ui center aligned icon header" style="color: #db2828;">
                                 <i class="large circular calendar check outline icon" style="box-shadow: unset;background-color: #ffe8e6;"></i>
                                 <div class="ui mini statistic m-0">
                                     <div class="label mb-1" style="text-transform: none;">
-                                        NaN
+                                        #{appointmentBean.appointmentCount}
                                     </div>
                                     <div class="value" style="text-transform: none;">
                                         Aktif Randevu
                                     </div>
                                 </div>
                             </h2>
-                        </div>
+                            <f:ajax render="template" />
+                        </h:commandLink>
                         <div class='ui card floating-item pt-1'
                              style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
                             <h2 class="ui center aligned icon header" style="color: #2185d0;">
@@ -85,33 +86,41 @@
                     </div>
                 </div>
                 <div class="column six wide">
-                    <div class='ui card floating-item px-3 py-2'
-                         style="width: 100vh; box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 10px;">
-                        <div class="ui placeholder">
-                            <div class="image header">
-                                <div class="very short line"></div>
-                                <div class="short line"></div>
+                    <h:outputText rendered="#{appointmentBean.appointmentCount == 0}">Aktif Randevu Yok</h:outputText>
+                    <ui:repeat value="#{appointmentBean.list}" var="item">
+                        <div class='ui card floating-item px-3 py-2'
+                             style="width: 100vh; box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 10px;">
+                            <!--                        <div class="ui placeholder">
+                                                        <div class="image header">
+                                                            <div class="very short line"></div>
+                                                            <div class="short line"></div>
+                                                        </div>
+                                                    </div>-->
+                            <!--                            <div class="item">
+                                                            <div class="middle aligned content">
+                                                                <div class="header">
+                                                                    <i class="big circular calendar check outline icon" style="box-shadow: unset;background-color: #ffe8e6;color: #db2828;"></i>
+                                                                    Veronika Ossi
+                                                                </div>
+                                                                <div class="description">
+                                                                    <p>
+                            ${item.date}
+                        </p>
+                    </div>
+                </div>
+            </div>-->
+                            <div class="item ui grid">
+                                <i class="big circular calendar check outline icon mt-1" style="box-shadow: unset;background-color: #ffe8e6;color: #db2828;"></i>
+                                <div class="content" style="margin-top: 1.5rem;">
+                                    <div class="header label">#{item.clinic.name}</div>
+                                        Dr. #{item.doctor.fullname}
+                                </div>
+                            </div>
+                            <div class="item ml-auto">
+                                <div class="header">#{item.date}</div>
                             </div>
                         </div>
-                    </div>
-                    <div class='ui card floating-item px-3 py-2'
-                         style="width: 100vh; box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 10px;">
-                        <div class="ui placeholder">
-                            <div class="image header">
-                                <div class="very short line"></div>
-                                <div class="short line"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class='ui card floating-item px-3 py-2'
-                         style="width: 100vh; box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 10px;">
-                        <div class="ui placeholder">
-                            <div class="image header">
-                                <div class="very short line"></div>
-                                <div class="short line"></div>
-                            </div>
-                        </div>
-                    </div>
+                    </ui:repeat>
                 </div>
             </div>
         </div>
