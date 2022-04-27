@@ -65,7 +65,7 @@ public class AppointmentDAO {
     public Long appointmentCount() {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
-        countQuery.select(criteriaBuilder.count(countQuery.from(Supervisor.class)));
+        countQuery.select(criteriaBuilder.count(countQuery.from(Appointment .class)));
         return em.createQuery(countQuery).getSingleResult();
     }
 
