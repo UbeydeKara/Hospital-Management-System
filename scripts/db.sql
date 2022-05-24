@@ -5,7 +5,7 @@
 -- Dumped from database version 14.2
 -- Dumped by pg_dump version 14.2
 
--- Started on 2022-04-11 17:54:24
+-- Started on 2022-05-24 20:08:08
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -27,7 +27,7 @@ CREATE EXTENSION IF NOT EXISTS adminpack WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 3418 (class 0 OID 0)
+-- TOC entry 3416 (class 0 OID 0)
 -- Dependencies: 2
 -- Name: EXTENSION adminpack; Type: COMMENT; Schema: -; Owner: 
 --
@@ -89,11 +89,8 @@ ALTER TABLE public.cities OWNER TO root;
 --
 
 CREATE TABLE public.clinics (
-    id integer NOT NULL,
-    doc_id integer,
-    patient_id integer,
-    name character varying(50),
-    appointment_id integer
+    id smallint NOT NULL,
+    name character varying(50)
 );
 
 
@@ -354,15 +351,17 @@ ALTER TABLE public.users ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 
 
 --
--- TOC entry 3403 (class 0 OID 16442)
+-- TOC entry 3401 (class 0 OID 16442)
 -- Dependencies: 220
 -- Data for Name: appointments; Type: TABLE DATA; Schema: public; Owner: root
 --
 
+INSERT INTO public.appointments (id, date, clinic_id, doc_id, patient_id) OVERRIDING SYSTEM VALUE VALUES (3, '2022-04-21', 3, 360, 370);
+INSERT INTO public.appointments (id, date, clinic_id, doc_id, patient_id) OVERRIDING SYSTEM VALUE VALUES (4, '2022-05-12', 2, 360, 372);
 
 
 --
--- TOC entry 3410 (class 0 OID 16691)
+-- TOC entry 3408 (class 0 OID 16691)
 -- Dependencies: 227
 -- Data for Name: cities; Type: TABLE DATA; Schema: public; Owner: root
 --
@@ -451,15 +450,59 @@ INSERT INTO public.cities (id, name) VALUES (75, 'ARDAHAN');
 
 
 --
--- TOC entry 3402 (class 0 OID 16439)
+-- TOC entry 3400 (class 0 OID 16439)
 -- Dependencies: 219
 -- Data for Name: clinics; Type: TABLE DATA; Schema: public; Owner: root
 --
 
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (0, 'ALGOLOJİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (2, 'BEYİN VE SİNİR CERRAHİSİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (3, 'ÇOCUK ALERJİSİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (4, 'ÇOCUK CERRAHİSİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (5, 'ÇOCUK ENDOKRİNOLOJİSİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (6, 'ÇOCUK ENFEKSİYON');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (7, 'ÇOCUK GÖĞÜS HASTALIKLARI');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (8, 'ÇOCUK HEMATOLOJİSİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (9, 'ÇOCUK KARDİYOLOJİSİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (10, 'ÇOCUK METABOLİZMA');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (11, 'ÇOCUK NEFROLOJİSİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (12, 'ÇOCUK NÖROLOJİSİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (13, 'ÇOCUK PSİKİYATRİSİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (14, 'ÇOCUK SAĞLIĞI VE HASTALIKLARI');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (15, 'ÇOCUK ÜROLOJİSİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (16, 'DERMATOLOJİ (CİLDİYE)');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (17, 'ENDOKRİNOLOJİ VE METABOLİZMA');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (18, 'ENFEKSİYON HASTALIKLARI');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (19, 'FİZİKSEL TIP VE REHABİLİTASYON');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (20, 'GASTROENTEROLOJİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (21, 'GELENEKSEL VE TAMAMLAYICI TIP(GETAMER)');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (22, 'GENEL CERRAHİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (23, 'GERİATRİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (24, 'GÖĞÜS CERRAHİSİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (25, 'GÖĞÜS HASTALIKLARI');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (26, 'GÖZ HASTALIKLARI');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (27, 'HEMATOLOJİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (28, 'İÇ HASTALIKLARI');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (29, 'KADIN HASTALIKLARI VE DOĞUM');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (30, 'KALP VE DAMAR CERRAHİSİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (31, 'KARDİYOLOJİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (32, 'KEMİK YOĞUNLUĞU ÖLÇÜMÜ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (33, 'KULAK-BURUN-BOĞAZ HASTALIKLARI');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (34, 'NEFROLOJİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (35, 'NÖROLOJİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (36, 'ORTOPEDİ VE TRAVMATOLOJİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (37, 'PLASTİK REKONSTRÜKTİF VE ESTETİK CERRAHİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (38, 'PSİKİYATRİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (39, 'RADYASYON ONKOLOJİSİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (40, 'TIBBİ GENETİK');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (41, 'TIBBİ PATOLOJİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (42, 'ÜROLOJİ');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (1, 'BESLENME VE DİYET');
+INSERT INTO public.clinics (id, name) OVERRIDING SYSTEM VALUE VALUES (44, 'deneme');
 
 
 --
--- TOC entry 3411 (class 0 OID 16694)
+-- TOC entry 3409 (class 0 OID 16694)
 -- Dependencies: 228
 -- Data for Name: districts; Type: TABLE DATA; Schema: public; Owner: root
 --
@@ -1440,16 +1483,17 @@ INSERT INTO public.districts (id, name, city_id) OVERRIDING SYSTEM VALUE VALUES 
 
 
 --
--- TOC entry 3393 (class 0 OID 16394)
+-- TOC entry 3391 (class 0 OID 16394)
 -- Dependencies: 210
 -- Data for Name: doctors; Type: TABLE DATA; Schema: public; Owner: root
 --
 
-INSERT INTO public.doctors (user_id, specialty, fullname, sex, birth_date, phone, city_id, district_id) VALUES (348, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.doctors (user_id, specialty, fullname, sex, birth_date, phone, city_id, district_id) VALUES (360, NULL, 'dfbdb', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.doctors (user_id, specialty, fullname, sex, birth_date, phone, city_id, district_id) VALUES (366, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 
 --
--- TOC entry 3397 (class 0 OID 16411)
+-- TOC entry 3395 (class 0 OID 16411)
 -- Dependencies: 214
 -- Data for Name: files; Type: TABLE DATA; Schema: public; Owner: root
 --
@@ -1457,7 +1501,7 @@ INSERT INTO public.doctors (user_id, specialty, fullname, sex, birth_date, phone
 
 
 --
--- TOC entry 3400 (class 0 OID 16433)
+-- TOC entry 3398 (class 0 OID 16433)
 -- Dependencies: 217
 -- Data for Name: labs; Type: TABLE DATA; Schema: public; Owner: root
 --
@@ -1465,18 +1509,22 @@ INSERT INTO public.doctors (user_id, specialty, fullname, sex, birth_date, phone
 
 
 --
--- TOC entry 3401 (class 0 OID 16436)
+-- TOC entry 3399 (class 0 OID 16436)
 -- Dependencies: 218
 -- Data for Name: patients; Type: TABLE DATA; Schema: public; Owner: root
 --
 
-INSERT INTO public.patients (user_id, room, bed_no, sex, age, address, weight, phone, fullname, blood_type, identity_no, insurance_type, birth_date, birth_place, father, mother, city_id, district_id) VALUES (345, NULL, NULL, 'Erkek', 0, NULL, 0, '', '', NULL, NULL, NULL, '2022-04-09', NULL, NULL, NULL, 7, 94);
-INSERT INTO public.patients (user_id, room, bed_no, sex, age, address, weight, phone, fullname, blood_type, identity_no, insurance_type, birth_date, birth_place, father, mother, city_id, district_id) VALUES (349, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO public.patients (user_id, room, bed_no, sex, age, address, weight, phone, fullname, blood_type, identity_no, insurance_type, birth_date, birth_place, father, mother, city_id, district_id) VALUES (350, NULL, NULL, NULL, 0, NULL, 0, NULL, 'dbdbg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.patients (user_id, room, bed_no, sex, age, address, weight, phone, fullname, blood_type, identity_no, insurance_type, birth_date, birth_place, father, mother, city_id, district_id) VALUES (359, NULL, NULL, NULL, 0, NULL, 0, NULL, 'efgdgf', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.patients (user_id, room, bed_no, sex, age, address, weight, phone, fullname, blood_type, identity_no, insurance_type, birth_date, birth_place, father, mother, city_id, district_id) VALUES (358, '20', '10', 'Erkek', 0, NULL, 0, '', 'ölknno', NULL, '79855621614', NULL, '2022-04-13', NULL, NULL, NULL, 1, 2);
+INSERT INTO public.patients (user_id, room, bed_no, sex, age, address, weight, phone, fullname, blood_type, identity_no, insurance_type, birth_date, birth_place, father, mother, city_id, district_id) VALUES (368, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.patients (user_id, room, bed_no, sex, age, address, weight, phone, fullname, blood_type, identity_no, insurance_type, birth_date, birth_place, father, mother, city_id, district_id) VALUES (369, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.patients (user_id, room, bed_no, sex, age, address, weight, phone, fullname, blood_type, identity_no, insurance_type, birth_date, birth_place, father, mother, city_id, district_id) VALUES (370, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.patients (user_id, room, bed_no, sex, age, address, weight, phone, fullname, blood_type, identity_no, insurance_type, birth_date, birth_place, father, mother, city_id, district_id) VALUES (367, '51', '51', NULL, 0, NULL, 0, NULL, NULL, NULL, '56165156156', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.patients (user_id, room, bed_no, sex, age, address, weight, phone, fullname, blood_type, identity_no, insurance_type, birth_date, birth_place, father, mother, city_id, district_id) VALUES (372, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 
 --
--- TOC entry 3399 (class 0 OID 16430)
+-- TOC entry 3397 (class 0 OID 16430)
 -- Dependencies: 216
 -- Data for Name: prescriptions; Type: TABLE DATA; Schema: public; Owner: root
 --
@@ -1484,7 +1532,7 @@ INSERT INTO public.patients (user_id, room, bed_no, sex, age, address, weight, p
 
 
 --
--- TOC entry 3396 (class 0 OID 16408)
+-- TOC entry 3394 (class 0 OID 16408)
 -- Dependencies: 213
 -- Data for Name: privileges; Type: TABLE DATA; Schema: public; Owner: root
 --
@@ -1495,49 +1543,56 @@ INSERT INTO public.privileges (role, id) OVERRIDING SYSTEM VALUE VALUES ('Hasta'
 
 
 --
--- TOC entry 3409 (class 0 OID 16544)
+-- TOC entry 3407 (class 0 OID 16544)
 -- Dependencies: 226
 -- Data for Name: supervisors; Type: TABLE DATA; Schema: public; Owner: root
 --
 
 INSERT INTO public.supervisors (fullname, user_id, is_confirmed) VALUES ('dfgdfgdf', 261, true);
-INSERT INTO public.supervisors (fullname, user_id, is_confirmed) VALUES (NULL, 347, false);
+INSERT INTO public.supervisors (fullname, user_id, is_confirmed) VALUES ('klnklnklnl', 364, false);
+INSERT INTO public.supervisors (fullname, user_id, is_confirmed) VALUES ('dbdgbdgb', 365, false);
 
 
 --
--- TOC entry 3394 (class 0 OID 16401)
+-- TOC entry 3392 (class 0 OID 16401)
 -- Dependencies: 211
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: root
 --
 
-INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (347, NULL, NULL, 1);
-INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (348, NULL, NULL, 2);
-INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (349, NULL, NULL, 3);
-INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (350, 'dgbgdbgd', 'dgbgdbdg', 3);
 INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (261, '123456', 'hatitech.app@gmail.com', 1);
-INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (345, '123456', 'hatitech.app1@gmail.com', 3);
+INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (358, 'omkom', 'oknmokmn', 3);
+INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (359, 'dfgdfg', 'dfgdfg', 3);
+INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (360, 'dgbdg', 'dgbdgb', 2);
+INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (364, 'lklkmlk', 'lknlknlk', 1);
+INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (365, 'dsfsdf', 'dbgdgsf', 1);
+INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (366, '123456', 'hatitech.app@gmail.com1', 2);
+INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (367, '123456', 'hatitech.app@gmail.comx', 3);
+INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (368, '123456', 'hatitech.app@gmail.coms', 3);
+INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (369, NULL, NULL, 3);
+INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (370, NULL, NULL, 3);
+INSERT INTO public.users (id, password, email, role_id) OVERRIDING SYSTEM VALUE VALUES (372, '123456', 'hatitech.app@gmail.comxx', 3);
 
 
 --
--- TOC entry 3429 (class 0 OID 0)
+-- TOC entry 3427 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: appointments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
-SELECT pg_catalog.setval('public.appointments_id_seq', 0, false);
+SELECT pg_catalog.setval('public.appointments_id_seq', 4, true);
 
 
 --
--- TOC entry 3430 (class 0 OID 0)
+-- TOC entry 3428 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: clinics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
-SELECT pg_catalog.setval('public.clinics_id_seq', 0, false);
+SELECT pg_catalog.setval('public.clinics_id_seq', 44, true);
 
 
 --
--- TOC entry 3431 (class 0 OID 0)
+-- TOC entry 3429 (class 0 OID 0)
 -- Dependencies: 229
 -- Name: districts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
@@ -1546,7 +1601,7 @@ SELECT pg_catalog.setval('public.districts_id_seq', 974, true);
 
 
 --
--- TOC entry 3432 (class 0 OID 0)
+-- TOC entry 3430 (class 0 OID 0)
 -- Dependencies: 215
 -- Name: file_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
@@ -1555,7 +1610,7 @@ SELECT pg_catalog.setval('public.file_id_seq', 0, false);
 
 
 --
--- TOC entry 3433 (class 0 OID 0)
+-- TOC entry 3431 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: labs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
@@ -1564,7 +1619,7 @@ SELECT pg_catalog.setval('public.labs_id_seq', 0, false);
 
 
 --
--- TOC entry 3434 (class 0 OID 0)
+-- TOC entry 3432 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: prescriptions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
@@ -1573,7 +1628,7 @@ SELECT pg_catalog.setval('public.prescriptions_id_seq', 0, false);
 
 
 --
--- TOC entry 3435 (class 0 OID 0)
+-- TOC entry 3433 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: privileges_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
@@ -1582,12 +1637,12 @@ SELECT pg_catalog.setval('public.privileges_id_seq', 12, true);
 
 
 --
--- TOC entry 3436 (class 0 OID 0)
+-- TOC entry 3434 (class 0 OID 0)
 -- Dependencies: 212
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
-SELECT pg_catalog.setval('public.user_id_seq', 350, true);
+SELECT pg_catalog.setval('public.user_id_seq', 372, true);
 
 
 --
@@ -1609,7 +1664,7 @@ ALTER TABLE ONLY public.cities
 
 
 --
--- TOC entry 3228 (class 2606 OID 16486)
+-- TOC entry 3228 (class 2606 OID 16865)
 -- Name: clinics clinics_pkey; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -1681,7 +1736,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 3249 (class 2606 OID 16489)
+-- TOC entry 3249 (class 2606 OID 16866)
 -- Name: appointments appointments_clinic_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -1690,7 +1745,7 @@ ALTER TABLE ONLY public.appointments
 
 
 --
--- TOC entry 3250 (class 2606 OID 16494)
+-- TOC entry 3247 (class 2606 OID 16494)
 -- Name: appointments appointments_dr_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -1699,7 +1754,7 @@ ALTER TABLE ONLY public.appointments
 
 
 --
--- TOC entry 3251 (class 2606 OID 16499)
+-- TOC entry 3248 (class 2606 OID 16499)
 -- Name: appointments appointments_patient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -1708,25 +1763,7 @@ ALTER TABLE ONLY public.appointments
 
 
 --
--- TOC entry 3248 (class 2606 OID 16509)
--- Name: clinics clinics_appointment_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
---
-
-ALTER TABLE ONLY public.clinics
-    ADD CONSTRAINT clinics_appointment_id_fkey FOREIGN KEY (appointment_id) REFERENCES public.appointments(id) NOT VALID;
-
-
---
--- TOC entry 3247 (class 2606 OID 16504)
--- Name: clinics clinics_dr_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
---
-
-ALTER TABLE ONLY public.clinics
-    ADD CONSTRAINT clinics_dr_id_fkey FOREIGN KEY (doc_id) REFERENCES public.doctors(user_id) NOT VALID;
-
-
---
--- TOC entry 3253 (class 2606 OID 16822)
+-- TOC entry 3251 (class 2606 OID 16822)
 -- Name: districts districts_city_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -1825,7 +1862,7 @@ ALTER TABLE ONLY public.prescriptions
 
 
 --
--- TOC entry 3252 (class 2606 OID 16549)
+-- TOC entry 3250 (class 2606 OID 16549)
 -- Name: supervisors supervisors_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -1834,7 +1871,7 @@ ALTER TABLE ONLY public.supervisors
 
 
 --
--- TOC entry 3419 (class 0 OID 0)
+-- TOC entry 3417 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: TABLE appointments; Type: ACL; Schema: public; Owner: root
 --
@@ -1844,7 +1881,7 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.appointments TO root;
 
 
 --
--- TOC entry 3420 (class 0 OID 0)
+-- TOC entry 3418 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: TABLE clinics; Type: ACL; Schema: public; Owner: root
 --
@@ -1854,7 +1891,7 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.clinics TO root;
 
 
 --
--- TOC entry 3421 (class 0 OID 0)
+-- TOC entry 3419 (class 0 OID 0)
 -- Dependencies: 210
 -- Name: TABLE doctors; Type: ACL; Schema: public; Owner: root
 --
@@ -1864,7 +1901,7 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.doctors TO root;
 
 
 --
--- TOC entry 3422 (class 0 OID 0)
+-- TOC entry 3420 (class 0 OID 0)
 -- Dependencies: 214
 -- Name: TABLE files; Type: ACL; Schema: public; Owner: root
 --
@@ -1874,7 +1911,7 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.files TO root;
 
 
 --
--- TOC entry 3423 (class 0 OID 0)
+-- TOC entry 3421 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: TABLE labs; Type: ACL; Schema: public; Owner: root
 --
@@ -1884,7 +1921,7 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.labs TO root;
 
 
 --
--- TOC entry 3424 (class 0 OID 0)
+-- TOC entry 3422 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: TABLE patients; Type: ACL; Schema: public; Owner: root
 --
@@ -1894,7 +1931,7 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.patients TO root;
 
 
 --
--- TOC entry 3425 (class 0 OID 0)
+-- TOC entry 3423 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: TABLE prescriptions; Type: ACL; Schema: public; Owner: root
 --
@@ -1904,7 +1941,7 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.prescriptions TO root;
 
 
 --
--- TOC entry 3426 (class 0 OID 0)
+-- TOC entry 3424 (class 0 OID 0)
 -- Dependencies: 213
 -- Name: TABLE privileges; Type: ACL; Schema: public; Owner: root
 --
@@ -1914,7 +1951,7 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.privileges TO root;
 
 
 --
--- TOC entry 3427 (class 0 OID 0)
+-- TOC entry 3425 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: TABLE supervisors; Type: ACL; Schema: public; Owner: root
 --
@@ -1924,7 +1961,7 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.supervisors TO root;
 
 
 --
--- TOC entry 3428 (class 0 OID 0)
+-- TOC entry 3426 (class 0 OID 0)
 -- Dependencies: 211
 -- Name: TABLE users; Type: ACL; Schema: public; Owner: root
 --
@@ -1933,7 +1970,7 @@ REVOKE ALL ON TABLE public.users FROM root;
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.users TO root;
 
 
--- Completed on 2022-04-11 17:54:25
+-- Completed on 2022-05-24 20:08:09
 
 --
 -- PostgreSQL database dump complete
