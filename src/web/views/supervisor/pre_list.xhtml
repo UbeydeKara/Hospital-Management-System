@@ -35,18 +35,18 @@
             </h:outputScript>
             <div class="pt-2 is-flex mx-5 mb-4">
                 <div class="column">
-                    <h2>Randevularım</h2>
+                    <h2>Reçeteler</h2>
                     <div class="ui breadcrumb">
                         <a class="section">Kontrol Paneli</a>
                         <i class="right angle icon divider"></i>
-                        <div class="section">Randevular</div>
+                        <div class="section">Reçeteler</div>
                     </div>
                 </div>
                 <div class="ml-auto mt-auto is-flex">
 
                     <div class="ui search">
                         <div class="ui icon input">
-                            <h:inputText class="prompt" p:placeholder="Randevu Ara" value="#{appointmentBean.searchText}"
+                            <h:inputText class="prompt" p:placeholder="Randevu Ara" value="#{prescriptionBean.searchText}"
                                          onkeypress="if (event.keyCode == 13) {
                                                      onchange();
                                                      return false;
@@ -56,11 +56,6 @@
                             <i class="search icon"></i>
                         </div>
                     </div>
-                    <h:commandLink class="ui teal button ml-1" onclick="$('.ui.tiny.modal').modal('show');" action="#{appointmentBean.setAppointment(null)}">
-                        <i class="plus icon"></i>
-                        Randevu Ekle
-                        <f:ajax execute="@form" render="dialog" />
-                    </h:commandLink>
                 </div>
             </div>
             <div class="ui grid mx-5" style="height: 80vh;">
@@ -68,31 +63,31 @@
                     <h:outputScript rendered="#{uiBean.hasMessage}">
                         sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
                     </h:outputScript>
-                    <h:dataTable value="#{appointmentBean.getList()}" var="appointment"
+                    <h:dataTable value="#{prescriptionBean.getList()}" var="prescription"
                                  styleClass="ui very basic table striped m-0">
                         <h:column>    				
                             <f:facet name = "header">#</f:facet>    				
-                                #{appointment.id}
-                        </h:column>
-                        
-                        <h:column>
-                            <f:facet name = "header">Hastanın Adı</f:facet>
-                                #{appointment.patient.fullname}
-                        </h:column>
-                        
-                        <h:column>
-                            <f:facet name = "header">Poliklinik Adı</f:facet>
-                                #{appointment.clinic.name}
+                                #{prescription.id}
                         </h:column>
 
                         <h:column>
-                            <f:facet name = "header">Hekim</f:facet>
-                                #{appointment.doctor.fullname}
+                            <f:facet name = "header">Doktor</f:facet>
+                                #{prescription.doctor.fullname}
                         </h:column>
-,,,,,
+
+                        <h:column>
+                            <f:facet name = "header">Hasta</f:facet>
+                                #{prescription.patient.fullname}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">Açıklama</f:facet>
+                                #{prescription.description}
+                        </h:column>
+
                         <h:column>
                             <f:facet name = "header">Randevu Tarihi</f:facet>
-                                #{appointment.date}
+                                #{prescription.date}
                         </h:column>
                         
                         <h:column>
@@ -103,20 +98,8 @@
                                     <h:commandLink class="item"
                                                    onclick="$('.ui.tiny.modal').modal('show');" action="#{uiBean.setDlg(true)}">
                                         <f:ajax execute="@form" render="dialog" />
-                                        <f:actionListener binding="#{appointmentBean.setAppointment(user)}" />
+                                        <f:actionListener binding="#{prescriptionBean.setPrescription(user)}" />
                                         <i class="mdi mdi-eye-outline mdi-18px" style="margin-right: 0.7rem"></i>Göster
-                                    </h:commandLink>
-                                    <h:commandLink class="item"
-                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{appointmentBean.setAppointment(appointment)}">
-                                        <f:ajax execute="@form" render="dialog" />
-                                        <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Düzenle
-                                    </h:commandLink>
-                                    <h:commandLink class="item"
-                                                   onclick="$('.ui.basic.modal').modal('show');" action="#{appointmentBean.setAppointment(appointment)}">
-                                        <f:ajax execute="@form" render="@form" />
-                                        <span class="ui error text">
-                                            <i class="mdi mdi-delete-outline mdi-18px" style="margin-right: 0.7rem"></i>Sil
-                                        </span>
                                     </h:commandLink>
                                 </div>
                             </div>
@@ -125,23 +108,23 @@
                 </div>
                 <div class="row" style="align-items: center; align-self: flex-end">
                     <div class="description">
-                        <p>Toplam #{appointmentBean.appointmentCount} kayıttan #{appointmentBean.list.size()} adet gösteriliyor</p>
+                        <p>Toplam #{prescriptionBean.prescriptionCount} kayıttan #{prescriptionBean.list.size()} adet gösteriliyor</p>
                     </div>
                     <div class="ml-auto">
-                        <h:commandLink action="#{appointmentBean.setPageNumber(appointmentBean.pageNumber-1)}">
+                        <h:commandLink action="#{prescriptionBean.setPageNumber(prescriptionBean.pageNumber-1)}">
                             <i class="left grey chevron icon"></i>
                             <f:ajax render="@form" onevent="pulse"/>
                         </h:commandLink>
                         <div class="ui pagination teal borderless menu mx-1 rounded">
-                            <c:forEach var="index" begin="0" end="#{appointmentBean.totalPage-1}">
-                                <h:commandLink action="#{appointmentBean.setPageNumber(index)}"
-                                               class="#{appointmentBean.pageNumber == index ? 'item rounded active' : 'item rounded'}">
+                            <c:forEach var="index" begin="0" end="#{prescriptionBean.totalPage-1}">
+                                <h:commandLink action="#{prescriptionBean.setPageNumber(index)}"
+                                               class="#{prescriptionBean.pageNumber == index ? 'item rounded active' : 'item rounded'}">
                                     #{index + 1}
                                     <f:ajax render="@form" onevent="pulse"/>
                                 </h:commandLink>
                             </c:forEach>
                         </div>
-                        <h:commandLink action="#{appointmentBean.setPageNumber(appointmentBean.pageNumber+1)}">
+                        <h:commandLink action="#{prescriptionBean.setPageNumber(prescriptionBean.pageNumber+1)}">
                             <i class="right grey chevron icon"></i>
                             <f:ajax render="@form" onevent="pulse"/>
                         </h:commandLink>
@@ -162,7 +145,7 @@
                     <i class="remove icon"></i>
                     İptal
                 </div>
-                <h:commandLink action="#{appointmentBean.deleteAppointment()}">
+                <h:commandLink action="#{prescriptionBean.deletePrescription()}">
                     <div class="ui green ok inverted button">
                         <i class="checkmark icon"></i>
                         Sil
