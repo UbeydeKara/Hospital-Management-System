@@ -14,7 +14,7 @@ import java.util.List;
  *
  *
  */
-@Named("prescriptionsBean")
+@Named("prescriptionBean")
 @SessionScoped
 public class PrescriptionBean implements Serializable {
 
@@ -45,12 +45,12 @@ public class PrescriptionBean implements Serializable {
         this.pageNumber = pageNumber;
     }
     
-    public Long getUserCount() {
+    public Long getPrescriptionCount() {
         return this.prescriptionDao.prescriptionCount();
     }
     
     public Integer getTotalPage() {
-        Integer count = getUserCount().intValue();
+        Integer count = getPrescriptionCount().intValue();
         
         if(count == 0)
             return 1;

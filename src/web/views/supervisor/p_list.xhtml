@@ -111,6 +111,16 @@
                                         <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Düzenle
                                     </h:commandLink>
                                     <h:commandLink class="item"
+                                                   onclick="$('#e_dlg').modal('show');" action="#{patientBean.setPatient(patient)}">
+                                        <f:ajax execute="@form" render="dialog" />
+                                        <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Muayene Sonucu
+                                    </h:commandLink>
+                                    <h:commandLink class="item"
+                                                   onclick="$('#l_dlg').modal('show');" action="#{patientBean.setPatient(patient)}">
+                                        <f:ajax execute="@form" render="dialog" />
+                                        <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Lab Sonucu
+                                    </h:commandLink>
+                                    <h:commandLink class="item"
                                                    onclick="$('.ui.basic.modal').modal('show');" action="#{uiBean.setSelectedUser(patient)}">
                                         <f:ajax execute="@form" render="@form" />
                                         <span class="ui error text">

@@ -23,12 +23,12 @@
                         <i class="mdi mdi-view-dashboard-outline mdi-24px"></i>
                     </span>
                 </h:commandLink>
-                <h:commandLink class="item my-1" action="/home?faces-redirect=true"
+<!--                <h:commandLink class="item my-1" action="/home?faces-redirect=true"
                                p:data-content="Ana Sayfa" p:data-position="right center">
                     <span class="ui disabled text">
                         <i class="mdi mdi-home-outline mdi-24px"></i>
                     </span>
-                </h:commandLink>
+                </h:commandLink>-->
                 <h:commandLink class="item my-1" action="#{userBean.setCurrentPage(1)}"
                                p:data-content="Kullanıcı Listesi" p:data-position="right center">
                     <f:ajax render="template"/>
@@ -55,6 +55,13 @@
                     <f:ajax render="template"/>
                     <span id="1" class="ui text  #{userBean.currentPage != 4 ? 'disabled' : ''}">
                         <i class="mdi mdi-hospital-building mdi-24px"></i>
+                    </span>
+                </h:commandLink>
+                <h:commandLink class="item my-1" action="#{userBean.setCurrentPage(6)}"
+                               p:data-content="Reçeteler" p:data-position="right center">
+                    <f:ajax render="template"/>
+                    <span id="1" class="ui text  #{userBean.currentPage != 6 ? 'disabled' : ''}">
+                        <i class="mdi mdi-account-details-outline mdi-24px"></i>
                     </span>
                 </h:commandLink>
                 <h:commandLink class="item my-1" action="#{userBean.logout()}"

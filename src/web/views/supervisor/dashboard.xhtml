@@ -56,6 +56,11 @@
                         <ui:include src = "a_list.xhtml" />
                     </ui:insert>
                 </c:when>
+                <c:when test="#{userBean.currentPage == 6}">
+                    <ui:insert name = "app_list">
+                        <ui:include src = "pre_list.xhtml" />
+                    </ui:insert>
+                </c:when>
             </c:choose>
         </h:panelGroup>
     </h:body>
