@@ -6,38 +6,26 @@
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <h:head>
-        <title>List</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css"/>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"/>
-        <link rel="stylesheet" href="../../css/style.css"/>
-        <link rel="stylesheet" href="../../css/flex.css"/>
-        <script src="../../js/validation.js"></script>
-        <script src="../../js/swap.js"></script>
-        <script src="../../js/toast.js"></script>
-        <script src="../../js/fade.js"></script>
-        <script src="../../js/calendar.js"></script>
-        <script src="../../js/hms.js"></script>
-    </h:head>
-    <h:body>
+    <ui:composition>
         <h:outputScript>
             $('#list_form').hide().transition('fade', '1000ms');
         </h:outputScript>
-        <h:form style="margin-left: 100px; margin-right: 15px" id="list_form">
+        <div class="ui thirteen wide centered middle aligned column">
+        <h:form id="list_form">
             <h:outputScript>
                 $('.ui.dropdown').dropdown();
                 function pulse() {
                 $('#card').hide().transition('fade', '1000ms');
                 }
             </h:outputScript>
-            <div class="pt-2 is-flex mx-5 mb-4">
+            <div class="is-flex mx-5 mb-4">
                 <div class="column">
                     <h2>Randevularım</h2>
                     <div class="ui breadcrumb">
-                        <a class="section">Kontrol Paneli</a>
+                    <h:commandLink class="section" action="profile?faces-redirect=true">
+                        Profilim
+                        <f:ajax execute="comments" render="comments" />
+                    </h:commandLink>
                         <i class="right angle icon divider"></i>
                         <div class="section">Randevular</div>
                     </div>
@@ -46,7 +34,7 @@
 
                     <div class="ui search">
                         <div class="ui icon input">
-                            <h:inputText class="prompt" p:placeholder="Randevu Ara" value="#{appointmentBean.searchText}"
+                            <h:inputText class="prompt" p:placeholder="Doktor Ara" value="#{appointmentBean.searchText}"
                                          onkeypress="if (event.keyCode == 13) {
                                                      onchange();
                                                      return false;
@@ -68,16 +56,11 @@
                     <h:outputScript rendered="#{uiBean.hasMessage}">
                         sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
                     </h:outputScript>
-                    <h:dataTable value="#{appointmentBean.getList()}" var="appointment"
+                    <h:dataTable value="#{appointmentBean.getList(patientBean.patient)}" var="appointment"
                                  styleClass="ui very basic table striped m-0">
                         <h:column>    				
                             <f:facet name = "header">#</f:facet>    				
                                 #{appointment.id}
-                        </h:column>
-                        
-                        <h:column>
-                            <f:facet name = "header">Hastanın Adı</f:facet>
-                                #{appointment.patient.fullname}
                         </h:column>
                         
                         <h:column>
@@ -101,13 +84,13 @@
                                 <i class="ellipsis horizontal large grey icon"></i>
                                 <div class="menu">
                                     <h:commandLink class="item"
-                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{uiBean.setDlg(true)}">
+                                                   onclick="$('#a_dlg').modal('show');" action="#{uiBean.setDlg(true)}">
                                         <f:ajax execute="@form" render="dialog" />
-                                        <f:actionListener binding="#{appointmentBean.setAppointment(user)}" />
+                                        <f:actionListener binding="#{appointmentBean.setAppointment(appointment)}" />
                                         <i class="mdi mdi-eye-outline mdi-18px" style="margin-right: 0.7rem"></i>Göster
                                     </h:commandLink>
                                     <h:commandLink class="item"
-                                                   onclick="$('.ui.tiny.modal').modal('show');" action="#{appointmentBean.setAppointment(appointment)}">
+                                                   onclick="$('#a_dlg').modal('show');" action="#{appointmentBean.setAppointment(appointment)}">
                                         <f:ajax execute="@form" render="dialog" />
                                         <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Düzenle
                                     </h:commandLink>
@@ -125,7 +108,7 @@
                 </div>
                 <div class="row" style="align-items: center; align-self: flex-end">
                     <div class="description">
-                        <p>Toplam #{appointmentBean.appointmentCount} kayıttan #{appointmentBean.list.size()} adet gösteriliyor</p>
+                        <p>Toplam #{appointmentBean.getAppointmentCount(patientBean.patient)} kayıttan #{appointmentBean.getList(patientBean.patient).size()} adet gösteriliyor</p>
                     </div>
                     <div class="ml-auto">
                         <h:commandLink action="#{appointmentBean.setPageNumber(appointmentBean.pageNumber-1)}">
@@ -133,7 +116,7 @@
                             <f:ajax render="@form" onevent="pulse"/>
                         </h:commandLink>
                         <div class="ui pagination teal borderless menu mx-1 rounded">
-                            <c:forEach var="index" begin="0" end="#{appointmentBean.totalPage-1}">
+                            <c:forEach var="index" begin="0" end="#{appointmentBean.getTotalPage(patientBean.patient)-1}">
                                 <h:commandLink action="#{appointmentBean.setPageNumber(index)}"
                                                class="#{appointmentBean.pageNumber == index ? 'item rounded active' : 'item rounded'}">
                                     #{index + 1}
@@ -171,5 +154,6 @@
                 </h:commandLink>
             </div>
         </div>
-    </h:body>>
+        </div>
+    </ui:composition>
 </html>

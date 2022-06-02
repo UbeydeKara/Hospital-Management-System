@@ -1,32 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
--->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"  xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:jsf="http://xmlns.jcp.org/jsf">
-    <h:head>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css"/>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"/>
-        <link rel="stylesheet" href="../../css/style.css"/>
-        <link rel="stylesheet" href="../../css/flex.css"/>
-        <script src="../../js/validation.js"></script>
-        <script src="../../js/swap.js"></script>
-        <script src="../../js/toast.js"></script>
-        <script src="../../js/fade.js"></script>
-        <script src="../../js/calendar.js"></script>
-        <script src="../../js/hms.js"></script>
-        <title>Hasta Profil</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </h:head>
-    <h:body>
-        <div class="ui container grid middle aligned h-100 centered">
-            <h:form class="ui form eight wide column">
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition>
+        <h:outputScript>
+            $('#profile_form').hide().transition('fade', '1000ms');
+        </h:outputScript>
+        <div class="six wide centered middle aligned column">
+            <h:form class="ui form" id="profile_form">
                 <h:outputScript rendered="#{uiBean.hasMessage}">
                     sweetAlert("#{uiBean.errorMessage}", "#{uiBean.messageSeverity}");
                 </h:outputScript>
@@ -50,6 +34,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                             <div class="ui input left icon">
                                 <i class="calendar icon"></i>
                                 <h:inputText value='#{patientBean.patient.birth_date}' converter='dateConverter' p:placeholder="Tarih seç">
+                                
+                        <f:validator validatorId="dateValidator" />
                                 </h:inputText>
                             </div>
                         </div>
@@ -103,19 +89,26 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 
                     <label>Telefon</label>
                     <div class="field">
-                        <h:inputText value='#{patientBean.patient.phone}' p:placeholder="5xx-xxx-xx-xx" maxlength="10"/>
+                        <h:inputText value='#{patientBean.patient.phone}' p:placeholder="5xx-xxx-xx-xx" maxlength="10" required="true"
+                                     requiredMessage="Telefon alanı gerekli">
+                        <f:validator validatorId="phoneValidator" />
+                        </h:inputText>
                     </div>
 
                     <h:commandButton class='ui button teal' action='#{patientBean.updatePatient()}' value="Kaydet">
                         <f:ajax execute="@form" render="@form"/>
                     </h:commandButton>
                     <h:commandButton class='ui button basic' action='#{patientBean.logout()}' value="Çıkış">
-                    </h:commandButton>
-                    <h:commandButton class="ui button" action="appointment?faces-redirect=true" value="Randevu Oluştur">
                         <f:ajax execute="comments" render="comments" />
                     </h:commandButton>
+<!--                    <h:commandButton class="ui button" action="appointment?faces-redirect=true" value="Randevularım">
+                        <f:ajax execute="comments" render="comments" />
+                    </h:commandButton>
+                    <h:commandButton class="ui button" action="examination?faces-redirect=true" value="Reçetelerim">
+                        <f:ajax execute="comments" render="comments" />
+                    </h:commandButton>-->
                 </div>
             </h:form>
         </div>
-    </h:body>
+    </ui:composition>
 </html>

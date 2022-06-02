@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"/>
+        <link rel="stylesheet" href="../../css/style.css"/>
+        <link rel="stylesheet" href="../../css/flex.css"/>
+        <script src="../../js/calendar.js"></script>
+        <script src="../../js/validation.js"></script>
+        <script src="../../js/toast.js"></script>
+        <script src="../../js/fade.js"></script>
+        <title>Hasta Profil</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <h:panelGroup layout="block" id="template" class="ui grid">
+            <div class="ui three wide column h-100" style="max-height: 100vh">
+                <div class="ui inverted left menu raised sidebar visible vertical">
+                    <div class="item ml-2">
+                        <h:form enctype="multipart/form-data">
+                            <div class="ui circular small blurring dimmable image">
+                                <div class="ui dimmer">
+                                    <div class="content">
+                                        <div class="center">
+                                            <h:inputFile styleClass="ui inverted button" value="#{fileBean.file}" alt="upload file">
+                                                <f:ajax listener="#{fileBean.uploadFile(patientBean.patient)}" execute="@form" render="@form" />
+                                            </h:inputFile>
+                                        </div>
+                                    </div>
+                                </div>
+                                <img src="#{fileBean.getFileByPatient(patientBean.patient)}"/>
+                            </div>
+                        </h:form>
+                    </div>
+
+                    <h:commandLink action="#{patientBean.setCurrentTab(0)}" class="#{patientBean.currentTab == 0 ? 'active item mx-2 my-1' : 'item mx-2 my-1'}">
+                        <f:ajax execute="comments" render="template" />
+                        <i class="user circle icon"></i>
+                        Profilim
+                    </h:commandLink>
+                    <h:commandLink action="#{patientBean.setCurrentTab(1)}" class="#{patientBean.currentTab == 1 ? 'active item mx-2 my-1' : 'item mx-2 my-1'}">
+                        <f:ajax execute="comments" render="template" />
+                        <i class="calendar check outline icon"></i>
+                        Randevularım
+                    </h:commandLink>
+                    <h:commandLink action="#{patientBean.setCurrentTab(2)}" class="#{patientBean.currentTab == 2 ? 'active item mx-2 my-1' : 'item mx-2 my-1'}">
+                        <f:ajax execute="comments" render="template" />
+                        <i class="prescription bottle alternate icon"></i>
+                        Reçetelerim
+                    </h:commandLink>
+                </div>
+            </div>
+            <c:choose>
+                <c:when test="#{patientBean.currentTab == 0}">
+                    <ui:insert name = "profile">
+                        <ui:include src = "profile.xhtml" />
+                    </ui:insert>
+                </c:when>
+                <c:when test="#{patientBean.currentTab == 1}">
+                    <ui:insert name = "appointment">
+                        <ui:include src = "appointment.xhtml" />
+                    </ui:insert>
+                </c:when>
+                <c:when test="#{patientBean.currentTab == 2}">
+                    <ui:insert name = "prescription">
+                        <ui:include src = "prescription.xhtml" />
+                    </ui:insert>
+                </c:when>
+            </c:choose>
+        </h:panelGroup>
+    </h:body>
+</html>

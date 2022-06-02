@@ -26,6 +26,7 @@ public class PatientBean implements Serializable {
     private Integer pageNumber = 0;
     private Integer pageSize = 8;
     private String searchText;
+    private Integer currentTab = 0;
 
     public Patient getPatient() {
         if (this.patient == null) {
@@ -62,10 +63,18 @@ public class PatientBean implements Serializable {
         return (count / 7) + 1;
     }
 
+    public Integer getCurrentTab() {
+        return currentTab;
+    }
+
+    public void setCurrentTab(Integer currentTab) {
+        this.currentTab = currentTab;
+    }
+
     public String register(Boolean isRegister) {
         patientDao.register(patient, isRegister);
 
-        return "patient/profile?faces-redirect=true";
+        return "patient/overview?faces-redirect=true";
     }
 
     public String add() {
@@ -83,7 +92,7 @@ public class PatientBean implements Serializable {
         Patient logged_patient = patientDao.login(patient);
         if (logged_patient != null) {
             this.patient = logged_patient;
-            return "patient/profile?faces-redirect=true";
+            return "patient/overview?faces-redirect=true";
         }
 
         return "signin?faces-redirect=false";
