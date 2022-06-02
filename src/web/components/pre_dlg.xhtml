@@ -1,15 +1,65 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"   
+      xmlns:ui = "http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition>
+        <div class="ui tiny modal" id="pre_modal">
+            <div class="header">
+                <i class="mdi mdi-account-plus-outline mdi-24px"/>
+                <h:outputText value=" Bilgileri Görüntüle" />
+            </div>
+            <div class="content">
+                <h:form class="ui form p-2" id="pre_dialog">
+                    <h:outputScript>initForm();</h:outputScript>
+                    
+                    <div class="field mb-1">
+                        <label>Hekim</label>
+                        <div class='ui left icon input'>
+                            <h:inputText value="#{prescriptionBean.prescription.doctor.fullname}" disabled="true"/>
+                            <i class="mdi mdi-lock-outline mdi-18px icon"/>
+                        </div>
+                    </div>
+                    
+                    <div class="field mb-1">
+                        <label>Hasta</label>
+                        <div class='ui left icon input'>
+                            <h:inputText value="#{prescriptionBean.prescription.patient.fullname}" disabled="true"/>
+                            <i class="mdi mdi-lock-outline mdi-18px icon"/>
+                        </div>
+                    </div>
+                    
+                    <div class="field mb-1">
+                        <label>Reçete Tarihi</label>
+                        <div class="field">
+                            <div class="ui calendar" id="type_calendar" data-type="date">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <h:inputText value='#{prescriptionBean.prescription.date}' converter='dateConverter' p:placeholder="Tarih seç" disabled="true">
+                                    </h:inputText>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field mb-1">
+                        <label>Reçete Açıklama</label>
+                        <div class='ui left icon input'>
+                            <h:inputText value="#{prescriptionBean.prescription.description}" p:placeholder="Reçete Açıklama" disabled="true"/>
+                            <i class="mdi mdi-email-outline mdi-18px icon"/>
+                        </div>
+                    </div>
+                    
+                    <div class="actions">
+                        <div class="ui black deny button">Kapat</div>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </ui:composition>
 </html>

@@ -1,6 +1,7 @@
 package controllers;
 
 import dao.PrescriptionDAO;
+import entities.Patient;
 import entities.Prescription;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
@@ -45,12 +46,12 @@ public class PrescriptionBean implements Serializable {
         this.pageNumber = pageNumber;
     }
     
-    public Long getPrescriptionCount() {
-        return this.prescriptionDao.prescriptionCount();
+    public Long getPrescriptionCount(Patient patient) {
+        return this.prescriptionDao.prescriptionCount(patient);
     }
     
-    public Integer getTotalPage() {
-        Integer count = getPrescriptionCount().intValue();
+    public Integer getTotalPage(Patient patient) {
+        Integer count = getPrescriptionCount(patient).intValue();
         
         if(count == 0)
             return 1;
@@ -62,10 +63,10 @@ public class PrescriptionBean implements Serializable {
     }
 
 
-    public List<Prescription> getList() {
+    public List<Prescription> getList(Patient patient) {
         if(searchText == null || searchText.length() == 0)
-            return this.prescriptionDao.findAll(pageNumber, pageSize);
-        return null;
+            return this.prescriptionDao.findAll(pageNumber, pageSize, patient);
+        return prescriptionDao.findByDoctor(searchText, patient);
     }
 
     public void setList(List<Prescription> list) {
