@@ -1,7 +1,7 @@
 package dao;
 
 import entities.Appointment;
-import entities.LabResult;
+import entities.Examination;
 import entities.Patient;
 import entities.Prescription;
 import jakarta.ejb.Stateless;
@@ -20,16 +20,16 @@ import java.util.List;
  *
  */
 @Stateless
-public class LabResultDAO {
+public class ExaminationDAO {
 
     @PersistenceContext(name = "jpa_PU")
     private EntityManager em;
 
 
-    public List<LabResult> findAll(Integer pageNumber, Integer pageSize) {
+    public List<Examination> findAll(Integer pageNumber, Integer pageSize) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<LabResult> criteria = builder.createQuery(LabResult.class);
-        Root<LabResult> root = criteria.from(LabResult.class);
+        CriteriaQuery<Examination> criteria = builder.createQuery(Examination.class);
+        Root<Examination> root = criteria.from(Examination.class);
         criteria.orderBy(builder.asc(root.get("id")));
         Query query = em.createQuery(criteria);
         query.setFirstResult(pageNumber * pageSize);
@@ -37,23 +37,32 @@ public class LabResultDAO {
         return query.getResultList();
     }
 
-    public Long labResultCount() {
+    public Long examinationCount() {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
-        countQuery.select(criteriaBuilder.count(countQuery.from(Appointment .class)));
+        countQuery.select(criteriaBuilder.count(countQuery.from(Examination.class)));
+        return em.createQuery(countQuery).getSingleResult();
+    }
+
+    public Long examinationCountP(Patient patient) {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
+        Root<Examination> root = countQuery.from(Examination.class);
+        countQuery.select(criteriaBuilder.count(root));
+        countQuery.where(criteriaBuilder.equal(root.get("patient"), patient));
         return em.createQuery(countQuery).getSingleResult();
     }
     
-    public LabResult findByPatient(Patient patient) {
+    public Examination findByPatient(Patient patient) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery criteriaQuery = builder.createQuery();
-        Root<LabResult> root = criteriaQuery.from(LabResult.class);
+        Root<Examination> root = criteriaQuery.from(Examination.class);
 
         criteriaQuery.select(root);
-        criteriaQuery.where(builder.equal(root.get("patient_id"), patient.getId()));
+        criteriaQuery.where(builder.equal(root.get("patient"), patient));
 
         Query query = em.createQuery(criteriaQuery);
-        return (LabResult)query.getResultList().get(0);
+        return (Examination)query.getResultList().get(0);
     }
 
    

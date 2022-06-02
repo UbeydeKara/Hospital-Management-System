@@ -111,12 +111,12 @@
                                         <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Düzenle
                                     </h:commandLink>
                                     <h:commandLink class="item"
-                                                   onclick="$('#e_dlg').modal('show');" action="#{patientBean.setPatient(patient)}">
-                                        <f:ajax execute="@form" render="dialog" />
+                                                   onclick="$('#ex_dlg').modal('show');" action="#{examinationBean.findByPatient(patient)}">
+                                        <f:ajax execute="@form" render="e_dlg" />
                                         <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Muayene Sonucu
                                     </h:commandLink>
                                     <h:commandLink class="item"
-                                                   onclick="$('#l_dlg').modal('show');" action="#{patientBean.setPatient(patient)}">
+                                                   onclick="$('#l_dlg').modal('show');" action="#{labResultBean.findByPatient(patient)}">
                                         <f:ajax execute="@form" render="dialog" />
                                         <i class="mdi mdi-square-edit-outline mdi-18px" style="margin-right: 0.7rem"></i>Lab Sonucu
                                     </h:commandLink>
@@ -164,6 +164,10 @@
         
         <ui:insert name="r_dlg" >
             <ui:include src="/components/RoomDlg.xhtml"/>
+        </ui:insert>
+        
+        <ui:insert name="e_dlg" >
+            <ui:include src="/components/e_dlg.xhtml"/>
         </ui:insert>
         
         <div class="ui basic modal">

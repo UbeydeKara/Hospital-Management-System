@@ -63,3 +63,8 @@ body > .grid {
 .soft-shadow {
     box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.19) !important;
 }
+
+.headerDivider {
+    border-left: 1px solid #000;
+    height: 100%;
+}
