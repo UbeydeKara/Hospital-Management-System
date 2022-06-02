@@ -34,7 +34,7 @@ public class AuthorizationFilter implements Filter {
         String registerURL = request.getContextPath() + "/views/signup.xhtml";
         String dashboardURL = request.getContextPath() + "/views/supervisor/dashboard.xhtml";
         String docURL = request.getContextPath() + "/views/doctor/profile.xhtml";
-        String patURL = request.getContextPath() + "/views/patient/profile.xhtml";
+        String patURL = request.getContextPath() + "/views/patient/overview.xhtml";
 
         if (request.getRequestURI().equals(dashboardURL)
                 || request.getRequestURI().equals(docURL) || request.getRequestURI().equals(patURL)) {

@@ -47,12 +47,12 @@ public class AppointmentBean implements Serializable {
         this.pageNumber = pageNumber;
     }
 
-    public Long getAppointmentCount() {
-        return this.appointmentDao.appointmentCount();
+    public Long getAppointmentCount(Patient patient) {
+        return this.appointmentDao.appointmentCount(patient);
     }
 
-    public Integer getTotalPage() {
-        Integer count = getAppointmentCount().intValue();
+    public Integer getTotalPage(Patient patient) {
+        Integer count = getAppointmentCount(patient).intValue();
 
         if (count == 0) {
             return 1;
@@ -71,11 +71,11 @@ public class AppointmentBean implements Serializable {
         }
     }
 
-    public List<Appointment> getList() {
+    public List<Appointment> getList(Patient patient) {
         if (searchText == null || searchText.length() == 0) {
-            return this.appointmentDao.findAll(pageNumber, pageSize);
+            return this.appointmentDao.findAll(pageNumber, pageSize, patient);
         }
-        return appointmentDao.findByName(searchText);
+        return appointmentDao.findByDoctor(searchText, patient);
     }
 
     public void setList(List<Appointment> list) {
@@ -90,10 +90,13 @@ public class AppointmentBean implements Serializable {
         this.searchText = searchText;
     }
 
-    public String add(Patient patient) {
+    public void add(Patient patient) {
         appointment.setPatient(patient);
         appointmentDao.update(appointment);
-        return "appointment";
+    }
+
+    public void updateAppointment() {
+        this.appointmentDao.update(appointment);
     }
 
 }

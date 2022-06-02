@@ -9,7 +9,7 @@
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition>
-        <div class="ui tiny modal">
+        <div class="ui tiny modal" id="a_dlg">
             <h:panelGroup layout="block" class="header">
                 <c:choose>
                     <c:when test="#{uiBean.getDlg()}">
@@ -35,7 +35,8 @@
                             <div class="ui calendar" id="type_calendar" data-type="date">
                                 <div class="ui input left icon">
                                     <i class="calendar icon"></i>
-                                    <h:inputText value='#{appointmentBean.appointment.date}' converter='dateConverter' p:placeholder="Tarih seç">
+                                    <h:inputText value='#{appointmentBean.appointment.date}' converter='dateConverter' p:placeholder="Tarih seç"
+                                                 disabled="#{uiBean.getDlg()}" required="true" requiredMessage="Lütfen tarih seçin">
                                     </h:inputText>
                                 </div>
                             </div>
@@ -43,15 +44,17 @@
                     </div>
 
                     <div class="field mb-1">
-                    <label>Poliklinik Adı</label>
-                        <h:selectOneMenu value="#{appointmentBean.appointment.clinic}" converter="genericConverter" class="ui fluid dropdown">
+                        <label>Poliklinik Adı</label>
+                        <h:selectOneMenu value="#{appointmentBean.appointment.clinic}" converter="genericConverter" class="ui fluid dropdown"
+                                         disabled="#{uiBean.getDlg()}">
                             <f:selectItems value="#{clinicBean.getAll()}" var="c" itemValue="#{c}" itemLabel="#{c.name}"/>
                         </h:selectOneMenu>
                     </div>
-                    
+
                     <div class="field mb-1">
                         <label>Hekim</label>
-                        <h:selectOneMenu value="#{appointmentBean.appointment.doctor}" converter="genericConverter" class="ui fluid dropdown">
+                        <h:selectOneMenu value="#{appointmentBean.appointment.doctor}" converter="genericConverter" class="ui fluid dropdown"
+                                         disabled="#{uiBean.getDlg()}">
                             <f:selectItems value="#{doctorBean.list}" var="d" itemValue="#{d}" itemLabel="#{d.fullname}"/>
                         </h:selectOneMenu>
                     </div>
@@ -59,7 +62,7 @@
                         <div class="ui black deny button">İptal</div>
                         <c:choose>
                             <c:when test="#{appointmentBean.appointment.id != null}">
-                                <h:commandLink class="ui blue right labeled icon button" action="#{appointmentBean.updateAppointment(appointmentBean.appointment)}"
+                                <h:commandLink class="ui blue right labeled icon button" action="#{appointmentBean.updateAppointment()}"
                                                onclick="$('.ui.tiny.modal').modal('hide');">
                                     <i class="checkmark icon"></i>Kaydet
                                     <f:ajax execute="@form" render="list_form" />
@@ -74,7 +77,10 @@
                         </c:choose>
                     </h:panelGroup>
                     <h:panelGroup layout="block" class="actions" rendered="#{uiBean.getDlg()}">
-                        <div class="ui black deny button">Kapat</div>
+                        <h:commandLink class="ui black deny button" action="#{uiBean.setDlg(false)}">
+                            Kapat
+                            <f:ajax execute="@form" render="list_form" />
+                        </h:commandLink>
                     </h:panelGroup>
                 </h:form>
             </div>

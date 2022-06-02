@@ -60,7 +60,7 @@
                                 <i class="large circular calendar check outline icon" style="box-shadow: unset;background-color: #ffe8e6;"></i>
                                 <div class="ui mini statistic m-0">
                                     <div class="label mb-1" style="text-transform: none;">
-                                        #{appointmentBean.appointmentCount}
+                                        #{appointmentBean.getAppointmentCount(null)}
                                     </div>
                                     <div class="value" style="text-transform: none;">
                                         Aktif Randevu
@@ -69,25 +69,26 @@
                             </h2>
                             <f:ajax render="template" />
                         </h:commandLink>
-                        <div class='ui card floating-item pt-1'
-                             style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
+                        <h:commandLink class='ui card floating-item pt-1' action="#{userBean.setCurrentPage(6)}"
+                                       style="width: 180px;box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 30px;">
                             <h2 class="ui center aligned icon header" style="color: #2185d0;">
                                 <i class="large circular prescription bottle alternate icon" style="box-shadow: unset;background-color: #dff0ff;"></i>
                                 <div class="ui mini statistic m-0">
                                     <div class="label mb-1" style="text-transform: none;">
-                                        NaN
+                                        #{prescriptionBean.getPrescriptionCount(null)}
                                     </div>
                                     <div class="value" style="text-transform: none;">
                                         Reçete
                                     </div>
                                 </div>
                             </h2>
-                        </div>
+                            <f:ajax render="template" />
+                        </h:commandLink>
                     </div>
                 </div>
                 <div class="column six wide">
-                    <h:outputText rendered="#{appointmentBean.appointmentCount == 0}">Aktif Randevu Yok</h:outputText>
-                    <ui:repeat value="#{appointmentBean.list}" var="item">
+                    <h:outputText rendered="#{appointmentBean.getAppointmentCount(null) == 0}">Aktif Randevu Yok</h:outputText>
+                    <ui:repeat value="#{appointmentBean.getList(null)}" var="item">
                         <div class='ui card floating-item px-3 py-2'
                              style="width: 100vh; box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.06); border-radius: 10px;">
                             <!--                        <div class="ui placeholder">

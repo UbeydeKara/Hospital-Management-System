@@ -1,3 +1,7 @@
+$(document).ready(function () {
+    initForm();
+});
+
 function initForm() {
     $('.ui.dropdown').dropdown();
     $('#type_calendar')
@@ -22,4 +26,7 @@ function initForm() {
                     }
                 }
             });
+    $('.image').dimmer({
+        on: 'hover'
+    });
 }

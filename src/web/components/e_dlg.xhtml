@@ -5,37 +5,41 @@
 <html xmlns = "http://www.w3.org/1999/xhtml"   
       xmlns:ui = "http://java.sun.com/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
     <ui:composition>
-        <div class="ui tiny modal">
-            <h:panelGroup layout="block" class="header">
-                <c:choose>
-                    <c:when test="#{uiBean.getDlg()}">
-                        <i class="mdi mdi-account-plus-outline mdi-24px"/>
-                        <h:outputText value=" Bilgileri Görüntüle" />
-                    </c:when>
-                    <c:when test="#{userBean.visor.id != null}">
-                        <i class="mdi mdi-account-plus-outline mdi-24px"/>
-                        <h:outputText value=" Bilgileri Güncelle" />
-                    </c:when>
-                    <c:otherwise>
-                        <i class="mdi mdi-account-plus-outline mdi-24px"/>
-                        <h:outputText value=" Randevu Ekle" />
-                    </c:otherwise>
-                </c:choose>
-            </h:panelGroup>
+        <div class="ui tiny modal" id="ex_dlg">
+            <div class="header">
+                <i class="mdi mdi-account-plus-outline mdi-24px"/>
+                <h:outputText value=" Bilgileri Görüntüle" />
+            </div>
             <div class="content">
-                <h:form class="ui form p-2" id="dialog">
+                <h:form class="ui form p-2" id="e_dlg">
                     <h:outputScript>initForm();</h:outputScript>
+                    
                     <div class="field mb-1">
-                        <label>Randevu Tarihi</label>
+                        <label>Hekim</label>
+                        <div class='ui left icon input'>
+                            <h:inputText value="#{examinationBean.examination.doctor.fullname}" disabled="true"/>
+                            <i class="mdi mdi-lock-outline mdi-18px icon"/>
+                        </div>
+                    </div>
+                    
+                    <div class="field mb-1">
+                        <label>Hasta</label>
+                        <div class='ui left icon input'>
+                            <h:inputText value="#{examinationBean.examination.patient.fullname}" disabled="true"/>
+                            <i class="mdi mdi-lock-outline mdi-18px icon"/>
+                        </div>
+                    </div>
+                    
+                    <div class="field mb-1">
+                        <label>Muayene Tarihi</label>
                         <div class="field">
                             <div class="ui calendar" id="type_calendar" data-type="date">
                                 <div class="ui input left icon">
                                     <i class="calendar icon"></i>
-                                    <h:inputText value='#{appointmentBean.appointment.date}' converter='dateConverter' p:placeholder="Tarih seç">
+                                    <h:inputText value='#{examinationBean.examination.date}' converter='dateConverter' disabled="true">
                                     </h:inputText>
                                 </div>
                             </div>
@@ -43,48 +47,21 @@
                     </div>
 
                     <div class="field mb-1">
-                    <label>Poliklinik Adı</label>
-                        <h:selectOneMenu value="#{appointmentBean.appointment.clinic}" converter="genericConverter" class="ui fluid dropdown">
-                            <f:selectItems value="#{clinicBean.getAll()}" var="c" itemValue="#{c}" itemLabel="#{c.name}"/>
-                        </h:selectOneMenu>
+                        <label>Muayene Açıklama</label>
+                        <div class='ui left icon input'>
+                            <h:inputText value="#{examinationBean.examination.description}" disabled="true"/>
+                            <i class="mdi mdi-email-outline mdi-18px icon"/>
+                        </div>
                     </div>
                     
-                    <div class="field mb-1">
-                        <label>Hekim</label>
-                        <h:selectOneMenu value="#{appointmentBean.appointment.doctor}" converter="genericConverter" class="ui fluid dropdown">
-                            <f:selectItems value="#{doctorBean.list}" var="d" itemValue="#{d}" itemLabel="#{d.fullname}"/>
-                        </h:selectOneMenu>
+                    <div class="actions">
+                        <h:commandLink class="ui black deny button" action="#{uiBean.setDlg(false)}">
+                            Kapat
+                            <f:ajax execute="@form" render="list_form" />
+                        </h:commandLink>
                     </div>
-                    <h:panelGroup layout="block" class="actions" rendered="#{!uiBean.getDlg()}">
-                        <div class="ui black deny button">İptal</div>
-                        <c:choose>
-                            <c:when test="#{appointmentBean.appointment.id != null}">
-                                <h:commandLink class="ui blue right labeled icon button" action="#{appointmentBean.updateAppointment(appointmentBean.appointment)}"
-                                               onclick="$('.ui.tiny.modal').modal('hide');">
-                                    <i class="checkmark icon"></i>Kaydet
-                                    <f:ajax execute="@form" render="list_form" />
-                                </h:commandLink>
-                            </c:when>
-                            <c:otherwise>
-                                <h:commandLink class="ui positive right labeled icon button" action="#{appointmentBean.add(patientBean.patient)}">
-                                    <i class="checkmark icon"></i>Ekle
-                                    <f:ajax execute="@form" render="list_form" />
-                                </h:commandLink>
-                            </c:otherwise>
-                        </c:choose>
-                    </h:panelGroup>
-                    <h:panelGroup layout="block" class="actions" rendered="#{uiBean.getDlg()}">
-                        <div class="ui black deny button">Kapat</div>
-                    </h:panelGroup>
                 </h:form>
             </div>
-            <!--            <div class="actions">
-                            <div class="ui black deny button">İptal</div>
-                            <h:commandLink class="ui positive right labeled icon button" action="#{userBean.add()}">
-                                <i class="checkmark icon"></i>Ekle
-                                <f:ajax execute="@all" render="list_form" />
-                            </h:commandLink>
-                        </div>-->
         </div>
     </ui:composition>
 </html>

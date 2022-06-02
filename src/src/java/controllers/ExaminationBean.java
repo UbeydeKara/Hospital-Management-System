@@ -1,7 +1,7 @@
 package controllers;
 
-import dao.LabResultDAO;
-import entities.LabResult;
+import dao.ExaminationDAO;
+import entities.Examination;
 import entities.Patient;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
@@ -15,27 +15,27 @@ import java.util.List;
  *
  *
  */
-@Named("labResultBean")
+@Named("examinationBean")
 @SessionScoped
-public class LabResultBean implements Serializable {
+public class ExaminationBean implements Serializable {
 
     @EJB
-    private LabResultDAO labResultDao;
-    private LabResult labResult;
-    private List<LabResult> list;
+    private ExaminationDAO examinationDao;
+    private Examination examination;
+    private List<Examination> list;
     private Integer pageNumber = 0;
     private Integer pageSize = 8;
     private String searchText;
 
-  public LabResult getLabResult() {
-        if (this.labResult == null) {
-            return this.labResult = new LabResult();
+  public Examination getExamination() {
+        if (this.examination == null) {
+            return this.examination = new Examination();
         }
-        return labResult;
+        return examination;
     }
 
-    public void setLabResult(LabResult labResult) {
-        this.labResult = labResult;
+    public void setExamination(Examination examination) {
+        this.examination = examination;
     }
 
     public Integer getPageNumber() {
@@ -47,7 +47,7 @@ public class LabResultBean implements Serializable {
     }
     
     public Long getUserCount() {
-        return this.labResultDao.labResultCount();
+        return this.examinationDao.examinationCount();
     }
     
     public Integer getTotalPage() {
@@ -63,13 +63,13 @@ public class LabResultBean implements Serializable {
     }
 
 
-    public List<LabResult> getList() {
+    public List<Examination> getList() {
         if(searchText == null || searchText.length() == 0)
-            return this.labResultDao.findAll(pageNumber, pageSize);
+            return this.examinationDao.findAll(pageNumber, pageSize);
         return null;
     }
 
-    public void setList(List<LabResult> list) {
+    public void setList(List<Examination> list) {
         this.list = list;
     }
 
@@ -80,8 +80,5 @@ public class LabResultBean implements Serializable {
     public void setSearchText(String searchText) {
         this.searchText = searchText;
     }
-    
-    public void findByPatient(Patient patient) {
-        this.labResult = this.labResultDao.findByPatient(patient);
-    }
+
 }
